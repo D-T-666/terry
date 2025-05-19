@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="35.988216mm"
+   height="10.12343mm"
+   viewBox="0 0 35.988216 10.12343"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.1 (93de688d07, 2025-03-30)"
+   sodipodi:docname="browser-controls.svg"
+   inkscape:export-filename="browser-controls.svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="11.620915"
+     inkscape:cx="76.370922"
+     inkscape:cy="10.455287"
+     inkscape:window-width="2560"
+     inkscape:window-height="1371"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <marker
+       style="overflow:visible"
+       id="ArrowWide"
+       refX="-0.038225111"
+       refY="0.13778719"
+       orient="75.39293925"
+       inkscape:stockid="Wide arrow"
+       markerWidth="0.85819507"
+       markerHeight="0.8218739"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="none">
+      <path
+         style="fill:none;stroke:context-stroke;stroke-width:1;stroke-linecap:butt"
+         d="M 3,-3 0,0 3,3"
+         transform="rotate(180,0.125,0)"
+         sodipodi:nodetypes="ccc"
+         id="path2" />
+    </marker>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-32.050391,-74.140697)">
+    <g
+       id="path1"
+       transform="translate(-3.50625,-0.58665059)"
+       inkscape:export-filename="path1.svg"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96">
+      <path
+         style="baseline-shift:baseline;display:inline;overflow:visible;vector-effect:none;enable-background:accumulate;stop-color:#000000;stop-opacity:1"
+         d="m 36.513672,79.289062 v 1 h 6.011719 v -1 z"
+         id="path8" />
+      <g
+         id="g7">
+        <path
+           style="baseline-shift:baseline;display:inline;overflow:visible;opacity:1;vector-effect:none;enable-background:accumulate;stop-color:#000000;stop-opacity:1"
+           d="m 38.910156,76.435547 -3.353515,3.353515 3.353515,3.353516 0.707031,-0.707031 -2.646484,-2.646485 2.646484,-2.646484 z"
+           id="path7" />
+      </g>
+    </g>
+    <g
+       id="path3"
+       transform="translate(0,-0.58665059)">
+      <path
+         style="baseline-shift:baseline;display:inline;overflow:visible;vector-effect:none;enable-background:accumulate;stop-color:#000000;stop-opacity:1"
+         d="m 44.523437,79.289062 v 1 h 6.013672 v -1 z"
+         id="path10" />
+      <g
+         id="g9">
+        <path
+           style="baseline-shift:baseline;display:inline;overflow:visible;opacity:1;vector-effect:none;enable-background:accumulate;stop-color:#000000;stop-opacity:1"
+           d="m 48.140625,76.435547 -0.707031,0.707031 2.646484,2.646484 -2.646484,2.646485 0.707031,0.707031 3.353516,-3.353516 z"
+           id="path9" />
+      </g>
+    </g>
+    <path
+       id="path4"
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linejoin:round;stroke-dasharray:none;marker-end:url(#ArrowWide)"
+       d="m 64.991552,82.652801 c -1.67433,1.411252 -4.028023,1.490103 -5.703933,0.191085 -1.675912,-1.299018 -2.547802,-3.125774 -1.677538,-5.160268 0.87027,-2.034492 2.260128,-3.027665 4.369674,-3.04284 2.11815,-0.01524 3.658413,2.087931 3.792541,4.277349"
+       sodipodi:nodetypes="csssc"
+       inkscape:export-filename="browser-controls.svg"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+  </g>
+</svg>
