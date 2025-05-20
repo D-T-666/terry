@@ -13,7 +13,7 @@ let idCounter = 0;
 
 let activeType = undefined;
 let activeAction = undefined;
-
+let copyBuffer = undefined;
 
 function initialize() {
 	const id = ("" + (idCounter++)).padStart(3, "0");
@@ -69,6 +69,24 @@ function initialize() {
 		activeAction = addASibbling;
 		const options = types[element.current.parentElement.dataset.type].allowedChildren;
 		openMenuWithOptions(elementMenu, options, e);
+	}, false);
+
+	document.getElementById("rcm-copy").addEventListener("click", (e) => {
+		let dataId = element.current.dataset.id;
+		copyBuffer = document.getElementById(dataId);
+	}, false);
+
+	document.getElementById("rcm-paste-child").addEventListener("click", (e) => {
+		const elt = cloneUnique(copyBuffer);
+		realElement.current.appendChild(elt);
+		element.current.appendChild(realToInspector(elt));
+	}, false);
+
+	document.getElementById("rcm-paste-above").addEventListener("click", (e) => {
+		const elt = cloneUnique(copyBuffer);
+		realElement.current.parentElement.insertBefore(elt, realElement.current);
+		const parentInspectorElement = realToInspector(realElement.current.parentElement);
+		element.current.parentElement.parentElement.replaceChild(parentInspectorElement, element.current.parentElement);
 	}, false);
 
 	document.getElementById("rcm-delete").addEventListener("click", (e) => {
@@ -129,15 +147,35 @@ function createElementFromHTML(htmlString) {
 	return div.firstChild;
 }
 
+function cloneUnique(elt) {
+	const res = elt.cloneNode(true);
+	
+	function updateIDs(elt) {
+		elt.id = ("" + (idCounter++)).padStart(3, "0");
+		elt.dataset.name += " (1)";
+
+		for (const child of elt.children) {
+			updateIDs(child);
+		}
+	}
+
+	updateIDs(res);
+
+	return res;
+}
+
 function addAChild(target, type) {
 	const parentId = target.dataset.id;
+	const parentElement = document.getElementById(parentId);
+
 	const id = ("" + (idCounter++)).padStart(3, "0");
 
 	const elt = types[type].realElement(id, parentId);
 
-	const inspectorElt = realToInspector(elt);
-	target.appendChild(inspectorElt);
-	document.getElementById(parentId).appendChild(elt);
+	parentElement.appendChild(elt);
+
+	const inspectorElt = realToInspector(parentElement);
+	target.parentElement.replaceChild(inspectorElt, target);
 }
 
 function addASibbling(target, type) {
