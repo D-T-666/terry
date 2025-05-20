@@ -23,13 +23,16 @@ const testManager = {
 
 		const gradingScheme = grading.getScheme();
 
+		localStorage.setItem("test", JSON.stringify({html, gradingScheme}));
+
 		return {html, gradingScheme};
 	},
 	load({content, gradingScheme}) {
+		content = JSON.parse(window.localStorage.getItem("test")).html;
 		mainContent.innerHTML = content;
 		treeView.innerHTML = "";
-		treeView.appendChild(realToInspector(mainContent.firstChild));
-		page.importElement(mainContent.firstChild);
+		treeView.appendChild(realToInspector(mainContent.firstElementChild));
+		page.importElement(mainContent.firstElementChild);
 	},
 	changeName(newName) {
 	},
@@ -37,7 +40,7 @@ const testManager = {
 
 document.getElementById("load-test").addEventListener("click", (e) => {
 	testManager.load({
-		content: prompt("the html, please")
+		// content: prompt("the html, please")
 	})
 })
 

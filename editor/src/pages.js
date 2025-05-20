@@ -16,6 +16,7 @@ const page = {
 		pageButtonsDiv.insertBefore(label, addPageButton);
 		this.pageElements.push([]);
 		this.total += 1;
+		mainContent.firstElementChild.dataset.pages = this.total;
 	},
 	hidePage() {
 		for (const elt of this.pageElements[this.current]) {

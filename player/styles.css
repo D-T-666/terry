@@ -1,0 +1,61 @@
+html, body {
+	margin: 0;
+}
+
+body {
+	background-color: #eee;
+	padding: 1rem;
+}
+
+header {
+	display: block;
+	width: 49rem;
+	margin: auto;
+	background-color: white;
+	padding: 0.5rem;
+	box-sizing: border-box;
+	border-radius: 0.25rem;
+}
+
+main {
+	box-sizing: border-box;
+	width: 49rem;
+	padding: 0.5rem;
+	margin: auto;
+	margin-top: 0.5rem;
+	background-color: white;
+	border-radius: 0.25rem;
+
+	#main-content {
+		width: 48rem;
+		margin: auto;
+	}
+}
+
+#page-controls {
+	box-sizing: border-box;
+	height: 1.5rem;
+	display: flex;
+	gap: 0.25rem;
+	user-select: none;
+
+	& label {
+		display: inline-block;
+		text-align: center;
+		border: 1px solid gray;
+		border-radius: 3px;
+		width: 2rem;
+		user-select: none;
+
+		&:hover {
+			outline: solid gray;
+		}
+		&:has(:checked) {
+			background-color: lightgray;
+		}
+	}
+
+	& input {
+		display: none;
+	}
+}
