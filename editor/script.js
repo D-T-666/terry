@@ -23,11 +23,17 @@ function initialize() {
 	mainContent.appendChild(elt);
 	treeView.appendChild(realToInspector(elt));
 
+	// To prevent single clicks from folding the elements
+	let shouldToggle = false;
 	treeView.addEventListener("click", (e) => {
 		if (element.current === undefined) return;
 		if (!element.current.contains(e.target)) {
 			element.deselect();
 		}
+		if (!shouldToggle) {
+			e.preventDefault();
+		}
+		shouldToggle = true;
 	}, true);
 
 	treeView.addEventListener("contextmenu", (e) => {
@@ -50,6 +56,7 @@ function initialize() {
 		else
 			return;
 		handleElementFocus(elt, e);
+		shouldToggle = false;
 	}, true)
 	
 	document.getElementById("rcm-add-child").addEventListener("click", (e) => {
@@ -136,11 +143,12 @@ function addAChild(target, type) {
 function addASibbling(target, type) {
 	const siblingId = target.dataset.id;
 	const siblingElement = document.getElementById(siblingId);
-	const parentId = siblingElement.parentElement.id;
+	const parentElement = siblingElement.parentElement;
+	const parentId = parentElement.id;
 
 	const id = ("" + (idCounter++)).padStart(3, "0");
 	const elt = types[type].realElement(id, parentId);
 
 	target.parentElement.insertBefore(realToInspector(elt), target);
-	te.parentElement.insertBefore(elt, siblingElement);
+	parentElement.insertBefore(elt, siblingElement);
 }

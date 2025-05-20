@@ -16,14 +16,23 @@ function realToInspector(elt) {
 	const id = elt.id;
 	const name = elt.dataset.name;
 
-	const res = createElementFromHTML(
-		`<div class="list" tabindex="0" data-id="${id}" data-type="${type}"><span data-type="${type}">${name}</span></div>`
-	);
+	idCounter = Math.max(idCounter, Number(id) + 1);
 
+	const children = [];
 	for (const child of elt.children) {
 		const childNode = realToInspector(child);
 		if (childNode)
-			res.appendChild(childNode);
+			children.push(childNode);
+	}
+
+	const res = createElementFromHTML(
+		children.length === 0 ?
+		`<div class="list" tabindex="0" data-id="${id}" data-type="${type}"><span data-type="${type}">${name}</span></div>` : 
+		`<details open class="list" tabindex="0" data-id="${id}" data-type="${type}"><summary data-type="${type}">${name}</summary></details>`
+	);
+
+	for (const child of children) {
+		res.appendChild(child);
 	}
 
 	return res;
