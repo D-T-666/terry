@@ -13,9 +13,9 @@ const typeAttributeExtractors = {
 	"text": (elt) => ({
 		"content": elt.innerText,
 		"color": elt.style.color,
-		"bold": elt.style.fontWeight === "bold",
-		"italic": elt.style.fontStyle === "oblique",
-		"underline": elt.style.textDecoration === "underline",
+		"bold": elt.style.fontWeight == "bold",
+		"italic": elt.style.fontStyle == "oblique",
+		"underline": elt.style.textDecoration == "underline",
 		"size": elt.style.fontSize.slice(0, -2)
 	}),
 	"paragraph": (elt) => ({
@@ -69,7 +69,17 @@ for (const t of Object.keys(typeAttributes)) {
 			element: elt,
 			addEventListener: elt.addEventListener,
 			set value(value) {
-				elt.value = value;
+				if (elt.nodeName === "INPUT") 
+					switch (elt.type) {
+						case "text":
+						case "number":
+							elt.value = value;
+							break;
+						case "checkbox":
+							elt.checked = value;
+					}
+				if (elt.nodeName === "SELECT" || elt.nodeName === "TEXTAREA")
+					elt.value = value;
 				this.setTrigger(value);
 			},
 			setTrigger(value) { },
