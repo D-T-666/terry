@@ -12,11 +12,11 @@ const typeAttributes = {
 const typeAttributeExtractors = {
 	"text": (elt) => ({
 		"content": elt.innerText,
-		"color": elt.style.color,
-		"bold": elt.style.fontWeight == "bold",
-		"italic": elt.style.fontStyle == "oblique",
-		"underline": elt.style.textDecoration == "underline",
-		"size": elt.style.fontSize.slice(0, -2)
+		"color": elt.style.color || "black",
+		"bold": elt.style.fontWeight === "bold",
+		"italic": elt.style.fontStyle === "oblique",
+		"underline": elt.style.textDecoration === "underline",
+		"size": (elt.style.fontSize || "12pt").slice(0, -2)
 	}),
 	"paragraph": (elt) => ({
 		"line-height": elt.style.lineHeight.slice(0, -1),
@@ -216,7 +216,7 @@ function initialize() {
 		realElement.current.style.textDecoration = e.target.checked ? "underline" : "none";
 	}, false);
 	toolbarOf["text"]["size"].element.addEventListener("change", (e) => {
-		realElement.current.style.fontSize = e.target.value + "px";
+		realElement.current.style.fontSize = e.target.value + "pt";
 	}, false);
 }
 initialize();
