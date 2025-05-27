@@ -16,7 +16,7 @@ let activeAction = undefined;
 let copyBuffer = undefined;
 
 function initialize() {
-	const id = ("" + (idCounter++)).padStart(3, "0");
+	const id = idCounter++;
 	const type = "container";
 
 	const elt = types[type].realElement(id);
@@ -151,7 +151,7 @@ function cloneUnique(elt) {
 	const res = elt.cloneNode(true);
 	
 	function updateIDs(elt) {
-		elt.id = ("" + (idCounter++)).padStart(3, "0");
+		elt.id = idCounter++;
 		elt.dataset.name += " (1)";
 
 		for (const child of elt.children) {
@@ -168,7 +168,7 @@ function addAChild(target, type) {
 	const parentId = target.dataset.id;
 	const parentElement = document.getElementById(parentId);
 
-	const id = ("" + (idCounter++)).padStart(3, "0");
+	const id = idCounter++;
 
 	const elt = types[type].realElement(id, parentId);
 
@@ -184,7 +184,7 @@ function addASibbling(target, type) {
 	const parentElement = siblingElement.parentElement;
 	const parentId = parentElement.id;
 
-	const id = ("" + (idCounter++)).padStart(3, "0");
+	const id = idCounter++;
 	const elt = types[type].realElement(id, parentId);
 
 	target.parentElement.insertBefore(realToInspector(elt), target);

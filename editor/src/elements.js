@@ -16,6 +16,7 @@ function realToInspector(elt) {
 	const id = elt.id;
 	const name = elt.dataset.name;
 
+	console.log("bad id?", id)
 	idCounter = Math.max(idCounter, Number(id) + 1);
 
 	const children = [];
@@ -70,12 +71,11 @@ const types = {
 	"multiple-choice-item": {
 		allowedChildren: ["container", "text", "formula", "image"],
 		realElement(id) {
-			const li = simpleRealElement("multiple-choice-item", "li", `item-${id}`, `item-${id}`);
-			li.appendChild(
-				createElementFromHTML(`
-					<input type="checkbox" id="${id}"/>
-				`)
-			)
+			const li = simpleRealElement("multiple-choice-item", "li", `${id}`, `item-${id}`);
+			const checkbox = document.createElement("input");
+			checkbox.type = "checkbox";
+			checkbox.id = id + 1;
+			li.appendChild(checkbox)
 			return li;
 		}
 	},
