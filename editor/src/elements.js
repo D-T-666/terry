@@ -16,7 +16,6 @@ function realToInspector(elt) {
 	const id = elt.id;
 	const name = elt.dataset.name;
 
-	console.log("bad id?", id)
 	idCounter = Math.max(idCounter, Number(id) + 1);
 
 	const children = [];
