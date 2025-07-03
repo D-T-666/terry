@@ -4,6 +4,7 @@ export default {
 	container: undefined,
 	elementsOfPage: undefined,
 	pageRadio: undefined,
+
 	init({total, container}) {
 		this.total = total;
 		this.container = container;
@@ -28,11 +29,13 @@ export default {
 			this.elementsOfPage.push([]);
 		}
 	},
+
 	hidePage() {
 		for (const elt of this.elementsOfPage[this.current]) {
 			elt.classList.remove("current")
 		}
 	},
+
 	showPage(i) {
 		this.current = i;
 		this.pageRadio[i].checked = true;
@@ -40,6 +43,7 @@ export default {
 			elt.classList.add("current", "visited");
 		}
 	},
+
 	registerElement(elt) {
 		const visibilityType = elt.dataset.visibilityType || "always";
 
@@ -60,6 +64,7 @@ export default {
 		}
 		console.log(this.elementsOfPage)
 	},
+
 	untrackElement(elt) {
 		for (const elts of this.elementsOfPage) {
 			const ind = elts.indexOf(elt);
@@ -68,11 +73,13 @@ export default {
 			}
 		}
 	},
+
 	trackElementOnly(elt, i, untrackFirst=true) {
 		this.untrackElement(elt);
 
 		this.elementsOfPage[i - 1].push(elt);
 	},
+
 	trackElementRange(elt, l, r) {
 		this.untrackElement(elt);
 		

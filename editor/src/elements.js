@@ -38,9 +38,10 @@ function realToInspector(elt) {
 	return res;
 }
 
+const common = ["container", "paragraph", "table", "browser", "short-text-input", "multiple-choice-input", "browser-sim", "browser-link"];
 const types = {
 	"container": {
-		allowedChildren: ["container", "paragraph", "table", "browser", "short-text-input", "multiple-choice-input"],
+		allowedChildren: common,
 		realElement(id) { return simpleRealElement("container", "div", id) },
 	},
 	"paragraph": {
@@ -70,35 +71,15 @@ const types = {
 	"multiple-choice-item": {
 		allowedChildren: ["container", "text", "formula", "image"],
 		realElement(id) {
-			const li = simpleRealElement("multiple-choice-item", "li", `${id}`, `item-${id}`);
-			const checkbox = document.createElement("input");
-			checkbox.type = "checkbox";
-			checkbox.id = id + 1;
-			li.appendChild(checkbox)
-			return li;
+			let template = `
+				<li data-type="multiple-choice-item" data-name="item-${id}" id="${id}">
+					<input type="checkbox" id="${id + 1}" />
+				</li>
+			`;
+			return createElementFromHTML(template);
 		}
 	},
 	"image": {},
-
-	"browser-tab-container": {
-		canBeRenamed: false,
-		allowedChildren: ["browser-tab"]
-	},
-	"browser-content-container": {
-		canBeRenamed: false,
-		allowedChildren: ["browser-content"]
-	},
-	"browser-address-container": {
-		canBeRenamed: false,
-		allowedChildren: ["browser-address"]
-	},
-
-	"browser-tab": {
-		allowedChildren: [],
-		realElement(id) { return simpleRealElement("browser-tab", "button", id) },
-	},
-	"browser-content": { },
-	"browser-address": { },
 
 	"table": {
 		allowedChildren: ["table-body", "table-head", "table-foot"],
@@ -121,26 +102,21 @@ const types = {
 		realElement(id) { return simpleRealElement("table-row", "tr", id, `row-${id}`) }
 	},
 	"table-data": {
-		allowedChildren: ["container", "text", "formula", "browser", "short-text-input", "multiple-choice-input"],
+		allowedChildren: common,
 		realElement(id) { return simpleRealElement("table-data", "td", id, `cell-${id}`) }
 	},
 
-	"browser": {
-		allowedChildren: [],
-		realElement(id) {
-			let template = `
-				<div data-type="browser" data-name="browser-${id}" id="${id}">
-					<div data-type="browser-tab-container" data-name="tabs" id="${id}-tabs">
-					</div>
-					<div data-type="browser-address-container" data-name="addresses" id="${id}-addresses">
-						<img src="assets/browser-controls.svg" height="20px"/>
-					</div>
-					<div data-type="browser-content-container" data-name="contents" id="${id}-content">
-					</div>
-				</div>
-			`;
-			return createElementFromHTML(template);
-		},
+	"browser-sim": {
+		allowedChildren: ["browser-page"],
+		realElement(id) { return simpleRealElement("browser-sim", "browser-sim", id) }
+	},
+	"browser-page": {
+		allowedChildren: common,
+		realElement(id) { return simpleRealElement("browser-page", "browser-page", id) }
+	},
+	"browser-link": {
+		allowedChildren: ["text", "image"],
+		realElement(id) { return simpleRealElement("browser-link", "browser-link", id) }
 	},
 };
 

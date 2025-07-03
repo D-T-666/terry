@@ -44,7 +44,12 @@ function initialize() {
 		else
 			return;
 		e.stopPropagation();
-		openMenu(rightClickMenu, e);
+		const options = ['rcm-add-child', 'rcm-add-sibbling', 'rcm-copy', 'rcm-delete', 'rcm-rename'];
+		if (copyBuffer !== undefined) {
+			options.push('rcm-paste-child')
+			options.push('rcm-paste-above')
+		}
+		openMenuWithOptions(rightClickMenu, options, e);
 	}, true);
 
 	treeView.addEventListener("focus", (e) => {
@@ -74,12 +79,14 @@ function initialize() {
 	document.getElementById("rcm-copy").addEventListener("click", (e) => {
 		let dataId = element.current.dataset.id;
 		copyBuffer = document.getElementById(dataId);
+		rightClickMenu.style.visibility = "hidden";
 	}, false);
 
 	document.getElementById("rcm-paste-child").addEventListener("click", (e) => {
 		const elt = cloneUnique(copyBuffer);
 		realElement.current.appendChild(elt);
-		element.current.appendChild(realToInspector(elt));
+		element.current.parentElement.replaceChild(realToInspector(realElement.current), element.current);
+		rightClickMenu.style.visibility = "hidden";
 	}, false);
 
 	document.getElementById("rcm-paste-above").addEventListener("click", (e) => {
@@ -87,6 +94,7 @@ function initialize() {
 		realElement.current.parentElement.insertBefore(elt, realElement.current);
 		const parentInspectorElement = realToInspector(realElement.current.parentElement);
 		element.current.parentElement.parentElement.replaceChild(parentInspectorElement, element.current.parentElement);
+		rightClickMenu.style.visibility = "hidden";
 	}, false);
 
 	document.getElementById("rcm-delete").addEventListener("click", (e) => {
@@ -164,18 +172,29 @@ function cloneUnique(elt) {
 	return res;
 }
 
+function getMaximalId(elt) {
+	let res = -1;
+	if (elt.id != undefined && elt.id.length > 0 && !isNaN(elt.id)) {
+		res = Number(elt.id);
+	}
+	for (let c of elt.children) {
+		let v = getMaximalId(c);
+		res = v > res ? v : res;
+	}
+	return res;
+}
+
 function addAChild(target, type) {
 	const parentId = target.dataset.id;
-	const parentElement = document.getElementById(parentId);
+	const parentElement_real = document.getElementById(parentId);
 
 	const id = idCounter++;
+	const elt_real = types[type].realElement(id, parentId);
+	idCounter = getMaximalId(elt_real) + 1;
 
-	const elt = types[type].realElement(id, parentId);
+	parentElement_real.appendChild(elt_real);
 
-	parentElement.appendChild(elt);
-
-	const inspectorElt = realToInspector(parentElement);
-	target.parentElement.replaceChild(inspectorElt, target);
+	target.parentElement.replaceChild(realToInspector(parentElement_real), target);
 }
 
 function addASibbling(target, type) {
@@ -185,8 +204,10 @@ function addASibbling(target, type) {
 	const parentId = parentElement.id;
 
 	const id = idCounter++;
-	const elt = types[type].realElement(id, parentId);
+	const elt_real = types[type].realElement(id, parentId);
+	idCounter = getMaximalId(elt_real);
 
-	target.parentElement.insertBefore(realToInspector(elt), target);
-	parentElement.insertBefore(elt, siblingElement);
+	parentElement.insertBefore(elt_real, siblingElement);
+
+	target.parentElement.insertBefore(realToInspector(elt_real), target);
 }

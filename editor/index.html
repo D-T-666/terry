@@ -57,14 +57,10 @@
 					</div>
 
 					<div class="toolbar" id="text-toolbar">
-						<label for="text-toolbar-content">
-							Content
-						</label>
+						<label for="text-toolbar-content"> Content </label>
 						<textarea id="text-toolbar-content"></textarea>
 
-						<label for="text-toolbar-color">
-							Color
-						</label>
+						<label for="text-toolbar-color"> Color </label>
 						<select id="text-toolbar-color">
 							<option>black</option>
 							<option>red</option>
@@ -74,10 +70,7 @@
 							<option>pink</option>
 						</select>
 
-						<label>
-							Style
-						</label>
-
+						<label> Style </label>
 						<span id="text-style-toolbar-items">
 							<label style="font-weight: bold">
 								B
@@ -103,48 +96,54 @@
 
 
 					<div class="toolbar" id="formula-toolbar">
-						<label for="formula-toolbar-content">
-							Content
-						</label>
+						<label for="formula-toolbar-content"> Content </label>
 						<textarea id="formula-toolbar-content"></textarea>
 					</div>
 
 
 
 
-					<div class="toolbar" id="browser-tab-toolbar">
-						<label for="browser-tab-toolbar-name">
-							Tab name
-						</label>
-						<input type="text" id="browser-tab-toolbar-name">
+					<div class="toolbar" id="browser-link-toolbar">
+						<label for="browser-link-toolbar-url"> Target URL </label>
+						<select id="browser-link-toolbar-url">
+							<!-- -->
+						</select>
+
+						<label for="browser-link-toolbar-browser"> Target browser </label>
+						<select id="browser-link-toolbar-browser">
+							<!-- -->
+						</select>
+					</div>
+
+
+
+
+					<div class="toolbar" id="browser-page-toolbar">
+						<label for="browser-page-toolbar-title"> Tab name </label>
+						<input type="text" id="browser-page-toolbar-title">
+
+						<label for="browser-page-toolbar-url"> URL </label>
+						<input type="text" id="browser-page-toolbar-url">
 					</div>
 
 
 
 
 					<div class="toolbar" id="short-text-input-toolbar">
-						<label for="short-text-input-width">
-							Width
-						</label>
+						<label for="short-text-input-width"> Width </label>
 						<span><input type="number" id="short-text-input-toolbar-width">characters</span>
 					</div>
 
 
 
 					<div class="toolbar" id="image-toolbar">
-						<label for="image-toolbar-url">
-							Image URL
-						</label>
+						<label for="image-toolbar-url"> Image URL </label>
 						<input type="text" id="image-toolbar-url">
 
-						<label for="image-toolbar-width">
-							Width (%)
-						</label>
+						<label for="image-toolbar-width"> Width (%) </label>
 						<input type="number" min="0" max="100" step="1" id="image-toolbar-width">
 
-						<label for="image-toolbar-float">
-							Float
-						</label>
+						<label for="image-toolbar-float"> Float </label>
 						<select id="image-toolbar-float">
 							<option>left</option>
 							<option>right</option>
@@ -165,33 +164,25 @@
 
 
 					<div class="toolbar" id="paragraph-toolbar">
-						<label for="paragraph-toolbar-line-height">
-							Line height
-						</label>
+						<label for="paragraph-toolbar-line-height"> Line height </label>
 						<span>
 							<input type="number" min="0" step="1" value="120%" id="paragraph-toolbar-line-height">
 							%
 						</span>
 
-						<label for="paragraph-toolbar-first-line-indent">
-							First line indent
-						</label>
+						<label for="paragraph-toolbar-first-line-indent"> First line indent </label>
 						<span>
 							<input type="number" min="0" step="1" id="paragraph-toolbar-first-line-indent">
 							%
 						</span>
 
-						<label for="paragraph-toolbar-spacing-above">
-							Spacing above
-						</label>
+						<label for="paragraph-toolbar-spacing-above"> Spacing above </label>
 						<span>
 							<input type="number" min="0" step="1" id="paragraph-toolbar-spacing-above">
 							rem
 						</span>
 
-						<label for="paragraph-toolbar-spacing-below">
-							Spacing below
-						</label>
+						<label for="paragraph-toolbar-spacing-below"> Spacing below </label>
 						<span>
 							<input type="number" min="0" step="1" id="paragraph-toolbar-spacing-below">
 							rem
@@ -202,23 +193,17 @@
 
 
 					<div class="toolbar" id="container-toolbar">
-						<label for="container-toolbar-layout">
-							Layout
-						</label>
+						<label for="container-toolbar-layout"> Layout </label>
 						<select id="container-toolbar-layout">
 							<option>vertical</option>
 							<option>horizontal</option>
 							<option>two-column-alternating</option>
 						</select>
 
-						<label for="container-toolbar-padding">
-							Padding
-						</label>
+						<label for="container-toolbar-padding"> Padding </label>
 						<input type="number" min="0" max="100" step="1" id="container-toolbar-padding">
 
-						<label for="container-toolbar-border">
-							Border
-						</label>
+						<label for="container-toolbar-border"> Border </label>
 						<select id="container-toolbar-border">
 							<option>none</option>
 							<option>red</option>
@@ -228,9 +213,7 @@
 							<option>pink</option>
 						</select>
 
-						<label for="container-toolbar-align">
-							Align
-						</label>
+						<label for="container-toolbar-align"> Align </label>
 						<select id="container-toolbar-align">
 							<option>left</option>
 							<option>center</option>
@@ -262,10 +245,10 @@
 			<button disabled id="short-text-input">Short text input</button>
 			<button disabled id="multiple-choice-input">Multiple choice input</button>
 			<button disabled id="multiple-choice-item">Item</button>
-			<button disabled id="browser">Browser Simulator</button>
-			<button disabled id="browser-content">Browser page content</button>
-			<button disabled id="browser-address">Browser page address</button>
-			<button disabled id="browser-tab">Browser page tab</button>
+
+			<button disabled id="browser-sim">Browser Simulator</button>
+			<button disabled id="browser-page">Browser Page</button>
+			<button disabled id="browser-link">Browser link</button>
 
 			<button disabled id="table">Table</button>
 			<button disabled id="table-head">Head</button>

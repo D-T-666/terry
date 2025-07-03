@@ -2,7 +2,8 @@ const typeAttributes = {
 	"text": [ "content", "color", "bold", "italic", "underline", "size", ],
 	"paragraph": [ "line-height", "first-line-indent", "spacing-above", "spacing-below", ],
 	"container": [ "layout", "padding", "border", "align" ],
-	"browser-tab": [ "name" ],
+	"browser-page": [ "title", "url" ],
+	"browser-link": [ "browser", "url" ],
 	"formula": [ "content" ],
 	"short-text-input": [ "width" ],
 	"table": [ "style" ],
@@ -36,8 +37,13 @@ const typeAttributeExtractors = {
 	"short-text-input": (elt) => ({
 		"width": elt.style.width.slice(0, -2)
 	}),
-	"browser-tab": (elt) => ({
-		"name": elt.innerText
+	"browser-link": (elt) => ({
+		"browser": elt.getAttribute("browser"),
+		"url": elt.getAttribute("to")
+	}),
+	"browser-page": (elt) => ({
+		"title": elt.getAttribute("title"),
+		"url": elt.getAttribute("url")
 	}),
 	"table": (elt) => ({
 		"style": elt.dataset.style || "empty"
@@ -101,6 +107,41 @@ const toolbars = {
 			this._elements[type] = document.getElementById(`${type}-toolbar`);
 		}
 		this._current = this._elements[type];
+
+		if (type === "browser-link") {
+			const urls = [];
+			const browsers = {};
+
+			function traverse(elt) {
+				if (elt.tagName === "BROWSER-SIM") {
+					browsers[elt.dataset.name] = elt.id;
+				}
+				if (elt.tagName === "BROWSER-PAGE") {
+					urls.push(elt.getAttribute("url"));
+				}
+				for (const c of elt.children) {
+					traverse(c);
+				}
+			}
+			traverse(mainContent);
+
+			toolbarOf["browser-link"]["url"].element.innerHTML = "";
+			toolbarOf["browser-link"]["browser"].element.innerHTML = "";
+
+			for (const url of urls) {
+				const elt = document.createElement("option");
+				elt.value = url;
+				elt.innerText = url;
+				toolbarOf["browser-link"]["url"].element.appendChild(elt);
+			}
+
+			for (const key of Object.keys(browsers)) {
+				const elt = document.createElement("option");
+				elt.value = browsers[key];
+				elt.innerText = key;
+				toolbarOf["browser-link"]["browser"].element.appendChild(elt);
+			}
+		}
 
 		if (this._current) {
 			this._current.classList.add("current");
@@ -166,10 +207,26 @@ function initialize() {
 		realElement.current.firstChild.setAttribute("display", "inline");
 	});
 
-	// "browser-tab-toolbar"
-	toolbarOf["browser-tab"]["name"].element.addEventListener("keyup", (e) => {
-		realElement.current.innerText = e.target.value;
-	});
+	// // "browser-tab-toolbar"
+	// toolbarOf["browser-tab"]["name"].element.addEventListener("keyup", (e) => {
+	// 	realElement.current.innerText = e.target.value;
+	// });
+	
+	// "browser-link-toolbar"
+	toolbarOf["browser-link"]["browser"].element.addEventListener("change", (e) => {
+		realElement.current.setAttribute("browser", e.target.value);
+	})
+	toolbarOf["browser-link"]["url"].element.addEventListener("change", (e) => {
+		realElement.current.setAttribute("to", e.target.value);
+	})
+
+	// "browser-page-toolbar"
+	toolbarOf["browser-page"]["title"].element.addEventListener("change", (e) => {
+		realElement.current.setAttribute("title", e.target.value);
+	})
+	toolbarOf["browser-page"]["url"].element.addEventListener("change", (e) => {
+		realElement.current.setAttribute("url", e.target.value);
+	})
 
 	// "paragraph-toolbar"
 	toolbarOf["paragraph"]["line-height"].element.addEventListener("change", (e) => {
