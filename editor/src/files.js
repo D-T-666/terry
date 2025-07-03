@@ -28,8 +28,15 @@ const testManager = {
 		return {html, gradingScheme};
 	},
 	load({content, gradingScheme}) {
-		content = JSON.parse(window.localStorage.getItem("test")).html;
+		const obj = JSON.parse(window.localStorage.getItem("test"));
+		content = obj.html;
+		gradingScheme = obj.gradingScheme;
+
 		mainContent.innerHTML = content;
+		// TODO: this is garbage, deal with it properly
+		for (const id of Object.keys(gradingScheme)) {
+			document.getElementById(id).value = gradingScheme[id].correct;
+		}
 		treeView.innerHTML = "";
 		treeView.appendChild(realToInspector(mainContent.firstElementChild));
 		page.importElement(mainContent.firstElementChild);

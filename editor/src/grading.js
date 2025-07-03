@@ -25,6 +25,7 @@ const extractors = {
 
 const grading = {
 	current: {},
+
 	getScheme() {
 		this.current = {};
 
@@ -32,6 +33,7 @@ const grading = {
 
 		return this.current;
 	},
+
 	_parse(e) {
 		if (e.dataset.type !== undefined && extractors[e.dataset.type] !== undefined) {
 			const extractor = extractors[e.dataset.type];
