@@ -1,3 +1,7 @@
+import * as pages from './pages.ts'
+import { rightPane } from './panels.ts';
+import { getCurrentRealElement } from './element-manager.ts';
+
 const typeAttributes = {
 	"text": [ "content", "color", "bold", "italic", "underline", "size", ],
 	"paragraph": [ "line-height", "first-line-indent", "spacing-above", "spacing-below", ],
@@ -94,7 +98,7 @@ for (const t of Object.keys(typeAttributes)) {
 	toolbarOf[t] = obj;
 }
 
-const toolbars = {
+export const toolbars = {
 	_elements: {},
 	_current: undefined,
 	show(realElt) {
@@ -172,108 +176,108 @@ function initialize() {
 
 	toolbarOf["general"]["visibility-type"].element.addEventListener("change", (e) => {
 		toolbarOf["general"]["visibility-type"].setTrigger(e.target.value);
-		realElement.current.dataset.visibilityType = e.target.value;
+		getCurrentRealElement()!.dataset.visibilityType = e.target.value;
 	});
 
 	toolbarOf["general"]["visible-only-on"].element.addEventListener("change", (e) => {
-		realElement.current.dataset.visibleOnlyOn = e.target.value;
-		page.importElement(realElement.current);
+		getCurrentRealElement()!.dataset.visibleOnlyOn = e.target.value;
+		pages.importElement(getCurrentRealElement()!);
 	});
 	toolbarOf["general"]["visible-from"].element.addEventListener("change", (e) => {
-		realElement.current.dataset.visibleFrom = e.target.value;
-		page.importElement(realElement.current);
+		getCurrentRealElement()!.dataset.visibleFrom = e.target.value;
+		pages.importElement(getCurrentRealElement()!);
 	});
 	toolbarOf["general"]["visible-to"].element.addEventListener("change", (e) => {
-		realElement.current.dataset.visibleTo = e.target.value;
-		page.importElement(realElement.current);
+		getCurrentRealElement()!.dataset.visibleTo = e.target.value;
+		pages.importElement(getCurrentRealElement()!);
 	});
 
 
 	// "table-toolbar"
 	toolbarOf["table"]["style"].element.addEventListener("change", (e) => {
-		realElement.current.dataset.style = e.target.value;
+		getCurrentRealElement()!.dataset.style = e.target.value;
 	})
 
 	// "short-text-input-toolbar"
 	toolbarOf["short-text-input"]["width"].element.addEventListener("change", (e) => {
-		realElement.current.style.width = e.target.value + "ch";
+		getCurrentRealElement()!.style.width = e.target.value + "ch";
 	});
 
 	// "formula-toolbar"
 	toolbarOf["formula"]["content"].element.addEventListener("keyup", (e) => {
-		realElement.current.dataset.content = e.target.value;
+		getCurrentRealElement()!.dataset.content = e.target.value;
 		const math = MathJax.tex2mml(e.target.value);
-		realElement.current.innerHTML = math;
-		realElement.current.firstChild.setAttribute("display", "inline");
+		getCurrentRealElement()!.innerHTML = math;
+		(getCurrentRealElement()!.firstChild as HTMLElement).setAttribute("display", "inline");
 	});
 
 	// // "browser-tab-toolbar"
 	// toolbarOf["browser-tab"]["name"].element.addEventListener("keyup", (e) => {
-	// 	realElement.current.innerText = e.target.value;
+	// 	getCurrentRealElement()!.innerText = e.target.value;
 	// });
 
 	// "browser-link-toolbar"
 	toolbarOf["browser-link"]["browser"].element.addEventListener("change", (e) => {
-		realElement.current.setAttribute("browser", e.target.value);
+		getCurrentRealElement()!.setAttribute("browser", e.target.value);
 	})
 	toolbarOf["browser-link"]["url"].element.addEventListener("change", (e) => {
-		realElement.current.setAttribute("to", e.target.value);
+		getCurrentRealElement()!.setAttribute("to", e.target.value);
 	})
 
 	// "browser-page-toolbar"
 	toolbarOf["browser-page"]["title"].element.addEventListener("keyup", (e) => {
-		realElement.current.setAttribute("title", e.target.value);
+		getCurrentRealElement()!.setAttribute("title", e.target.value);
 	})
 	toolbarOf["browser-page"]["url"].element.addEventListener("keyup", (e) => {
-		realElement.current.setAttribute("url", e.target.value);
+		getCurrentRealElement()!.setAttribute("url", e.target.value);
 	})
 
 	// "paragraph-toolbar"
 	toolbarOf["paragraph"]["line-height"].element.addEventListener("change", (e) => {
-		realElement.current.style.lineHeight = e.target.value + "%";
+		getCurrentRealElement()!.style.lineHeight = e.target.value + "%";
 	});
 	toolbarOf["paragraph"]["first-line-indent"].element.addEventListener("change", (e) => {
-		realElement.current.style.textIndent = e.target.value + "%";
+		getCurrentRealElement()!.style.textIndent = e.target.value + "%";
 	});
 	toolbarOf["paragraph"]["spacing-above"].element.addEventListener("change", (e) => {
-		realElement.current.style.marginTop = e.target.value + "rem";
+		getCurrentRealElement()!.style.marginTop = e.target.value + "rem";
 	});
 	toolbarOf["paragraph"]["spacing-below"].element.addEventListener("change", (e) => {
-		realElement.current.style.marginBottom = e.target.value + "rem";
+		getCurrentRealElement()!.style.marginBottom = e.target.value + "rem";
 	});
 
 	// "container-toolbar"
 	toolbarOf["container"]["layout"].element.addEventListener("change", (e) => {
-		realElement.current.dataset.layout = e.target.value;
+		getCurrentRealElement()!.dataset.layout = e.target.value;
 	});
 	toolbarOf["container"]["padding"].element.addEventListener("change", (e) => {
-		realElement.current.style.padding = e.target.value + "px";
+		getCurrentRealElement()!.style.padding = e.target.value + "px";
 	});
 	toolbarOf["container"]["border"].element.addEventListener("change", (e) => {
-		realElement.current.dataset.border = e.target.value;
+		getCurrentRealElement()!.dataset.border = e.target.value;
 	});
 	toolbarOf["container"]["align"].element.addEventListener("change", (e) => {
-		realElement.current.dataset.align = e.target.value;
+		getCurrentRealElement()!.dataset.align = e.target.value;
 	});
 
 	// "text-toolbar"
 	toolbarOf["text"]["content"].element.addEventListener("keyup", (e) => {
-		realElement.current.innerText = e.target.value;
+		getCurrentRealElement()!.innerText = e.target.value;
 	}, false);
 	toolbarOf["text"]["color"].element.addEventListener("change", (e) => {
-		realElement.current.style.color = e.target.value;
+		getCurrentRealElement()!.style.color = e.target.value;
 	}, false);
 	toolbarOf["text"]["bold"].element.addEventListener("change", (e) => {
-		realElement.current.style.fontWeight = e.target.checked ? "bold" : "normal";
+		getCurrentRealElement()!.style.fontWeight = e.target.checked ? "bold" : "normal";
 	}, false);
 	toolbarOf["text"]["italic"].element.addEventListener("change", (e) => {
-		realElement.current.style.fontStyle = e.target.checked ? "oblique" : "normal";
+		getCurrentRealElement()!.style.fontStyle = e.target.checked ? "oblique" : "normal";
 	}, false);
 	toolbarOf["text"]["underline"].element.addEventListener("change", (e) => {
-		realElement.current.style.textDecoration = e.target.checked ? "underline" : "none";
+		getCurrentRealElement()!.style.textDecoration = e.target.checked ? "underline" : "none";
 	}, false);
 	toolbarOf["text"]["size"].element.addEventListener("change", (e) => {
-		realElement.current.style.fontSize = e.target.value + "pt";
+		getCurrentRealElement()!.style.fontSize = e.target.value + "pt";
 	}, false);
 }
 initialize();
