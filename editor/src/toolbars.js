@@ -75,7 +75,7 @@ for (const t of Object.keys(typeAttributes)) {
 			element: elt,
 			addEventListener: elt.addEventListener,
 			set value(value) {
-				if (elt.nodeName === "INPUT") 
+				if (elt.nodeName === "INPUT")
 					switch (elt.type) {
 						case "text":
 						case "number":
@@ -211,7 +211,7 @@ function initialize() {
 	// toolbarOf["browser-tab"]["name"].element.addEventListener("keyup", (e) => {
 	// 	realElement.current.innerText = e.target.value;
 	// });
-	
+
 	// "browser-link-toolbar"
 	toolbarOf["browser-link"]["browser"].element.addEventListener("change", (e) => {
 		realElement.current.setAttribute("browser", e.target.value);
@@ -221,10 +221,10 @@ function initialize() {
 	})
 
 	// "browser-page-toolbar"
-	toolbarOf["browser-page"]["title"].element.addEventListener("change", (e) => {
+	toolbarOf["browser-page"]["title"].element.addEventListener("keyup", (e) => {
 		realElement.current.setAttribute("title", e.target.value);
 	})
-	toolbarOf["browser-page"]["url"].element.addEventListener("change", (e) => {
+	toolbarOf["browser-page"]["url"].element.addEventListener("keyup", (e) => {
 		realElement.current.setAttribute("url", e.target.value);
 	})
 
@@ -255,7 +255,7 @@ function initialize() {
 	toolbarOf["container"]["align"].element.addEventListener("change", (e) => {
 		realElement.current.dataset.align = e.target.value;
 	});
-	
+
 	// "text-toolbar"
 	toolbarOf["text"]["content"].element.addEventListener("keyup", (e) => {
 		realElement.current.innerText = e.target.value;

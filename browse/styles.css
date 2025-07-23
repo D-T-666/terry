@@ -1,0 +1,173 @@
+@import url("css/tag-colors.css");
+@import url("https://necolas.github.io/normalize.css/8.0.1/normalize.css");
+
+body {
+	padding: 10px;
+}
+
+main {
+	max-width: 60rem;
+	margin: auto;
+}
+
+:root {
+	--fg: 128, 128, 128;
+	--bg: 255, 255, 255;
+	--bd: 128, 128, 128;
+}
+
+ul.tags > li {
+	background-color: rgba(var(--bg), 0.6);
+	border-color: rgba(var(--bd), 0.6);
+	color: rgb(var(--fg));
+
+	&::before {
+		content: attr(t);
+	}
+}
+
+#list {
+	& details[name="test"] {
+		border: 1px solid lightgray;
+		border-radius: 0.25rem;
+		font-family: monospace;
+		user-select: none;
+
+		& + & {
+			margin-top: 0.25rem;
+		}
+
+		> * {
+			padding: 0.25rem;
+		}
+
+		& summary {
+			display: grid;
+			grid-template-columns: 1fr auto auto;
+			gap: 0.5rem;
+			align-items: baseline;
+
+			& .title {
+				padding: 0 0.25rem;
+				font-weight: bold;
+				font-size: 1rem;
+				user-select: text;
+			}
+
+			& .tags {
+				display: inline-block;
+				list-style: none;
+				margin: 0;
+				padding: 0;
+				color: gray;
+
+				& > * {
+					display: inline-block;
+					border-width: 1px;
+					border-style: dashed;
+					border-radius: 0.25rem;
+					padding: 0.25rem;
+
+					& + & {
+						margin-left: 0.25rem;
+					}
+				}
+			}
+
+			& button {
+				opacity: 0.2;
+				border: 1px solid lightgray;
+				border-radius: 0.2rem;
+				padding: 0.25rem;
+			}
+
+			&:hover button {
+				opacity: 0.8;
+
+				&:hover {
+					opacity: 1;
+				}
+			}
+		}
+
+		& .description {
+			border-top: 1px solid lightgray;
+			color: gray;
+			padding: 0.25rem 0.5rem;
+		}
+
+		& .attributes {
+			border-top: 1px dashed lightgray;
+			color: gray;
+			list-style: disc;
+			padding-left: 2rem;
+			margin: 0;
+
+			& > li::marker {
+				width: 2rem;
+			}
+
+			& ul {
+				list-style: none;
+				display: inline-block;
+				padding: 0;
+
+				& > li {
+					display: inline;
+					padding-left: 1ch;
+
+					&:not(:last-child)::after {
+						content: ","
+					}
+
+					background-color: unset;
+					color: gray;
+
+					&::before {
+						color: rgb(var(--bd));
+					}
+				}
+			}
+		}
+	}
+}
+
+details summary::-webkit-details-marker {
+  display:none;
+}
+
+dialog {
+	border: 1px solid lightgray;
+	box-shadow: 0 0 1rem #00000004;
+	border-radius: 0.5rem;
+	width: 24rem;
+	padding: 0.75rem;
+
+	&::backdrop {
+		background-color: #fffb;
+	}
+
+	> * {
+		max-width: 100%;
+		& + & {
+			margin-top: 0.5rem;
+		}
+	}
+
+	& .filters {
+		display: grid;
+		grid-template-columns: auto 15rem;
+		gap: 0.25rem;
+		align-items: baseline;
+	}
+
+	& .actions {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+	}
+
+	label {
+		text-align: right;
+	}
+}

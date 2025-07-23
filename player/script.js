@@ -4,7 +4,7 @@ import api from "./modules/api.js";
 const mainContent = document.getElementById("main-content");
 const pageControls = document.getElementById("page-controls");
 
-// TODO: 
+// TODO:
 const id = 4;
 
 const test = api.getTest(id);
@@ -17,4 +17,3 @@ pages.init({
 });
 pages.registerElement(mainContent.firstElementChild);
 pages.showPage(0);
-
