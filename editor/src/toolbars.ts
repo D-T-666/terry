@@ -1,15 +1,15 @@
 import * as pages from './pages.ts'
-import { rightPane } from './panels.ts';
+import { mainContent, rightPane } from './panels.ts';
 import { getCurrentRealElement } from './element-manager.ts';
 
 const typeAttributes = {
 	"text": [ "content", "color", "bold", "italic", "underline", "size", ],
 	"paragraph": [ "line-height", "first-line-indent", "spacing-above", "spacing-below", ],
 	"container": [ "layout", "padding", "border", "align" ],
-	"browser-page": [ "title", "url" ],
-	"browser-link": [ "browser", "url" ],
+	"browserPage": [ "title", "url" ],
+	"browserLink": [ "browser", "url" ],
 	"formula": [ "content" ],
-	"short-text-input": [ "width" ],
+	"shortTextInput": [ "width" ],
 	"table": [ "style" ],
 	"general": [ "visibility-type", "visible-only-on", "visible-from", "visible-to" ],
 };
@@ -38,14 +38,14 @@ const typeAttributeExtractors = {
 	"formula": (elt: HTMLElement) => ({
 		"content": elt.dataset.content
 	}),
-	"short-text-input": (elt: HTMLElement) => ({
+	"shortTextInput": (elt: HTMLElement) => ({
 		"width": elt.style.width.slice(0, -2)
 	}),
-	"browser-link": (elt: HTMLElement) => ({
+	"browserLink": (elt: HTMLElement) => ({
 		"browser": elt.getAttribute("browser"),
 		"url": elt.getAttribute("to")
 	}),
-	"browser-page": (elt: HTMLElement) => ({
+	"browserPage": (elt: HTMLElement) => ({
 		"title": elt.getAttribute("title"),
 		"url": elt.getAttribute("url")
 	}),
@@ -75,6 +75,7 @@ for (const t of Object.keys(typeAttributes)) {
 	const obj = {};
 	for (const c of typeAttributes[t]) {
 		const elt = document.getElementById(`${t}-toolbar-${c}`)!;
+		console.log(t, c);
 		obj[c] = {
 			element: elt,
 			addEventListener: elt.addEventListener,
@@ -114,7 +115,7 @@ export const toolbars = {
 		}
 		this._current = this._elements[type];
 
-		if (type === "browser-link") {
+		if (type === "browserLink") {
 			const urls: string[] = [];
 			const browsers = {};
 
@@ -131,21 +132,21 @@ export const toolbars = {
 			}
 			traverse(mainContent);
 
-			toolbarOf["browser-link"]["url"].element.innerHTML = "";
-			toolbarOf["browser-link"]["browser"].element.innerHTML = "";
+			toolbarOf["browserLink"]["url"].element.innerHTML = "";
+			toolbarOf["browserLink"]["browser"].element.innerHTML = "";
 
 			for (const url of urls) {
 				const elt = document.createElement("option");
 				elt.value = url;
 				elt.innerText = url;
-				toolbarOf["browser-link"]["url"].element.appendChild(elt);
+				toolbarOf["browserLink"]["url"].element.appendChild(elt);
 			}
 
 			for (const key of Object.keys(browsers)) {
 				const elt = document.createElement("option");
 				elt.value = browsers[key];
 				elt.innerText = key;
-				toolbarOf["browser-link"]["browser"].element.appendChild(elt);
+				toolbarOf["browserLink"]["browser"].element.appendChild(elt);
 			}
 		}
 
@@ -200,8 +201,8 @@ function initialize() {
 		getCurrentRealElement()!.dataset.style = e.target.value;
 	})
 
-	// "short-text-input-toolbar"
-	toolbarOf["short-text-input"]["width"].element.addEventListener("change", (e) => {
+	// "shortTextInput-toolbar"
+	toolbarOf["shortTextInput"]["width"].element.addEventListener("change", (e) => {
 		getCurrentRealElement()!.style.width = e.target.value + "ch";
 	});
 
@@ -218,19 +219,19 @@ function initialize() {
 	// 	getCurrentRealElement()!.innerText = e.target.value;
 	// });
 
-	// "browser-link-toolbar"
-	toolbarOf["browser-link"]["browser"].element.addEventListener("change", (e) => {
+	// "browserLink-toolbar"
+	toolbarOf["browserLink"]["browser"].element.addEventListener("change", (e) => {
 		getCurrentRealElement()!.setAttribute("browser", e.target.value);
 	})
-	toolbarOf["browser-link"]["url"].element.addEventListener("change", (e) => {
+	toolbarOf["browserLink"]["url"].element.addEventListener("change", (e) => {
 		getCurrentRealElement()!.setAttribute("to", e.target.value);
 	})
 
-	// "browser-page-toolbar"
-	toolbarOf["browser-page"]["title"].element.addEventListener("keyup", (e) => {
+	// "browserPage-toolbar"
+	toolbarOf["browserPage"]["title"].element.addEventListener("keyup", (e) => {
 		getCurrentRealElement()!.setAttribute("title", e.target.value);
 	})
-	toolbarOf["browser-page"]["url"].element.addEventListener("keyup", (e) => {
+	toolbarOf["browserPage"]["url"].element.addEventListener("keyup", (e) => {
 		getCurrentRealElement()!.setAttribute("url", e.target.value);
 	})
 

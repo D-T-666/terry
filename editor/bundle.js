@@ -1,1 +1,1016 @@
-var se=Object.defineProperty;var f=(e,t)=>{for(var o in t)se(e,o,{get:t[o],enumerable:!0})};var x=function(e){return e[e.rightClick=0]="rightClick",e[e.element=1]="element",e}({}),b=[document.getElementById("left-pane-right-click-menu"),document.getElementById("element-menu")];function T(){for(let e of b)e.style.visibility="hidden"}function ae(e,t){let o=t.getBoundingClientRect();b[e].style.top=`${o.top}px`,b[e].style.left=`${o.right+2}px`,b[e].style.visibility="visible"}function N(e,t,o){if(t.length>0)for(let n of b[e].children)n.disabled=!t.includes(n.id);else for(let n of b[e].children)n.disabled=!1;ae(e,o)}document.addEventListener("click",function(e){b[x.rightClick].contains(e.target)||(b[x.rightClick].style.visibility="hidden",b[x.element].style.visibility="hidden")});var y=document.getElementById("tree-view"),u=document.getElementById("main-content"),J=document.getElementById("right-pane");var le=document.getElementById("page-buttons"),V=document.getElementById("add-page"),A=0,g=0,I=[];function k(){let e=document.createElement("input");e.type="radio",e.id=`page-${g+1}`,e.name="current-page";let t=g;e.addEventListener("change",()=>{G(t)});let o=document.createElement("label");o.innerText=String(g+1),o.appendChild(e),le.insertBefore(o,V),I.push([]),g+=1,u.firstElementChild.dataset.pages=String(g)}function ce(){for(let e of I[A])e.classList.remove("current")}function G(e){if(e<g&&e>=0){ce(),A=e;for(let t of I[A])t.classList.add("current")}}function w(e){switch(e.dataset.visibilityType||"always"){case"only":let o=Number(e.dataset.visibleOnlyOn||"1");for(;o>g;)k();K(e,o);break;case"range":let n=Number(e.dataset.visibleFrom||"1"),r=Number(e.dataset.visibleTo||"1");for(;n>g;)k();for(;r>g;)k();de(e,n,r);break}for(let o of e.children)w(o)}function X(e){for(let t of I){let o=t.indexOf(e);o>=0&&t.splice(o,1)}}function K(e,t,o=!0){t-=1,t<g&&t>=0&&(o&&X(e),I[t].includes(e)||I[t].push(e),t===A&&G(t))}function de(e,t,o){X(e);for(let n=t;n<=o;n++)K(e,n,!1)}V.addEventListener("click",()=>{k()});var Y={text:["content","color","bold","italic","underline","size"],paragraph:["line-height","first-line-indent","spacing-above","spacing-below"],container:["layout","padding","border","align"],"browser-page":["title","url"],"browser-link":["browser","url"],formula:["content"],"short-text-input":["width"],table:["style"],general:["visibility-type","visible-only-on","visible-from","visible-to"]},Z={text:e=>({content:e.innerText,color:e.style.color||"black",bold:e.style.fontWeight==="bold",italic:e.style.fontStyle==="oblique",underline:e.style.textDecoration==="underline",size:(e.style.fontSize||"12pt").slice(0,-2)}),paragraph:e=>({"line-height":e.style.lineHeight.slice(0,-1),"first-line-indent":e.style.lineHeight.slice(0,-1),"spacing-above":e.style.marginTop.slice(0,-2),"spacing-below":e.style.marginBottom.slice(0,-2)}),container:e=>({layout:e.dataset.layout,padding:e.style.padding.slice(0,-2),border:e.dataset.border,align:e.dataset.align}),formula:e=>({content:e.dataset.content}),"short-text-input":e=>({width:e.style.width.slice(0,-2)}),"browser-link":e=>({browser:e.getAttribute("browser"),url:e.getAttribute("to")}),"browser-page":e=>({title:e.getAttribute("title"),url:e.getAttribute("url")}),table:e=>({style:e.dataset.style||"empty"}),general:e=>{let t={"visibility-type":e.dataset.visibilityType||"always"};switch(t["visibility-type"]){case"only":t["visible-only-on"]=e.dataset.visibleOnlyOn||"1";break;case"range":t["visible-from"]=e.dataset.visibleFrom||"1",t["visible-to"]=e.dataset.visibleTo||"1";break}return t}},a={};for(let e of Object.keys(Y)){let t={};for(let o of Y[e]){let n=document.getElementById(`${e}-toolbar-${o}`);t[o]={element:n,addEventListener:n.addEventListener,set value(r){if(n.nodeName==="INPUT"){let i=n;switch(i.type){case"text":case"number":i.value=r;break;case"checkbox":i.checked=r}}(n.nodeName==="SELECT"||n.nodeName==="TEXTAREA")&&(n.value=r),this.setTrigger(r)},setTrigger(r){}}}a[e]=t}var ee={_elements:{},_current:void 0,show(e){this._current&&this._current.classList.remove("current");let t=e.dataset.type;if(this._elements[t]===void 0&&(this._elements[t]=document.getElementById(`${t}-toolbar`)),this._current=this._elements[t],t==="browser-link"){let r=function(i){i.tagName==="BROWSER-SIM"&&(n[i.dataset.name]=i.id),i.tagName==="BROWSER-PAGE"&&o.push(i.getAttribute("url"));for(let d of i.children)r(d)},o=[],n={};r(mainContent),a["browser-link"].url.element.innerHTML="",a["browser-link"].browser.element.innerHTML="";for(let i of o){let d=document.createElement("option");d.value=i,d.innerText=i,a["browser-link"].url.element.appendChild(d)}for(let i of Object.keys(n)){let d=document.createElement("option");d.value=n[i],d.innerText=i,a["browser-link"].browser.element.appendChild(d)}}if(this._current){this._current.classList.add("current");let o=Z[t](e);for(let r of Object.keys(o))a[t][r].value=o[r];let n=Z.general(e);for(let r of Object.keys(n))a.general[r].value=n[r]}},hide(){this._current&&(this._current.classlist.remove("current"),this._current=void 0)}};function me(){a.general["visibility-type"].setTrigger=e=>{J.dataset.visibilityType=e},a.general["visibility-type"].element.addEventListener("change",e=>{a.general["visibility-type"].setTrigger(e.target.value),s().dataset.visibilityType=e.target.value}),a.general["visible-only-on"].element.addEventListener("change",e=>{s().dataset.visibleOnlyOn=e.target.value,w(s())}),a.general["visible-from"].element.addEventListener("change",e=>{s().dataset.visibleFrom=e.target.value,w(s())}),a.general["visible-to"].element.addEventListener("change",e=>{s().dataset.visibleTo=e.target.value,w(s())}),a.table.style.element.addEventListener("change",e=>{s().dataset.style=e.target.value}),a["short-text-input"].width.element.addEventListener("change",e=>{s().style.width=e.target.value+"ch"}),a.formula.content.element.addEventListener("keyup",e=>{s().dataset.content=e.target.value;let t=MathJax.tex2mml(e.target.value);s().innerHTML=t,s().firstChild.setAttribute("display","inline")}),a["browser-link"].browser.element.addEventListener("change",e=>{s().setAttribute("browser",e.target.value)}),a["browser-link"].url.element.addEventListener("change",e=>{s().setAttribute("to",e.target.value)}),a["browser-page"].title.element.addEventListener("keyup",e=>{s().setAttribute("title",e.target.value)}),a["browser-page"].url.element.addEventListener("keyup",e=>{s().setAttribute("url",e.target.value)}),a.paragraph["line-height"].element.addEventListener("change",e=>{s().style.lineHeight=e.target.value+"%"}),a.paragraph["first-line-indent"].element.addEventListener("change",e=>{s().style.textIndent=e.target.value+"%"}),a.paragraph["spacing-above"].element.addEventListener("change",e=>{s().style.marginTop=e.target.value+"rem"}),a.paragraph["spacing-below"].element.addEventListener("change",e=>{s().style.marginBottom=e.target.value+"rem"}),a.container.layout.element.addEventListener("change",e=>{s().dataset.layout=e.target.value}),a.container.padding.element.addEventListener("change",e=>{s().style.padding=e.target.value+"px"}),a.container.border.element.addEventListener("change",e=>{s().dataset.border=e.target.value}),a.container.align.element.addEventListener("change",e=>{s().dataset.align=e.target.value}),a.text.content.element.addEventListener("keyup",e=>{s().innerText=e.target.value},!1),a.text.color.element.addEventListener("change",e=>{s().style.color=e.target.value},!1),a.text.bold.element.addEventListener("change",e=>{s().style.fontWeight=e.target.checked?"bold":"normal"},!1),a.text.italic.element.addEventListener("change",e=>{s().style.fontStyle=e.target.checked?"oblique":"normal"},!1),a.text.underline.element.addEventListener("change",e=>{s().style.textDecoration=e.target.checked?"underline":"none"},!1),a.text.size.element.addEventListener("change",e=>{s().style.fontSize=e.target.value+"pt"},!1)}me();var pe=0;function l(){return String(pe++)}function $(e){let t=e.cloneNode(!0);function o(n){n.id=l();for(let r of n.children)o(r)}return o(t),t}var L;function p(){return L}function B(){L&&(L.blur(),L.removeAttribute("id")),L=void 0}function R(e){B(),L=e,L.setAttribute("id","selected")}function te(e){R(e);let t=document.getElementById(e.dataset.id);fe(t),ee.show(t)}var C;function s(){return C}function ue(){C&&C.classList.remove("selected"),C=void 0}function fe(e){ue(),C=e,C.classList.add("selected")}function c(e,t,o,n){n===void 0&&(n=`${e}-${o}`);let r=document.createElement(t);return r.id=o,r.dataset.name=n,r.dataset.type=e,r}var O={};f(O,{children:()=>ye,parents:()=>Ee,predecessors:()=>he,realElement:()=>ge,successors:()=>be});function ge(){return c("container","div",l())}var he=[],be=[],Ee=[],ye=[];var D={};f(D,{children:()=>ke,parents:()=>Le,predecessors:()=>xe,realElement:()=>ve,successors:()=>we});function ve(){let e=c("paragraph","p",l());return e.contentEditable="true",e}var xe=[],we=[],Le=[],ke=["text","formula"];var P={};f(P,{children:()=>Ne,parents:()=>Be,predecessors:()=>Ce,realElement:()=>Ie,successors:()=>Te});function Ie(){return c("formula","span",l())}var Ce=[],Te=[],Be=[],Ne=[];var _={};f(_,{children:()=>Oe,parents:()=>$e,predecessors:()=>Re,realElement:()=>Ae,successors:()=>Se});function Ae(){let e=c("text","span",l());return e.contentEditable="true",e}var Re=[],Se=[],$e=[],Oe=[];var M={};f(M,{children:()=>He,parents:()=>Me,predecessors:()=>Pe,realElement:()=>De,successors:()=>_e});function De(){let e=document.createElement("input");return e.type="text",e.id=l(),e.dataset.name=`short-text-input-${e.id}`,e.dataset.type="short-text-input",e}var Pe=[],_e=[],Me=[],He=[];var H={};f(H,{children:()=>qe,parents:()=>We,predecessors:()=>ze,realElement:()=>je,successors:()=>Fe});function je(){let e=l();return c("multipleChoiceInput","ol",e,`multipleChoice-${e}`)}var ze=[],Fe=[],We=[],qe=["multipleChoiceItem"];var j={};f(j,{children:()=>Xe,parents:()=>Ge,predecessors:()=>Je,realElement:()=>Ue,successors:()=>Ve});function Ue(){let e=document.createElement("li");e.dataset.type="multiple-choice-item",e.id=l(),e.dataset.name=`item-${e.id}`;let t=document.createElement("input");return t.type="checkbox",t.id=l(),e.appendChild(t),e}var Je=[],Ve=[],Ge=[],Xe=["multiple-choice-item"];var z={};f(z,{children:()=>et,parents:()=>Ze,predecessors:()=>Qe,realElement:()=>Ke,successors:()=>Ye});function Ke(){return c("browserSim","browserSim",l())}var Qe=[],Ye=[],Ze=[],et=["browserPage"];var F={};f(F,{children:()=>it,parents:()=>ot,predecessors:()=>nt,realElement:()=>tt,successors:()=>rt});function tt(){return c("browserPage","browserPage",l())}var nt=[],rt=[],ot=[],it=[];var W={};f(W,{children:()=>dt,parents:()=>ct,predecessors:()=>at,realElement:()=>st,successors:()=>lt});function st(){return c("browserLink","browserLink",l())}var at=[],lt=[],ct=[],dt=["text","image"];function E(e){let t=e.dataset.type;if(t===void 0)throw TypeError(`Unknown element type ${t}`);let o=e.id,n=e.dataset.name,r=[];for(let m of e.children){let h=E(m);h&&r.push(h)}let i=document.createElement("div");i.innerHTML=r.length===0?`<div class="list" tabindex="0" data-id="${o}" data-type="${t}"><span data-type="${t}">${n}</span></div>`:`<details open class="list" tabindex="0" data-id="${o}" data-type="${t}"><summary data-type="${t}">${n}</summary></details>`;let d=i.firstChild;for(let m of r)d.appendChild(m);return d}var v={container:O,paragraph:D,formula:P,text:_,shortTextInput:M,multipleChoiceInput:H,multipleChoiceItem:j,browserSim:z,browserPage:F,browserLink:W,table:{children:["table-body","table-head","table-foot"],realElement(){return c("table","table",l())}},"table-head":{children:["table-row"],realElement(){return c("table-head","thead",l())}},"table-body":{children:["table-row"],realElement(){return c("table-body","tbody",l())}},"table-foot":{children:["table-row"],realElement(){return c("table-foot","tfoot",l())}},"table-row":{children:["table-data"],realElement(){let e=l();return c("table-row","tr",e,`row-${e}`)}},"table-data":{children:[],realElement(){let e=l();return c("table-data","td",e,`cell-${e}`)}}};console.log(v);var ne={multipleChoiceInput:e=>{let t={options:[],correct:[]};for(let o of e.children){let n=o.children[0];t.options.push(n.id),t.correct.push(n.checked)}return t},shortTextInput:e=>({correct:e.value})},q;function re(e){if(e.dataset.type!==void 0&&ne[e.dataset.type]!==void 0){let t=ne[e.dataset.type];q[e.id]=t(e);return}for(let t of e.children)re(t)}function oe(){return q={},re(u),q}var ie={testName:void 0,addInteraction(e){},export(){let e=r=>{r.classList.remove("current"),r.className===""&&r.removeAttribute("class");for(let i of r.children)e(i)},t=u.cloneNode(!0);e(t);let o=t.innerHTML.trim().replaceAll(/[\s\t][\s\t]+/g,"").replaceAll(' contenteditable="true"',""),n=oe();return localStorage.setItem("test",JSON.stringify({html:o,gradingScheme:n})),{html:o,gradingScheme:n}},load({content:e,gradingScheme:t}){let o=JSON.parse(window.localStorage.getItem("test"));e=o.html,t=o.gradingScheme,u.innerHTML=e;for(let n of u.getElementsByTagName("p"))n.contentEditable="true";for(let n of u.getElementsByTagName("span"))n.contentEditable="true";for(let n of Object.keys(t))document.getElementById(n).value=t[n].correct;y.innerHTML="",y.appendChild(E(u.firstElementChild)),w(u.firstElementChild)},changeName(e){}};document.getElementById("load-test").addEventListener("click",e=>{ie.load({})});document.getElementById("save-test").addEventListener("click",e=>{ie.export()});var U,S;function mt(){let t=v["container"].realElement();u.appendChild(t),y.appendChild(E(t));let o=!1;y.addEventListener("click",n=>{p()!==void 0&&(p().contains(n.target)||B(),o||n.preventDefault(),o=!0)},!0),y.addEventListener("contextmenu",n=>{let r=n.target;if(n.preventDefault(),r.classList.contains("list"))R(r);else if(r.parentElement.classList.contains("list"))R(r.parentElement);else return;n.stopPropagation();let i=["rcm-add-child","rcm-add-sibbling","rcm-copy","rcm-delete","rcm-rename"];S!==void 0&&(i.push("rcm-paste-child"),i.push("rcm-paste-above")),N(x.rightClick,i,r)},!0),y.addEventListener("focus",n=>{let r=n.target;r.classList.contains("list")||(r=r.parentElement),r.classList.contains("list")&&(te(r),o=!1)},!0),document.getElementById("rcm-add-child").addEventListener("click",n=>{U=pt;let r=v[p().dataset.type].children;N(x.element,r,n.target)},!1),document.getElementById("rcm-add-sibbling").addEventListener("click",n=>{U=ut;let r=v[p().parentElement.dataset.type].children;N(x.element,r,n.target)},!1),document.getElementById("rcm-copy").addEventListener("click",n=>{let r=p().dataset.id;S=document.getElementById(r),T()},!1),document.getElementById("rcm-paste-child").addEventListener("click",n=>{let r=$(S);s().appendChild(r),p().parentElement.replaceChild(E(s()),p()),T()},!1),document.getElementById("rcm-paste-above").addEventListener("click",n=>{let r=$(S);s().parentElement.insertBefore(r,s());let i=E(s().parentElement);p().parentElement.parentElement.replaceChild(i,p().parentElement),T()},!1),document.getElementById("rcm-delete").addEventListener("click",n=>{let r=p().dataset.id;p().remove(),B(),document.getElementById(r).remove(),T()},!1),document.getElementById("rcm-rename").addEventListener("click",n=>{let r=p().dataset.id,i=p().firstChild,d=i.innerText,m=document.createElement("input");m.type="text",m.value=d,p().insertBefore(m,i),i.remove(),m.focus(),m.addEventListener("blur",h=>{m.contains(h.relatedTarget)||(i.innerText=m.value,document.getElementById(r).dataset.name=m.value,p().insertBefore(i,m),m.remove())}),m.addEventListener("click",h=>{h.stopPropagation()}),m.addEventListener("keyup",h=>{(h.key==="Enter"||h.key==="Escape")&&m.blur()}),i.remove()},!1);for(let n of Object.keys(v)){let r=document.getElementById(n);r&&r.addEventListener("click",i=>{U(p(),n),B()})}k()}mt();function pt(e,t){let o=e.dataset.id,n=document.getElementById(o),r=v[t].realElement(o);n.appendChild(r),e.parentElement.replaceChild(E(n),e)}function ut(e,t){let o=e.dataset.id,n=document.getElementById(o),r=n.parentElement,i=r.id,d=v[t].realElement(i);r.insertBefore(d,n),e.parentElement.insertBefore(E(d),e)}
+var __defProp = Object.defineProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+
+// editor/src/menus.ts
+var Menu = /* @__PURE__ */ function(Menu2) {
+  Menu2[Menu2["rightClick"] = 0] = "rightClick";
+  Menu2[Menu2["element"] = 1] = "element";
+  return Menu2;
+}({});
+var menus = [
+  document.getElementById("left-pane-right-click-menu"),
+  document.getElementById("element-menu")
+];
+function hideMenus() {
+  for (const menu of menus) {
+    menu.style.visibility = "hidden";
+  }
+}
+function openMenu(menu, nextTo) {
+  const rect = nextTo.getBoundingClientRect();
+  menus[menu].style.top = `${rect.top}px`;
+  menus[menu].style.left = `${rect.right + 2}px`;
+  menus[menu].style.visibility = "visible";
+}
+function openMenuWithOptions(menu, options, nextTo) {
+  if (options.length > 0) {
+    for (const child of menus[menu].children) {
+      child.disabled = !options.includes(child.id);
+    }
+  } else {
+    for (const child of menus[menu].children) {
+      child.disabled = false;
+    }
+  }
+  openMenu(menu, nextTo);
+}
+document.addEventListener("click", function(e) {
+  if (!menus[Menu.rightClick].contains(e.target)) {
+    menus[Menu.rightClick].style.visibility = "hidden";
+    menus[Menu.element].style.visibility = "hidden";
+  }
+});
+
+// editor/src/panels.ts
+var treeView = document.getElementById("tree-view");
+var mainContent = document.getElementById("main-content");
+var rightPane = document.getElementById("right-pane");
+
+// editor/src/pages.ts
+var pageButtonsDiv = document.getElementById("page-buttons");
+var addPageButton = document.getElementById("add-page");
+var current = 0;
+var total = 0;
+var pageElements = [];
+function addPage() {
+  const innerElt = document.createElement("input");
+  innerElt.type = "radio";
+  innerElt.id = `page-${total + 1}`;
+  innerElt.name = "current-page";
+  const newPageIndex = total;
+  innerElt.addEventListener("change", () => {
+    showPage(newPageIndex);
+  });
+  const label = document.createElement("label");
+  label.innerText = String(total + 1);
+  label.appendChild(innerElt);
+  pageButtonsDiv.insertBefore(label, addPageButton);
+  pageElements.push([]);
+  total += 1;
+  mainContent.firstElementChild.dataset.pages = String(total);
+}
+function hidePage() {
+  for (const elt of pageElements[current]) {
+    elt.classList.remove("current");
+  }
+}
+function showPage(i) {
+  if (!(i < total && i >= 0)) {
+    return;
+  }
+  hidePage();
+  current = i;
+  for (const elt of pageElements[current]) {
+    elt.classList.add("current");
+  }
+}
+function importElement(elt) {
+  const visibilityType = elt.dataset.visibilityType || "always";
+  switch (visibilityType) {
+    case "only":
+      const ind = Number(elt.dataset.visibleOnlyOn || "1");
+      while (ind > total) {
+        addPage();
+      }
+      trackElementOnly(elt, ind);
+      break;
+    case "range":
+      const l = Number(elt.dataset.visibleFrom || "1");
+      const r = Number(elt.dataset.visibleTo || "1");
+      while (l > total) {
+        addPage();
+      }
+      while (r > total) {
+        addPage();
+      }
+      trackElementRange(elt, l, r);
+      break;
+  }
+  for (const child of elt.children) {
+    importElement(child);
+  }
+}
+function untrackElement(elt) {
+  for (const elts of pageElements) {
+    const ind = elts.indexOf(elt);
+    if (ind >= 0) {
+      elts.splice(ind, 1);
+    }
+  }
+}
+function trackElementOnly(elt, i, untrackFirst = true) {
+  i -= 1;
+  if (!(i < total && i >= 0)) {
+    return;
+  }
+  if (untrackFirst) {
+    untrackElement(elt);
+  }
+  if (!pageElements[i].includes(elt)) {
+    pageElements[i].push(elt);
+  }
+  if (i === current) {
+    showPage(i);
+  }
+}
+function trackElementRange(elt, l, r) {
+  untrackElement(elt);
+  for (let i = l; i <= r; i++) {
+    trackElementOnly(elt, i, false);
+  }
+}
+addPageButton.addEventListener("click", () => {
+  addPage();
+});
+
+// editor/src/toolbars.ts
+var typeAttributes = {
+  "text": [
+    "content",
+    "color",
+    "bold",
+    "italic",
+    "underline",
+    "size"
+  ],
+  "paragraph": [
+    "line-height",
+    "first-line-indent",
+    "spacing-above",
+    "spacing-below"
+  ],
+  "container": [
+    "layout",
+    "padding",
+    "border",
+    "align"
+  ],
+  "browserPage": [
+    "title",
+    "url"
+  ],
+  "browserLink": [
+    "browser",
+    "url"
+  ],
+  "formula": [
+    "content"
+  ],
+  "shortTextInput": [
+    "width"
+  ],
+  "table": [
+    "style"
+  ],
+  "general": [
+    "visibility-type",
+    "visible-only-on",
+    "visible-from",
+    "visible-to"
+  ]
+};
+var typeAttributeExtractors = {
+  "text": (elt) => ({
+    "content": elt.innerText,
+    "color": elt.style.color || "black",
+    "bold": elt.style.fontWeight === "bold",
+    "italic": elt.style.fontStyle === "oblique",
+    "underline": elt.style.textDecoration === "underline",
+    "size": (elt.style.fontSize || "12pt").slice(0, -2)
+  }),
+  "paragraph": (elt) => ({
+    "line-height": elt.style.lineHeight.slice(0, -1),
+    "first-line-indent": elt.style.lineHeight.slice(0, -1),
+    "spacing-above": elt.style.marginTop.slice(0, -2),
+    "spacing-below": elt.style.marginBottom.slice(0, -2)
+  }),
+  "container": (elt) => ({
+    "layout": elt.dataset.layout,
+    "padding": elt.style.padding.slice(0, -2),
+    "border": elt.dataset.border,
+    "align": elt.dataset.align
+  }),
+  "formula": (elt) => ({
+    "content": elt.dataset.content
+  }),
+  "shortTextInput": (elt) => ({
+    "width": elt.style.width.slice(0, -2)
+  }),
+  "browserLink": (elt) => ({
+    "browser": elt.getAttribute("browser"),
+    "url": elt.getAttribute("to")
+  }),
+  "browserPage": (elt) => ({
+    "title": elt.getAttribute("title"),
+    "url": elt.getAttribute("url")
+  }),
+  "table": (elt) => ({
+    "style": elt.dataset.style || "empty"
+  }),
+  "general": (elt) => {
+    const res = {
+      "visibility-type": elt.dataset.visibilityType || "always"
+    };
+    switch (res["visibility-type"]) {
+      case "only":
+        res["visible-only-on"] = elt.dataset.visibleOnlyOn || "1";
+        break;
+      case "range":
+        res["visible-from"] = elt.dataset.visibleFrom || "1";
+        res["visible-to"] = elt.dataset.visibleTo || "1";
+        break;
+    }
+    return res;
+  }
+};
+var toolbarOf = {};
+for (const t of Object.keys(typeAttributes)) {
+  const obj = {};
+  for (const c of typeAttributes[t]) {
+    const elt = document.getElementById(`${t}-toolbar-${c}`);
+    console.log(t, c);
+    obj[c] = {
+      element: elt,
+      addEventListener: elt.addEventListener,
+      set value(value) {
+        if (elt.nodeName === "INPUT") {
+          const inputElt = elt;
+          switch (inputElt.type) {
+            case "text":
+            case "number":
+              inputElt.value = value;
+              break;
+            case "checkbox":
+              inputElt.checked = value;
+          }
+        }
+        if (elt.nodeName === "SELECT" || elt.nodeName === "TEXTAREA") elt.value = value;
+        this.setTrigger(value);
+      },
+      setTrigger(value1) {
+      }
+    };
+  }
+  toolbarOf[t] = obj;
+}
+var toolbars = {
+  _elements: {},
+  _current: void 0,
+  show(realElt) {
+    if (this._current) {
+      this._current.classList.remove("current");
+    }
+    const type = realElt.dataset.type;
+    if (this._elements[type] === void 0) {
+      this._elements[type] = document.getElementById(`${type}-toolbar`);
+    }
+    this._current = this._elements[type];
+    if (type === "browserLink") {
+      let traverse = function(elt) {
+        if (elt.tagName === "BROWSER-SIM") {
+          browsers[elt.dataset.name] = elt.id;
+        }
+        if (elt.tagName === "BROWSER-PAGE") {
+          urls.push(elt.getAttribute("url"));
+        }
+        for (const c of elt.children) {
+          traverse(c);
+        }
+      };
+      const urls = [];
+      const browsers = {};
+      traverse(mainContent);
+      toolbarOf["browserLink"]["url"].element.innerHTML = "";
+      toolbarOf["browserLink"]["browser"].element.innerHTML = "";
+      for (const url of urls) {
+        const elt = document.createElement("option");
+        elt.value = url;
+        elt.innerText = url;
+        toolbarOf["browserLink"]["url"].element.appendChild(elt);
+      }
+      for (const key of Object.keys(browsers)) {
+        const elt = document.createElement("option");
+        elt.value = browsers[key];
+        elt.innerText = key;
+        toolbarOf["browserLink"]["browser"].element.appendChild(elt);
+      }
+    }
+    if (this._current) {
+      this._current.classList.add("current");
+      const attributes = typeAttributeExtractors[type](realElt);
+      for (const attr of Object.keys(attributes)) {
+        toolbarOf[type][attr].value = attributes[attr];
+      }
+      const generalAttributes = typeAttributeExtractors["general"](realElt);
+      for (const attr of Object.keys(generalAttributes)) {
+        toolbarOf["general"][attr].value = generalAttributes[attr];
+      }
+    }
+  },
+  hide() {
+    if (this._current) {
+      this._current.classlist.remove("current");
+      this._current = void 0;
+    }
+  }
+};
+function initialize() {
+  toolbarOf["general"]["visibility-type"].setTrigger = (value1) => {
+    rightPane.dataset.visibilityType = value1;
+  };
+  toolbarOf["general"]["visibility-type"].element.addEventListener("change", (e) => {
+    toolbarOf["general"]["visibility-type"].setTrigger(e.target.value);
+    getCurrentRealElement().dataset.visibilityType = e.target.value;
+  });
+  toolbarOf["general"]["visible-only-on"].element.addEventListener("change", (e) => {
+    getCurrentRealElement().dataset.visibleOnlyOn = e.target.value;
+    importElement(getCurrentRealElement());
+  });
+  toolbarOf["general"]["visible-from"].element.addEventListener("change", (e) => {
+    getCurrentRealElement().dataset.visibleFrom = e.target.value;
+    importElement(getCurrentRealElement());
+  });
+  toolbarOf["general"]["visible-to"].element.addEventListener("change", (e) => {
+    getCurrentRealElement().dataset.visibleTo = e.target.value;
+    importElement(getCurrentRealElement());
+  });
+  toolbarOf["table"]["style"].element.addEventListener("change", (e) => {
+    getCurrentRealElement().dataset.style = e.target.value;
+  });
+  toolbarOf["shortTextInput"]["width"].element.addEventListener("change", (e) => {
+    getCurrentRealElement().style.width = e.target.value + "ch";
+  });
+  toolbarOf["formula"]["content"].element.addEventListener("keyup", (e) => {
+    getCurrentRealElement().dataset.content = e.target.value;
+    const math = MathJax.tex2mml(e.target.value);
+    getCurrentRealElement().innerHTML = math;
+    getCurrentRealElement().firstChild.setAttribute("display", "inline");
+  });
+  toolbarOf["browserLink"]["browser"].element.addEventListener("change", (e) => {
+    getCurrentRealElement().setAttribute("browser", e.target.value);
+  });
+  toolbarOf["browserLink"]["url"].element.addEventListener("change", (e) => {
+    getCurrentRealElement().setAttribute("to", e.target.value);
+  });
+  toolbarOf["browserPage"]["title"].element.addEventListener("keyup", (e) => {
+    getCurrentRealElement().setAttribute("title", e.target.value);
+  });
+  toolbarOf["browserPage"]["url"].element.addEventListener("keyup", (e) => {
+    getCurrentRealElement().setAttribute("url", e.target.value);
+  });
+  toolbarOf["paragraph"]["line-height"].element.addEventListener("change", (e) => {
+    getCurrentRealElement().style.lineHeight = e.target.value + "%";
+  });
+  toolbarOf["paragraph"]["first-line-indent"].element.addEventListener("change", (e) => {
+    getCurrentRealElement().style.textIndent = e.target.value + "%";
+  });
+  toolbarOf["paragraph"]["spacing-above"].element.addEventListener("change", (e) => {
+    getCurrentRealElement().style.marginTop = e.target.value + "rem";
+  });
+  toolbarOf["paragraph"]["spacing-below"].element.addEventListener("change", (e) => {
+    getCurrentRealElement().style.marginBottom = e.target.value + "rem";
+  });
+  toolbarOf["container"]["layout"].element.addEventListener("change", (e) => {
+    getCurrentRealElement().dataset.layout = e.target.value;
+  });
+  toolbarOf["container"]["padding"].element.addEventListener("change", (e) => {
+    getCurrentRealElement().style.padding = e.target.value + "px";
+  });
+  toolbarOf["container"]["border"].element.addEventListener("change", (e) => {
+    getCurrentRealElement().dataset.border = e.target.value;
+  });
+  toolbarOf["container"]["align"].element.addEventListener("change", (e) => {
+    getCurrentRealElement().dataset.align = e.target.value;
+  });
+  toolbarOf["text"]["content"].element.addEventListener("keyup", (e) => {
+    getCurrentRealElement().innerText = e.target.value;
+  }, false);
+  toolbarOf["text"]["color"].element.addEventListener("change", (e) => {
+    getCurrentRealElement().style.color = e.target.value;
+  }, false);
+  toolbarOf["text"]["bold"].element.addEventListener("change", (e) => {
+    getCurrentRealElement().style.fontWeight = e.target.checked ? "bold" : "normal";
+  }, false);
+  toolbarOf["text"]["italic"].element.addEventListener("change", (e) => {
+    getCurrentRealElement().style.fontStyle = e.target.checked ? "oblique" : "normal";
+  }, false);
+  toolbarOf["text"]["underline"].element.addEventListener("change", (e) => {
+    getCurrentRealElement().style.textDecoration = e.target.checked ? "underline" : "none";
+  }, false);
+  toolbarOf["text"]["size"].element.addEventListener("change", (e) => {
+    getCurrentRealElement().style.fontSize = e.target.value + "pt";
+  }, false);
+}
+initialize();
+
+// editor/src/element-manager.ts
+var idCounter = 0;
+function getNewID() {
+  return String(idCounter++);
+}
+function registerID(elt) {
+  const eltId = Number(elt.id);
+  if (eltId >= idCounter) idCounter = eltId + 1;
+  for (const child of elt.children) {
+    registerID(child);
+  }
+}
+function cloneUnique(elt) {
+  const res = elt.cloneNode(true);
+  function updateIDs(elt2) {
+    elt2.id = getNewID();
+    for (const child of elt2.children) {
+      updateIDs(child);
+    }
+  }
+  updateIDs(res);
+  return res;
+}
+var selectedElement = void 0;
+function getCurrentElement() {
+  return selectedElement;
+}
+function deselectElement() {
+  if (selectedElement) {
+    selectedElement.blur();
+    selectedElement.removeAttribute("id");
+  }
+  selectedElement = void 0;
+}
+function selectElement(elt) {
+  deselectElement();
+  selectedElement = elt;
+  selectedElement.setAttribute("id", "selected");
+}
+function handleElementFocus(inspectorElement) {
+  selectElement(inspectorElement);
+  const realElt = document.getElementById(inspectorElement.dataset.id);
+  selectRealElement(realElt);
+  toolbars.show(realElt);
+}
+var selectedRealElement = void 0;
+function getCurrentRealElement() {
+  return selectedRealElement;
+}
+function deselectRealElement() {
+  if (selectedRealElement) selectedRealElement.classList.remove("selected");
+  selectedRealElement = void 0;
+}
+function selectRealElement(elt) {
+  deselectRealElement();
+  selectedRealElement = elt;
+  selectedRealElement.classList.add("selected");
+}
+
+// editor/src/elements/simple-real-element.ts
+function simpleRealElement(type, tag, id, name) {
+  if (name === void 0) {
+    name = `${type}-${id}`;
+  }
+  const elt = document.createElement(tag);
+  elt.id = id;
+  elt.dataset.name = name;
+  elt.dataset.type = type;
+  return elt;
+}
+
+// editor/src/elements/container.ts
+var container_exports = {};
+__export(container_exports, {
+  children: () => children,
+  parents: () => parents,
+  predecessors: () => predecessors,
+  realElement: () => realElement,
+  successors: () => successors
+});
+function realElement() {
+  return simpleRealElement("container", "div", getNewID());
+}
+var predecessors = [];
+var successors = [];
+var parents = [];
+var children = [];
+
+// editor/src/elements/paragraph.ts
+var paragraph_exports = {};
+__export(paragraph_exports, {
+  children: () => children2,
+  parents: () => parents2,
+  predecessors: () => predecessors2,
+  realElement: () => realElement2,
+  successors: () => successors2
+});
+function realElement2() {
+  const res = simpleRealElement("paragraph", "p", getNewID());
+  res.contentEditable = "true";
+  return res;
+}
+var predecessors2 = [];
+var successors2 = [];
+var parents2 = [];
+var children2 = [
+  "text",
+  "formula"
+];
+
+// editor/src/elements/formula.ts
+var formula_exports = {};
+__export(formula_exports, {
+  children: () => children3,
+  parents: () => parents3,
+  predecessors: () => predecessors3,
+  realElement: () => realElement3,
+  successors: () => successors3
+});
+function realElement3() {
+  return simpleRealElement("formula", "span", getNewID());
+}
+var predecessors3 = [];
+var successors3 = [];
+var parents3 = [];
+var children3 = [];
+
+// editor/src/elements/text.ts
+var text_exports = {};
+__export(text_exports, {
+  children: () => children4,
+  parents: () => parents4,
+  predecessors: () => predecessors4,
+  realElement: () => realElement4,
+  successors: () => successors4
+});
+function realElement4() {
+  const res = simpleRealElement("text", "span", getNewID());
+  res.contentEditable = "true";
+  return res;
+}
+var predecessors4 = [];
+var successors4 = [];
+var parents4 = [];
+var children4 = [];
+
+// editor/src/elements/short-text-input.ts
+var short_text_input_exports = {};
+__export(short_text_input_exports, {
+  children: () => children5,
+  parents: () => parents5,
+  predecessors: () => predecessors5,
+  realElement: () => realElement5,
+  successors: () => successors5
+});
+function realElement5() {
+  const res = document.createElement("input");
+  res.type = "text";
+  res.id = getNewID();
+  res.dataset.name = `short-text-input-${res.id}`;
+  res.dataset.type = "short-text-input";
+  return res;
+}
+var predecessors5 = [];
+var successors5 = [];
+var parents5 = [];
+var children5 = [];
+
+// editor/src/elements/multiple-choice-input.ts
+var multiple_choice_input_exports = {};
+__export(multiple_choice_input_exports, {
+  children: () => children6,
+  parents: () => parents6,
+  predecessors: () => predecessors6,
+  realElement: () => realElement6,
+  successors: () => successors6
+});
+function realElement6() {
+  const id = getNewID();
+  return simpleRealElement("multipleChoiceInput", "ol", id, `multipleChoice-${id}`);
+}
+var predecessors6 = [];
+var successors6 = [];
+var parents6 = [];
+var children6 = [
+  "multipleChoiceItem"
+];
+
+// editor/src/elements/multiple-choice-item.ts
+var multiple_choice_item_exports = {};
+__export(multiple_choice_item_exports, {
+  children: () => children7,
+  parents: () => parents7,
+  predecessors: () => predecessors7,
+  realElement: () => realElement7,
+  successors: () => successors7
+});
+function realElement7() {
+  const res = document.createElement("li");
+  res.dataset.type = "multiple-choice-item";
+  res.id = getNewID();
+  res.dataset.name = `item-${res.id}`;
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.id = getNewID();
+  res.appendChild(checkbox);
+  return res;
+}
+var predecessors7 = [];
+var successors7 = [];
+var parents7 = [];
+var children7 = [
+  "multiple-choice-item"
+];
+
+// editor/src/elements/browser/sim.ts
+var sim_exports = {};
+__export(sim_exports, {
+  children: () => children8,
+  parents: () => parents8,
+  predecessors: () => predecessors8,
+  realElement: () => realElement8,
+  successors: () => successors8
+});
+function realElement8() {
+  return simpleRealElement("browserSim", "browser-sim", getNewID());
+}
+var predecessors8 = [];
+var successors8 = [];
+var parents8 = [];
+var children8 = [
+  "browserPage"
+];
+
+// editor/src/elements/browser/page.ts
+var page_exports = {};
+__export(page_exports, {
+  children: () => children9,
+  parents: () => parents9,
+  predecessors: () => predecessors9,
+  realElement: () => realElement9,
+  successors: () => successors9
+});
+function realElement9() {
+  return simpleRealElement("browserPage", "browser-page", getNewID());
+}
+var predecessors9 = [];
+var successors9 = [];
+var parents9 = [];
+var children9 = [];
+
+// editor/src/elements/browser/link.ts
+var link_exports = {};
+__export(link_exports, {
+  children: () => children10,
+  parents: () => parents10,
+  predecessors: () => predecessors10,
+  realElement: () => realElement10,
+  successors: () => successors10
+});
+function realElement10() {
+  return simpleRealElement("browserLink", "browser-link", getNewID());
+}
+var predecessors10 = [];
+var successors10 = [];
+var parents10 = [];
+var children10 = [
+  "text",
+  "image"
+];
+
+// editor/src/elements.ts
+function realToInspector(elt) {
+  const type = elt.dataset.type;
+  if (type === void 0) throw TypeError(`Unknown element type ${type}`);
+  const id = elt.id;
+  const name = elt.dataset.name;
+  const children11 = [];
+  for (const child of elt.children) {
+    const childNode = realToInspector(child);
+    if (childNode) children11.push(childNode);
+  }
+  const resDiv = document.createElement("div");
+  resDiv.innerHTML = children11.length === 0 ? `<div class="list" tabindex="0" data-id="${id}" data-type="${type}"><span data-type="${type}">${name}</span></div>` : `<details open class="list" tabindex="0" data-id="${id}" data-type="${type}"><summary data-type="${type}">${name}</summary></details>`;
+  const res = resDiv.firstChild;
+  for (const child of children11) {
+    res.appendChild(child);
+  }
+  return res;
+}
+var types = {
+  container: container_exports,
+  paragraph: paragraph_exports,
+  formula: formula_exports,
+  text: text_exports,
+  shortTextInput: short_text_input_exports,
+  multipleChoiceInput: multiple_choice_input_exports,
+  multipleChoiceItem: multiple_choice_item_exports,
+  browserSim: sim_exports,
+  browserPage: page_exports,
+  browserLink: link_exports,
+  table: {
+    children: [
+      "table-body",
+      "table-head",
+      "table-foot"
+    ],
+    realElement() {
+      return simpleRealElement("table", "table", getNewID());
+    }
+  },
+  "table-head": {
+    children: [
+      "table-row"
+    ],
+    realElement() {
+      return simpleRealElement("table-head", "thead", getNewID());
+    }
+  },
+  "table-body": {
+    children: [
+      "table-row"
+    ],
+    realElement() {
+      return simpleRealElement("table-body", "tbody", getNewID());
+    }
+  },
+  "table-foot": {
+    children: [
+      "table-row"
+    ],
+    realElement() {
+      return simpleRealElement("table-foot", "tfoot", getNewID());
+    }
+  },
+  "table-row": {
+    children: [
+      "table-data"
+    ],
+    realElement() {
+      const id = getNewID();
+      return simpleRealElement("table-row", "tr", id, `row-${id}`);
+    }
+  },
+  "table-data": {
+    children: [],
+    realElement() {
+      const id = getNewID();
+      return simpleRealElement("table-data", "td", id, `cell-${id}`);
+    }
+  }
+};
+console.log(types);
+
+// editor/src/grading.ts
+var extractors = {
+  "multipleChoiceInput": (e) => {
+    const res = {
+      options: [],
+      correct: []
+    };
+    for (const child of e.children) {
+      const checkbox = child.children[0];
+      res.options.push(checkbox.id);
+      res.correct.push(checkbox.checked);
+    }
+    return res;
+  },
+  "shortTextInput": (e) => {
+    const res = {
+      correct: e.value
+    };
+    return res;
+  }
+};
+var currentScheme = void 0;
+function parse(e) {
+  if (e.dataset.type !== void 0 && extractors[e.dataset.type] !== void 0) {
+    const extractor = extractors[e.dataset.type];
+    currentScheme[e.id] = extractor(e);
+    return;
+  }
+  for (const child of e.children) {
+    parse(child);
+  }
+}
+function getCurrentScheme() {
+  currentScheme = {};
+  parse(mainContent);
+  return currentScheme;
+}
+
+// editor/src/files.ts
+var testManager = {
+  testName: void 0,
+  // Returns an object containing the HTML as a string,
+  // and the grading scheme (correct answers) as a string
+  addInteraction(id) {
+  },
+  export() {
+    const removeDynamicAttributes = (e) => {
+      e.classList.remove("current");
+      if (e.className === "") {
+        e.removeAttribute("class");
+      }
+      for (const c of e.children) {
+        removeDynamicAttributes(c);
+      }
+    };
+    const elt = mainContent.cloneNode(true);
+    removeDynamicAttributes(elt);
+    const html = elt.innerHTML.trim().replaceAll(/[\s\t][\s\t]+/g, "").replaceAll(' contenteditable="true"', "");
+    const gradingScheme = getCurrentScheme();
+    localStorage.setItem("test", JSON.stringify({
+      html,
+      gradingScheme
+    }));
+    return {
+      html,
+      gradingScheme
+    };
+  },
+  load({ content, gradingScheme }) {
+    const obj = JSON.parse(window.localStorage.getItem("test"));
+    content = obj.html;
+    gradingScheme = obj.gradingScheme;
+    mainContent.innerHTML = content;
+    for (const paragraph of mainContent.getElementsByTagName("p")) {
+      paragraph.contentEditable = "true";
+    }
+    for (const span of mainContent.getElementsByTagName("span")) {
+      span.contentEditable = "true";
+    }
+    registerID(mainContent.firstChild);
+    for (const id of Object.keys(gradingScheme)) {
+      document.getElementById(id).value = gradingScheme[id].correct;
+    }
+    treeView.innerHTML = "";
+    treeView.appendChild(realToInspector(mainContent.firstElementChild));
+    importElement(mainContent.firstElementChild);
+  },
+  changeName(newName) {
+  }
+};
+document.getElementById("load-test").addEventListener("click", (e) => {
+  testManager.load({});
+});
+document.getElementById("save-test").addEventListener("click", (e) => {
+  testManager.export();
+});
+
+// editor/script.ts
+var activeAction = void 0;
+var copyBuffer = void 0;
+function initialize2() {
+  const type = "container";
+  const elt = types[type].realElement();
+  mainContent.appendChild(elt);
+  treeView.appendChild(realToInspector(elt));
+  let shouldToggle = false;
+  treeView.addEventListener("click", (e) => {
+    if (getCurrentElement() === void 0) return;
+    if (!getCurrentElement().contains(e.target)) {
+      deselectElement();
+    }
+    if (!shouldToggle) {
+      e.preventDefault();
+    }
+    shouldToggle = true;
+  }, true);
+  treeView.addEventListener("contextmenu", (e) => {
+    const etarget = e.target;
+    e.preventDefault();
+    if (etarget.classList.contains("list")) selectElement(etarget);
+    else if (etarget.parentElement.classList.contains("list")) selectElement(etarget.parentElement);
+    else return;
+    e.stopPropagation();
+    const options = [
+      "rcm-add-child",
+      "rcm-add-sibbling",
+      "rcm-copy",
+      "rcm-delete",
+      "rcm-rename"
+    ];
+    if (copyBuffer !== void 0) {
+      options.push("rcm-paste-child");
+      options.push("rcm-paste-above");
+    }
+    openMenuWithOptions(Menu.rightClick, options, etarget);
+  }, true);
+  treeView.addEventListener("focus", (e) => {
+    let elt2 = e.target;
+    if (!elt2.classList.contains("list")) elt2 = elt2.parentElement;
+    if (!elt2.classList.contains("list")) return;
+    handleElementFocus(elt2);
+    shouldToggle = false;
+  }, true);
+  document.getElementById("rcm-add-child").addEventListener("click", (e) => {
+    activeAction = addAChild;
+    const options = types[getCurrentElement().dataset.type].children;
+    openMenuWithOptions(Menu.element, options, e.target);
+  }, false);
+  document.getElementById("rcm-add-sibbling").addEventListener("click", (e) => {
+    activeAction = addASibbling;
+    const options = types[getCurrentElement().parentElement.dataset.type].children;
+    openMenuWithOptions(Menu.element, options, e.target);
+  }, false);
+  document.getElementById("rcm-copy").addEventListener("click", (e) => {
+    let dataId = getCurrentElement().dataset.id;
+    copyBuffer = document.getElementById(dataId);
+    hideMenus();
+  }, false);
+  document.getElementById("rcm-paste-child").addEventListener("click", (e) => {
+    const elt2 = cloneUnique(copyBuffer);
+    getCurrentRealElement().appendChild(elt2);
+    getCurrentElement().parentElement.replaceChild(realToInspector(getCurrentRealElement()), getCurrentElement());
+    hideMenus();
+  }, false);
+  document.getElementById("rcm-paste-above").addEventListener("click", (e) => {
+    const elt2 = cloneUnique(copyBuffer);
+    getCurrentRealElement().parentElement.insertBefore(elt2, getCurrentRealElement());
+    const parentInspectorElement = realToInspector(getCurrentRealElement().parentElement);
+    getCurrentElement().parentElement.parentElement.replaceChild(parentInspectorElement, getCurrentElement().parentElement);
+    hideMenus();
+  }, false);
+  document.getElementById("rcm-delete").addEventListener("click", (e) => {
+    let dataId = getCurrentElement().dataset.id;
+    getCurrentElement().remove();
+    deselectElement();
+    document.getElementById(dataId).remove();
+    hideMenus();
+  }, false);
+  document.getElementById("rcm-rename").addEventListener("click", (e) => {
+    let dataId = getCurrentElement().dataset.id;
+    const oldSpan = getCurrentElement().firstChild;
+    const spanContent = oldSpan.innerText;
+    const newTextInput = document.createElement("input");
+    newTextInput.type = "text";
+    newTextInput.value = spanContent;
+    getCurrentElement().insertBefore(newTextInput, oldSpan);
+    oldSpan.remove();
+    newTextInput.focus();
+    newTextInput.addEventListener("blur", (e2) => {
+      if (!newTextInput.contains(e2.relatedTarget)) {
+        oldSpan.innerText = newTextInput.value;
+        document.getElementById(dataId).dataset.name = newTextInput.value;
+        getCurrentElement().insertBefore(oldSpan, newTextInput);
+        newTextInput.remove();
+      }
+    });
+    newTextInput.addEventListener("click", (e2) => {
+      e2.stopPropagation();
+    });
+    newTextInput.addEventListener("keyup", (e2) => {
+      if (e2.key === "Enter" || e2.key === "Escape") {
+        newTextInput.blur();
+      }
+    });
+    oldSpan.remove();
+  }, false);
+  for (const type2 of Object.keys(types)) {
+    const elt2 = document.getElementById(type2);
+    if (elt2) {
+      elt2.addEventListener("click", (e) => {
+        activeAction(getCurrentElement(), type2);
+        deselectElement();
+      });
+    }
+  }
+  addPage();
+}
+initialize2();
+function addAChild(target, type) {
+  const parentId = target.dataset.id;
+  const parentElement_real = document.getElementById(parentId);
+  const elt_real = types[type].realElement(parentId);
+  parentElement_real.appendChild(elt_real);
+  target.parentElement.replaceChild(realToInspector(parentElement_real), target);
+}
+function addASibbling(target, type) {
+  const siblingId = target.dataset.id;
+  const siblingElement = document.getElementById(siblingId);
+  const parentElement = siblingElement.parentElement;
+  const parentId = parentElement.id;
+  const elt_real = types[type].realElement(parentId);
+  parentElement.insertBefore(elt_real, siblingElement);
+  target.parentElement.insertBefore(realToInspector(elt_real), target);
+}

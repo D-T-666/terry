@@ -2,7 +2,7 @@ import { getNewID } from "../../element-manager.ts";
 import simpleRealElement from "../simple-real-element.ts";
 
 export function realElement(): HTMLElement {
-	return simpleRealElement("browserSim", "browserSim", getNewID());
+	return simpleRealElement("browserSim", "browser-sim", getNewID());
 }
 
 export const predecessors = [];

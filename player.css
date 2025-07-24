@@ -44,15 +44,16 @@
 	& [data-type="container"] {
 		.debug & {
 			display: block;
-			border: 1px solid rgb(var(--debug-color));
+			border: 1px solid rgba(var(--debug-color), 0.4);
+			border-radius: 0.25rem;
 			box-sizing: border-box;
 			position: relative;
 			min-height: calc(1rem + 2px);
-			padding-top: 1rem;
+			/* padding-top: 1rem; */
 
 			&:has(&) {
 				padding: 0.25rem;
-				padding-top: 1.25rem;
+				/* padding-top: 1.25rem; */
 			}
 
 			[data-type="container"]:is([data-layout="vertical"], :not([data-layout])) > & + & {
@@ -63,18 +64,22 @@
 				gap: 4px;
 			}
 
-			&::before {
+			&:hover:not(:has(:hover))::after {
 				content: attr(data-name);
 				display: block;
-				background-color: rgba(var(--debug-color), 0.2);
-				color: rgb(var(--debug-color));
+				background-color: white;
+				border: 1px solid rgba(var(--debug-color), 0.4);
+				border-bottom: none;
+				border-radius: 0.25rem 0.25rem 0 0;
+				color: rgba(var(--debug-color), 0.4);
 				position: absolute;
-				height: 1rem;
+				height: 1.25rem;
 				line-height: 1;
 				width: fit-content;
+				box-sizing: border-box;
 				padding: 0 4px;
-				top: 0;
-				left: 0;
+				top: -1.25rem;
+				left: 0.25rem;
 			}
 		}
 	}
@@ -168,4 +173,8 @@
 			}
 		}
 	}
+}
+
+.debug #main-content {
+	padding-top: 1.25rem;
 }

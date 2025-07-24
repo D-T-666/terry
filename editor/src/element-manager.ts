@@ -6,6 +6,15 @@ export function getNewID(): string {
 	return String(idCounter++);
 }
 
+export function registerID(elt: Element) {
+	const eltId = Number(elt.id);
+	if (eltId >= idCounter) idCounter = eltId + 1;
+
+	for (const child of elt.children) {
+		registerID(child)
+	}
+}
+
 export function cloneUnique(elt: Element): Element {
 	const res = elt.cloneNode(true) as Element;
 
