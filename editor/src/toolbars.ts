@@ -15,7 +15,7 @@ const typeAttributes = {
 };
 
 const typeAttributeExtractors = {
-	"text": (elt) => ({
+	"text": (elt: HTMLElement) => ({
 		"content": elt.innerText,
 		"color": elt.style.color || "black",
 		"bold": elt.style.fontWeight === "bold",
@@ -23,36 +23,36 @@ const typeAttributeExtractors = {
 		"underline": elt.style.textDecoration === "underline",
 		"size": (elt.style.fontSize || "12pt").slice(0, -2)
 	}),
-	"paragraph": (elt) => ({
+	"paragraph": (elt: HTMLElement) => ({
 		"line-height": elt.style.lineHeight.slice(0, -1),
 		"first-line-indent": elt.style.lineHeight.slice(0, -1),
 		"spacing-above": elt.style.marginTop.slice(0, -2),
 		"spacing-below": elt.style.marginBottom.slice(0, -2)
 	}),
-	"container": (elt) => ({
+	"container": (elt: HTMLElement) => ({
 		"layout": elt.dataset.layout,
 		"padding": elt.style.padding.slice(0, -2),
 		"border": elt.dataset.border,
 		"align": elt.dataset.align
 	}),
-	"formula": (elt) => ({
+	"formula": (elt: HTMLElement) => ({
 		"content": elt.dataset.content
 	}),
-	"short-text-input": (elt) => ({
+	"short-text-input": (elt: HTMLElement) => ({
 		"width": elt.style.width.slice(0, -2)
 	}),
-	"browser-link": (elt) => ({
+	"browser-link": (elt: HTMLElement) => ({
 		"browser": elt.getAttribute("browser"),
 		"url": elt.getAttribute("to")
 	}),
-	"browser-page": (elt) => ({
+	"browser-page": (elt: HTMLElement) => ({
 		"title": elt.getAttribute("title"),
 		"url": elt.getAttribute("url")
 	}),
-	"table": (elt) => ({
+	"table": (elt: HTMLElement) => ({
 		"style": elt.dataset.style || "empty"
 	}),
-	"general": (elt) => {
+	"general": (elt: HTMLElement) => {
 		const res = {
 			"visibility-type": elt.dataset.visibilityType || "always",
 		};
@@ -69,25 +69,27 @@ const typeAttributeExtractors = {
 	}
 };
 
-const toolbarOf = {};
+const toolbarOf: {[name: string]: any} = {};
 
 for (const t of Object.keys(typeAttributes)) {
 	const obj = {};
 	for (const c of typeAttributes[t]) {
-		const elt = document.getElementById(`${t}-toolbar-${c}`);
+		const elt = document.getElementById(`${t}-toolbar-${c}`)!;
 		obj[c] = {
 			element: elt,
 			addEventListener: elt.addEventListener,
 			set value(value) {
-				if (elt.nodeName === "INPUT")
-					switch (elt.type) {
+				if (elt.nodeName === "INPUT") {
+					const inputElt = elt as HTMLInputElement;
+					switch (inputElt.type) {
 						case "text":
 						case "number":
-							elt.value = value;
+							inputElt.value = value;
 							break;
 						case "checkbox":
-							elt.checked = value;
+							inputElt.checked = value;
 					}
+				}
 				if (elt.nodeName === "SELECT" || elt.nodeName === "TEXTAREA")
 					elt.value = value;
 				this.setTrigger(value);
@@ -113,7 +115,7 @@ export const toolbars = {
 		this._current = this._elements[type];
 
 		if (type === "browser-link") {
-			const urls = [];
+			const urls: string[] = [];
 			const browsers = {};
 
 			function traverse(elt) {

@@ -1,17 +1,17 @@
 import { hideMenus, Menu, openMenu, openMenuWithOptions } from './src/menus.ts';
 import { mainContent, treeView } from './src/panels.ts';
-import { cloneUnique, deselectElement, getCurrentElement, getCurrentRealElement, getNewID, handleElementFocus, selectElement } from './src/element-manager.js';
+import { cloneUnique, deselectElement, getCurrentElement, getCurrentRealElement, getNewID, handleElementFocus, selectElement } from './src/element-manager.ts';
 import { realToInspector, types } from './src/elements.ts';
 import { addPage } from './src/pages.ts';
+import './src/files.ts';
 
-let activeAction: undefined | ((HTMLElement, string) => void) = undefined;
+let activeAction: undefined | ((elt: HTMLElement, type: string) => void) = undefined;
 let copyBuffer: undefined | HTMLElement = undefined;
 
 function initialize() {
-	const id = getNewID();
 	const type = "container";
 
-	const elt = types[type].realElement(id);
+	const elt = types[type].realElement();
 	mainContent.appendChild(elt);
 	treeView.appendChild(realToInspector(elt));
 
@@ -46,22 +46,22 @@ function initialize() {
 		openMenuWithOptions(Menu.rightClick, options, etarget);
 	}, true);
 
-	treeView.addEventListener("focus", (e) => {
-		let elt;
-		const etarget = e.target as HTMLElement;
-		if (etarget.classList.contains("list"))
-			elt = e.target;
-		else if (etarget.parentElement!.classList.contains("list"))
-			elt = etarget.parentElement;
-		else
+	treeView.addEventListener("focus", (e: Event) => {
+		let elt = e.target as HTMLElement;
+
+		if (!elt.classList.contains("list"))
+			elt = elt.parentElement!;
+
+		if (!elt.classList.contains("list"))
 			return;
+
 		handleElementFocus(elt);
 		shouldToggle = false;
 	}, true)
 
 	document.getElementById("rcm-add-child")!.addEventListener("click", (e) => {
 		activeAction = addAChild;
-		const options = types[getCurrentElement()!.dataset.type!].children;
+		const options = types[getCurrentElement()!.dataset.type! as string].children;
 		openMenuWithOptions(Menu.element, options, e.target as HTMLElement);
 	}, false);
 

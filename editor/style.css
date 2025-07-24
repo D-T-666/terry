@@ -18,8 +18,10 @@ main {
 	gap: 0.25rem;
 	height: 100%;
 	grid-template-columns: 24rem 48rem 24rem;
-	justify-content: center;
+	/* justify-content: center; */
+	width: min-content;
 	position: relative;
+	margin: auto;
 }
 
 * {
@@ -82,7 +84,7 @@ main {
 			display: none;
 		}
 	}
-	
+
 	button:hover {
 		background-color: #0002;
 	}

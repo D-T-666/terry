@@ -1,4 +1,4 @@
-import simpleRealElement from "./elements/simple-real-element";
+import simpleRealElement from "./elements/simple-real-element.ts";
 import { getNewID } from "./element-manager.ts";
 
 export function realToInspector(elt: HTMLElement): HTMLElement {
@@ -83,4 +83,4 @@ export const types = {
 };
 console.log(types);
 
-function addNewElement(type, parentElement, sibblingElement) {}
+// function addNewElement(type, parentElement, sibblingElement) {}

@@ -2,7 +2,10 @@ import { getNewID } from "../element-manager.ts";
 import simpleRealElement from "./simple-real-element.ts";
 
 export function realElement(): HTMLElement {
-	return simpleRealElement("text", "span", getNewID());
+	const res = simpleRealElement("text", "span", getNewID());
+	res.contentEditable = 'true';
+
+	return res;
 }
 
 export const predecessors = [];
