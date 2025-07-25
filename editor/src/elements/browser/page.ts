@@ -2,7 +2,10 @@ import { getNewID } from "../../element-manager.ts";
 import simpleRealElement from "../simple-real-element.ts";
 
 export function realElement(): HTMLElement {
-	return simpleRealElement("browserPage", "browser-page", getNewID());
+	const res = simpleRealElement("browserPage", "browser-page", getNewID());
+	res.setAttribute("closable", "true");
+
+	return res;
 }
 
 export const predecessors = [];

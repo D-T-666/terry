@@ -4,6 +4,8 @@
 		<link rel="stylesheet" href="style.css">
 		<link rel="stylesheet" href="/player.css">
 		<meta charset="utf8">
+		<link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.bubble.css" rel="stylesheet" />
+
 	</head>
 	 <body>
 		<main class="debug">
@@ -104,20 +106,19 @@
 
 					<div class="toolbar" id="browserLink-toolbar">
 						<label for="browserLink-toolbar-url"> Target URL </label>
-						<select id="browserLink-toolbar-url">
-							<!-- -->
-						</select>
+						<select id="browserLink-toolbar-url"></select>
 
 						<label for="browserLink-toolbar-browser"> Target browser </label>
-						<select id="browserLink-toolbar-browser">
-							<!-- -->
-						</select>
+						<select id="browserLink-toolbar-browser"></select>
 					</div>
 
 
 
 
 					<div class="toolbar" id="browserPage-toolbar">
+						<label for="browserPage-toolbar-colosable"> Can be closed </label>
+						<input type="checkbox" id="browserPage-toolbar-closable"> -->
+
 						<label for="browserPage-toolbar-title"> Tab name </label>
 						<input type="text" id="browserPage-toolbar-title">
 

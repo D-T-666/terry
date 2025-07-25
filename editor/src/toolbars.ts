@@ -6,7 +6,7 @@ const typeAttributes = {
 	"text": [ "content", "color", "bold", "italic", "underline", "size", ],
 	"paragraph": [ "line-height", "first-line-indent", "spacing-above", "spacing-below", ],
 	"container": [ "layout", "padding", "border", "align" ],
-	"browserPage": [ "title", "url" ],
+	"browserPage": [ "closable", "title", "url" ],
 	"browserLink": [ "browser", "url" ],
 	"formula": [ "content" ],
 	"shortTextInput": [ "width" ],
@@ -46,6 +46,7 @@ const typeAttributeExtractors = {
 		"url": elt.getAttribute("to")
 	}),
 	"browserPage": (elt: HTMLElement) => ({
+		"closable": elt.getAttribute("closable") ,
 		"title": elt.getAttribute("title"),
 		"url": elt.getAttribute("url")
 	}),
@@ -228,6 +229,9 @@ function initialize() {
 	})
 
 	// "browserPage-toolbar"
+	toolbarOf["browserPage"]["closable"].element.addEventListener("change", (e: Event) => {
+		getCurrentRealElement()!.setAttribute("closable", String((e.target! as HTMLInputElement).checked));
+	})
 	toolbarOf["browserPage"]["title"].element.addEventListener("keyup", (e) => {
 		getCurrentRealElement()!.setAttribute("title", e.target.value);
 	})

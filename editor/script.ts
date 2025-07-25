@@ -1,4 +1,4 @@
-import { hideMenus, Menu, openMenu, openMenuWithOptions } from './src/menus.ts';
+import { hideMenus, Menu, openMenuWithOptions } from './src/menus.ts';
 import { mainContent, treeView } from './src/panels.ts';
 import { cloneUnique, deselectElement, getCurrentElement, getCurrentRealElement, getNewID, handleElementFocus, selectElement } from './src/element-manager.ts';
 import { realToInspector, types } from './src/elements.ts';
@@ -152,26 +152,31 @@ function createElementFromHTML(htmlString) {
 	return div.firstChild;
 }
 
-function addAChild(target, type) {
-	const parentId = target.dataset.id;
+function addAChild(target: HTMLElement, type: string) {
+	const parentId = target.dataset.id!;
 	const parentElement_real = document.getElementById(parentId)!;
 
-	const elt_real = types[type].realElement(parentId);
+	const elt_real = types[type].realElement();
 
 	parentElement_real.appendChild(elt_real);
 
-	target.parentElement.replaceChild(realToInspector(parentElement_real), target);
+	if (types[type].mounted)
+		types[type].mounted(elt_real);
+
+	target.parentElement!.replaceChild(realToInspector(parentElement_real), target);
 }
 
-function addASibbling(target, type) {
-	const siblingId = target.dataset.id;
+function addASibbling(target: HTMLElement, type: string) {
+	const siblingId = target.dataset.id!;
 	const siblingElement = document.getElementById(siblingId)!;
 	const parentElement = siblingElement.parentElement!;
-	const parentId = parentElement.id;
 
-	const elt_real = types[type].realElement(parentId);
+	const elt_real = types[type].realElement();
 
 	parentElement.insertBefore(elt_real, siblingElement);
 
-	target.parentElement.insertBefore(realToInspector(elt_real), target);
+	if (types[type].mounted)
+		types[type].mounted(elt_real);
+
+	target.parentElement!.insertBefore(realToInspector(elt_real), target);
 }

@@ -169,6 +169,7 @@ var typeAttributes = {
     "align"
   ],
   "browserPage": [
+    "closable",
     "title",
     "url"
   ],
@@ -224,6 +225,7 @@ var typeAttributeExtractors = {
     "url": elt.getAttribute("to")
   }),
   "browserPage": (elt) => ({
+    "closable": elt.getAttribute("closable"),
     "title": elt.getAttribute("title"),
     "url": elt.getAttribute("url")
   }),
@@ -375,6 +377,9 @@ function initialize() {
   toolbarOf["browserLink"]["url"].element.addEventListener("change", (e) => {
     getCurrentRealElement().setAttribute("to", e.target.value);
   });
+  toolbarOf["browserPage"]["closable"].element.addEventListener("change", (e) => {
+    getCurrentRealElement().setAttribute("closable", String(e.target.checked));
+  });
   toolbarOf["browserPage"]["title"].element.addEventListener("keyup", (e) => {
     getCurrentRealElement().setAttribute("title", e.target.value);
   });
@@ -518,15 +523,32 @@ var children = [];
 var paragraph_exports = {};
 __export(paragraph_exports, {
   children: () => children2,
+  mounted: () => mounted,
   parents: () => parents2,
   predecessors: () => predecessors2,
   realElement: () => realElement2,
   successors: () => successors2
 });
+
+// editor/src/quill-manager.ts
+var editors = {};
+function registerEditor(elt) {
+  let parent = elt.parentElement;
+  while (parent.id !== "main-content") {
+    if (editors[parent.id] !== void 0) return;
+    parent = parent.parentElement;
+  }
+  editors[elt.id] = "1";
+  elt.contentEditable = "true";
+}
+
+// editor/src/elements/paragraph.ts
 function realElement2() {
   const res = simpleRealElement("paragraph", "p", getNewID());
-  res.contentEditable = "true";
   return res;
+}
+function mounted(elt) {
+  registerEditor(elt);
 }
 var predecessors2 = [];
 var successors2 = [];
@@ -557,6 +579,7 @@ var children3 = [];
 var text_exports = {};
 __export(text_exports, {
   children: () => children4,
+  mounted: () => mounted2,
   parents: () => parents4,
   predecessors: () => predecessors4,
   realElement: () => realElement4,
@@ -564,8 +587,10 @@ __export(text_exports, {
 });
 function realElement4() {
   const res = simpleRealElement("text", "span", getNewID());
-  res.contentEditable = "true";
   return res;
+}
+function mounted2(elt) {
+  registerEditor(elt);
 }
 var predecessors4 = [];
 var successors4 = [];
@@ -670,7 +695,9 @@ __export(page_exports, {
   successors: () => successors9
 });
 function realElement9() {
-  return simpleRealElement("browserPage", "browser-page", getNewID());
+  const res = simpleRealElement("browserPage", "browser-page", getNewID());
+  res.setAttribute("closable", "true");
+  return res;
 }
 var predecessors9 = [];
 var successors9 = [];
@@ -700,21 +727,30 @@ var children10 = [
 // editor/src/elements.ts
 function realToInspector(elt) {
   const type = elt.dataset.type;
-  if (type === void 0) throw TypeError(`Unknown element type ${type}`);
   const id = elt.id;
   const name = elt.dataset.name;
   const children11 = [];
   for (const child of elt.children) {
     const childNode = realToInspector(child);
-    if (childNode) children11.push(childNode);
+    if (childNode) {
+      if (childNode instanceof HTMLElement) {
+        children11.push(childNode);
+      } else {
+        children11.push(...childNode);
+      }
+    }
   }
-  const resDiv = document.createElement("div");
-  resDiv.innerHTML = children11.length === 0 ? `<div class="list" tabindex="0" data-id="${id}" data-type="${type}"><span data-type="${type}">${name}</span></div>` : `<details open class="list" tabindex="0" data-id="${id}" data-type="${type}"><summary data-type="${type}">${name}</summary></details>`;
-  const res = resDiv.firstChild;
-  for (const child of children11) {
-    res.appendChild(child);
+  if (type !== void 0) {
+    const resDiv = document.createElement("div");
+    resDiv.innerHTML = children11.length === 0 ? `<div class="list" tabindex="0" data-id="${id}" data-type="${type}"><span data-type="${type}">${name}</span></div>` : `<details open class="list" tabindex="0" data-id="${id}" data-type="${type}"><summary data-type="${type}">${name}</summary></details>`;
+    const res = resDiv.firstChild;
+    for (const child of children11) {
+      res.appendChild(child);
+    }
+    return res;
+  } else {
+    return children11;
   }
-  return res;
 }
 var types = {
   container: container_exports,
@@ -837,7 +873,7 @@ var testManager = {
     };
     const elt = mainContent.cloneNode(true);
     removeDynamicAttributes(elt);
-    const html = elt.innerHTML.trim().replaceAll(/[\s\t][\s\t]+/g, "").replaceAll(' contenteditable="true"', "");
+    const html = elt.innerHTML.trim().replaceAll(/[\s\t][\s\t]+/g, "");
     const gradingScheme = getCurrentScheme();
     localStorage.setItem("test", JSON.stringify({
       html,
@@ -853,12 +889,6 @@ var testManager = {
     content = obj.html;
     gradingScheme = obj.gradingScheme;
     mainContent.innerHTML = content;
-    for (const paragraph of mainContent.getElementsByTagName("p")) {
-      paragraph.contentEditable = "true";
-    }
-    for (const span of mainContent.getElementsByTagName("span")) {
-      span.contentEditable = "true";
-    }
     registerID(mainContent.firstChild);
     for (const id of Object.keys(gradingScheme)) {
       document.getElementById(id).value = gradingScheme[id].correct;
@@ -1001,16 +1031,17 @@ initialize2();
 function addAChild(target, type) {
   const parentId = target.dataset.id;
   const parentElement_real = document.getElementById(parentId);
-  const elt_real = types[type].realElement(parentId);
+  const elt_real = types[type].realElement();
   parentElement_real.appendChild(elt_real);
+  if (types[type].mounted) types[type].mounted(elt_real);
   target.parentElement.replaceChild(realToInspector(parentElement_real), target);
 }
 function addASibbling(target, type) {
   const siblingId = target.dataset.id;
   const siblingElement = document.getElementById(siblingId);
   const parentElement = siblingElement.parentElement;
-  const parentId = parentElement.id;
-  const elt_real = types[type].realElement(parentId);
+  const elt_real = types[type].realElement();
   parentElement.insertBefore(elt_real, siblingElement);
+  if (types[type].mounted) types[type].mounted(elt_real);
   target.parentElement.insertBefore(realToInspector(elt_real), target);
 }

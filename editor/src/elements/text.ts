@@ -1,11 +1,15 @@
 import { getNewID } from "../element-manager.ts";
+import { registerEditor } from "../quill-manager.ts";
 import simpleRealElement from "./simple-real-element.ts";
 
 export function realElement(): HTMLElement {
 	const res = simpleRealElement("text", "span", getNewID());
-	res.contentEditable = 'true';
 
 	return res;
+}
+
+export function mounted(elt: HTMLElement) {
+	registerEditor(elt);
 }
 
 export const predecessors = [];

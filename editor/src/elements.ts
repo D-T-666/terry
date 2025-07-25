@@ -1,31 +1,41 @@
 import simpleRealElement from "./elements/simple-real-element.ts";
 import { getNewID } from "./element-manager.ts";
 
-export function realToInspector(elt: HTMLElement): HTMLElement {
+export function realToInspector(elt: HTMLElement): HTMLElement | HTMLElement[] {
 	const type = elt.dataset.type;
 
-	if (type === undefined) throw TypeError(`Unknown element type ${type}`);
 	const id = elt.id;
 	const name = elt.dataset.name;
 
-	const children: Node[] = [];
+	const children: HTMLElement[] = [];
 	for (const child of elt.children) {
 		const childNode = realToInspector(child as HTMLElement);
-		if (childNode) children.push(childNode);
+		if (childNode) {
+			if (childNode instanceof HTMLElement) {
+				children.push(childNode);
+			} else {
+				children.push(...childNode);
+			}
+		}
 	}
 
-	const resDiv = document.createElement("div");
-	resDiv.innerHTML =
-		children.length === 0
-			? `<div class="list" tabindex="0" data-id="${id}" data-type="${type}"><span data-type="${type}">${name}</span></div>`
-			: `<details open class="list" tabindex="0" data-id="${id}" data-type="${type}"><summary data-type="${type}">${name}</summary></details>`;
-	const res = resDiv.firstChild! as HTMLElement;
+	if (type !== undefined) {
+		const resDiv = document.createElement("div");
+		resDiv.innerHTML =
+			children.length === 0
+				? `<div class="list" tabindex="0" data-id="${id}" data-type="${type}"><span data-type="${type}">${name}</span></div>`
+				: `<details open class="list" tabindex="0" data-id="${id}" data-type="${type}"><summary data-type="${type}">${name}</summary></details>`;
 
-	for (const child of children) {
-		res.appendChild(child);
+		const res = resDiv.firstChild! as HTMLElement;
+
+		for (const child of children) {
+			res.appendChild(child);
+		}
+
+		return res;
+	} else {
+		return children;
 	}
-
-	return res;
 }
 
 import * as container from "./elements/container.ts";
@@ -39,7 +49,16 @@ import * as browserSim from "./elements/browser/sim.ts";
 import * as browserPage from "./elements/browser/page.ts";
 import * as browserLink from "./elements/browser/link.ts";
 
-export const types = {
+interface TerryElement {
+	realElement: () => HTMLElement;
+	mounted?: (elt: HTMLElement) => void;
+	children: string[];
+	successors?: string[];
+	parents?: string[];
+	predecessors?: string[];
+}
+
+export const types: {[name: string]: TerryElement} = {
 	container, paragraph, formula, text, shortTextInput, multipleChoiceInput, multipleChoiceItem,
 	browserSim, browserPage, browserLink,
 	table: {
