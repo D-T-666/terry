@@ -1,3 +1,4 @@
+import { realElement } from "./elements/browser/link.ts";
 import { toolbars } from "./toolbars.ts";
 
 let idCounter: number = 0;
@@ -41,6 +42,7 @@ export function getCurrentElement(): HTMLElement | undefined {
 }
 
 export function deselectElement() {
+	deselectRealElement();
 	if (selectedElement) {
 		selectedElement.blur();
 		selectedElement.removeAttribute("id");
@@ -52,16 +54,16 @@ export function selectElement(elt: HTMLElement) {
 		deselectElement();
 		selectedElement = elt;
 		selectedElement.setAttribute("id", "selected");
+
+		const realElt = document.getElementById(elt.dataset.id!)!;
+		selectRealElement(realElt);
+		toolbars.show(realElt);
 		// type = elt.dataset;
 }
 
 export function handleElementFocus(inspectorElement: HTMLElement) {
 	selectElement(inspectorElement);
 
-	const realElt = document.getElementById(inspectorElement.dataset.id!);
-	selectRealElement(realElt!);
-
-	toolbars.show(realElt);
 }
 
 // REAL ELEMENT

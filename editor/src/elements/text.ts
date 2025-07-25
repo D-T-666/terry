@@ -3,7 +3,8 @@ import { registerEditor } from "../quill-manager.ts";
 import simpleRealElement from "./simple-real-element.ts";
 
 export function realElement(): HTMLElement {
-	const res = simpleRealElement("text", "span", getNewID());
+	const id = getNewID();
+	const res = simpleRealElement("text", "span", id, `ტექსტი (${id})`);
 
 	return res;
 }

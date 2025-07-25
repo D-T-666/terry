@@ -3,7 +3,8 @@ import { registerEditor } from "../quill-manager.ts";
 import simpleRealElement from "./simple-real-element.ts";
 
 export function realElement(): HTMLElement {
-	const res = simpleRealElement("paragraph", "p", getNewID());
+	const id = getNewID();
+	const res = simpleRealElement("paragraph", "p", id, `პარაგრაფი (${id})`);
 
 	return res;
 }

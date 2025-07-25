@@ -8,7 +8,7 @@ export function realElement(): HTMLElement {
 		"multipleChoiceInput",
 		"ol",
 		id,
-		`multipleChoice-${id}`,
+		`მრავალარჩევნიანი პასუხი (${id})`,
 	);
 }
 

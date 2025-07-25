@@ -2,7 +2,8 @@ import { getNewID } from "../../element-manager.ts";
 import simpleRealElement from "../simple-real-element.ts";
 
 export function realElement(): HTMLElement {
-	const res = simpleRealElement("browserPage", "browser-page", getNewID());
+	const id = getNewID();
+	const res = simpleRealElement("browserPage", "browser-page", id, `გვერდი (${id})`);
 	res.setAttribute("closable", "true");
 
 	return res;

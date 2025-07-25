@@ -2,7 +2,8 @@ import { getNewID } from "../element-manager.ts";
 import simpleRealElement from "./simple-real-element.ts";
 
 export function realElement(): HTMLElement {
-	return simpleRealElement("container", "div", getNewID());
+	const id = getNewID();
+	return simpleRealElement("container", "div", id, `კონტეინერი (${id})`);
 }
 
 export const predecessors = [];

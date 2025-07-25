@@ -459,6 +459,7 @@ function getCurrentElement() {
   return selectedElement;
 }
 function deselectElement() {
+  deselectRealElement();
   if (selectedElement) {
     selectedElement.blur();
     selectedElement.removeAttribute("id");
@@ -469,12 +470,12 @@ function selectElement(elt) {
   deselectElement();
   selectedElement = elt;
   selectedElement.setAttribute("id", "selected");
+  const realElt = document.getElementById(elt.dataset.id);
+  selectRealElement(realElt);
+  toolbars.show(realElt);
 }
 function handleElementFocus(inspectorElement) {
   selectElement(inspectorElement);
-  const realElt = document.getElementById(inspectorElement.dataset.id);
-  selectRealElement(realElt);
-  toolbars.show(realElt);
 }
 var selectedRealElement = void 0;
 function getCurrentRealElement() {
@@ -512,7 +513,8 @@ __export(container_exports, {
   successors: () => successors
 });
 function realElement() {
-  return simpleRealElement("container", "div", getNewID());
+  const id = getNewID();
+  return simpleRealElement("container", "div", id, `\u10D9\u10DD\u10DC\u10E2\u10D4\u10D8\u10DC\u10D4\u10E0\u10D8 (${id})`);
 }
 var predecessors = [];
 var successors = [];
@@ -531,20 +533,21 @@ __export(paragraph_exports, {
 });
 
 // editor/src/quill-manager.ts
-var editors = {};
+var editors = [];
 function registerEditor(elt) {
   let parent = elt.parentElement;
   while (parent.id !== "main-content") {
-    if (editors[parent.id] !== void 0) return;
+    if (editors.includes(parent.id)) return;
     parent = parent.parentElement;
   }
-  editors[elt.id] = "1";
+  editors.push(elt.id);
   elt.contentEditable = "true";
 }
 
 // editor/src/elements/paragraph.ts
 function realElement2() {
-  const res = simpleRealElement("paragraph", "p", getNewID());
+  const id = getNewID();
+  const res = simpleRealElement("paragraph", "p", id, `\u10DE\u10D0\u10E0\u10D0\u10D2\u10E0\u10D0\u10E4\u10D8 (${id})`);
   return res;
 }
 function mounted(elt) {
@@ -568,7 +571,8 @@ __export(formula_exports, {
   successors: () => successors3
 });
 function realElement3() {
-  return simpleRealElement("formula", "span", getNewID());
+  const id = getNewID();
+  return simpleRealElement("formula", "span", id, `\u10E4\u10DD\u10E0\u10DB\u10E3\u10DA\u10D0 (${id})`);
 }
 var predecessors3 = [];
 var successors3 = [];
@@ -586,7 +590,8 @@ __export(text_exports, {
   successors: () => successors4
 });
 function realElement4() {
-  const res = simpleRealElement("text", "span", getNewID());
+  const id = getNewID();
+  const res = simpleRealElement("text", "span", id, `\u10E2\u10D4\u10E5\u10E1\u10E2\u10D8 (${id})`);
   return res;
 }
 function mounted2(elt) {
@@ -610,7 +615,7 @@ function realElement5() {
   const res = document.createElement("input");
   res.type = "text";
   res.id = getNewID();
-  res.dataset.name = `short-text-input-${res.id}`;
+  res.dataset.name = `\u10DB\u10DD\u10D9\u10DA\u10D4 \u10DE\u10D0\u10E1\u10E3\u10EE\u10D8 (${res.id})`;
   res.dataset.type = "short-text-input";
   return res;
 }
@@ -630,7 +635,7 @@ __export(multiple_choice_input_exports, {
 });
 function realElement6() {
   const id = getNewID();
-  return simpleRealElement("multipleChoiceInput", "ol", id, `multipleChoice-${id}`);
+  return simpleRealElement("multipleChoiceInput", "ol", id, `\u10DB\u10E0\u10D0\u10D5\u10D0\u10DA\u10D0\u10E0\u10E9\u10D4\u10D5\u10DC\u10D8\u10D0\u10DC\u10D8 \u10DE\u10D0\u10E1\u10E3\u10EE\u10D8 (${id})`);
 }
 var predecessors6 = [];
 var successors6 = [];
@@ -652,7 +657,7 @@ function realElement7() {
   const res = document.createElement("li");
   res.dataset.type = "multiple-choice-item";
   res.id = getNewID();
-  res.dataset.name = `item-${res.id}`;
+  res.dataset.name = `\u10D0\u10E0\u10E9\u10D4\u10D5\u10D0\u10DC\u10D8 (${res.id})`;
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
   checkbox.id = getNewID();
@@ -676,7 +681,8 @@ __export(sim_exports, {
   successors: () => successors8
 });
 function realElement8() {
-  return simpleRealElement("browserSim", "browser-sim", getNewID());
+  const id = getNewID();
+  return simpleRealElement("browserSim", "browser-sim", id, `\u10D1\u10E0\u10D0\u10E3\u10D6\u10D4\u10E0\u10D8\u10E1 \u10E1\u10D8\u10DB\u10E3\u10DA\u10D0\u10E2\u10DD\u10E0\u10D8 (${id})`);
 }
 var predecessors8 = [];
 var successors8 = [];
@@ -695,7 +701,8 @@ __export(page_exports, {
   successors: () => successors9
 });
 function realElement9() {
-  const res = simpleRealElement("browserPage", "browser-page", getNewID());
+  const id = getNewID();
+  const res = simpleRealElement("browserPage", "browser-page", id, `\u10D2\u10D5\u10D4\u10E0\u10D3\u10D8 (${id})`);
   res.setAttribute("closable", "true");
   return res;
 }
@@ -714,7 +721,8 @@ __export(link_exports, {
   successors: () => successors10
 });
 function realElement10() {
-  return simpleRealElement("browserLink", "browser-link", getNewID());
+  const id = getNewID();
+  return simpleRealElement("browserLink", "browser-link", id, `\u10D1\u10E0\u10D0\u10E3\u10D6\u10D4\u10E0\u10D8\u10E1 \u10DA\u10D8\u10DC\u10D9\u10D8 (${id})`);
 }
 var predecessors10 = [];
 var successors10 = [];

@@ -4,7 +4,7 @@ export function realElement(): HTMLElement {
 	const res = document.createElement('li');
 	res.dataset.type = 'multiple-choice-item';
 	res.id = getNewID();
-	res.dataset.name = `item-${res.id}`;
+	res.dataset.name = `არჩევანი (${res.id})`;
 
 	const checkbox = document.createElement('input');
 	checkbox.type = 'checkbox';

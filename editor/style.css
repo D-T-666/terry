@@ -141,7 +141,7 @@ main {
 		&::after {
 			display: inline;
 			content: attr(data-type);
-			color: #ccc;
+			color: #00000010;
 			float: right;
 		}
 	}
@@ -166,10 +166,10 @@ main {
 
 	&#selected {
 		&::after, & > * :is(summary,span), & .list::after, & .list::before, & span::before {
-			background-color: teal;
+			background-color: cadetblue;
 		}
 		& > :is(summary,span) {
-			border: 1px solid teal;
+			outline: thin solid cadetblue;
 		}
 	}
 }

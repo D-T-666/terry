@@ -177,4 +177,8 @@
 
 .debug #main-content {
 	padding-top: 1.25rem;
+
+	& .selected {
+		outline: thick solid cadetblue;
+	}
 }

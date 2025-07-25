@@ -11,9 +11,9 @@
 		<main class="debug">
 			<div class="pane" id="left-pane">
 				<div id="test-actions">
-					<input type="text" id="test-name" value="unnamed test">
-					<button id="save-test">save</button>
-					<button id="load-test">load</button>
+					<input type="text" id="test-name" value="უსახელო ტესტი">
+					<button id="save-test">შენახვა</button>
+					<button id="load-test">ჩატვირთვა</button>
 				</div>
 
 				<div id="tree-view" class="pane">
@@ -22,7 +22,7 @@
 
 			<div class="pane" id="middle-pane">
 				<div id="page-buttons">
-					page:
+					გვერდი:
 					<button id="add-page">+</button>
 				</div>
 
@@ -32,46 +32,45 @@
 
 			<div id="right-pane" class="pane">
 				<div>
-					toolbar
+					პარამეტრები
 				</div>
 
 				<div class="pane">
 					<div class="toolbar general" id="visibility-range">
-						<label for="general-toolbar-visibility-type">Visible</label>
+						<label for="general-toolbar-visibility-type">ხილვადი</label>
 						<select id="general-toolbar-visibility-type">
-							<option selected="selected">always</option>
-							<option>only</option>
-							<option>range</option>
+							<option selected="selected" value="always">ყოველთვის</option>
+							<option value="only">მხოლოდ</option>
+							<option value="range">მხოლოდ შუალედში</option>
 						</select>
 
-						<label data-if="vi-ty=on" for="general-toolbar-visible-only-on">on page</label>
+						<label data-if="vi-ty=on" for="general-toolbar-visible-only-on">გვერდზე</label>
 						<input data-if="vi-ty=on" type="number" id="general-toolbar-visible-only-on">
 
-						<label data-if="vi-ty=ra">Page range</label>
+						<label data-if="vi-ty=ra">გვერდების შუალედი</label>
 						<span data-if="vi-ty=ra">
 							<span>
-								<input type="number" id="general-toolbar-visible-from">
-								to
-								<input type="number" id="general-toolbar-visible-to">
+								<input type="number" id="general-toolbar-visible-from">-დან
+								<input type="number" id="general-toolbar-visible-to">-მდე
 							</span>
 						</span>
 					</div>
 
 					<div class="toolbar" id="text-toolbar">
-						<label for="text-toolbar-content"> Content </label>
+						<label for="text-toolbar-content"> შიგთავსი </label>
 						<textarea id="text-toolbar-content"></textarea>
 
-						<label for="text-toolbar-color"> Color </label>
+						<label for="text-toolbar-color"> ფერი </label>
 						<select id="text-toolbar-color">
-							<option>black</option>
-							<option>red</option>
-							<option>green</option>
-							<option>blue</option>
-							<option>yellow</option>
-							<option>pink</option>
+							<option value="black">შავი</option>
+							<option value="red">წითელი</option>
+							<option value="green">მწვანე</option>
+							<option value="blue">ლურჯი</option>
+							<option value="yellow">ყვითელი</option>
+							<option value="pink">ვარდისფერი</option>
 						</select>
 
-						<label> Style </label>
+						<label> სტილი </label>
 						<span id="text-style-toolbar-items">
 							<label style="font-weight: bold">
 								B
@@ -97,7 +96,7 @@
 
 
 					<div class="toolbar" id="formula-toolbar">
-						<label for="formula-toolbar-content"> Content </label>
+						<label for="formula-toolbar-content"> შიგთავსი </label>
 						<textarea id="formula-toolbar-content"></textarea>
 					</div>
 
@@ -105,10 +104,10 @@
 
 
 					<div class="toolbar" id="browserLink-toolbar">
-						<label for="browserLink-toolbar-url"> Target URL </label>
+						<label for="browserLink-toolbar-url"> სამიზნე URL </label>
 						<select id="browserLink-toolbar-url"></select>
 
-						<label for="browserLink-toolbar-browser"> Target browser </label>
+						<label for="browserLink-toolbar-browser"> სამიზნე ბრაუზერი </label>
 						<select id="browserLink-toolbar-browser"></select>
 					</div>
 
@@ -116,13 +115,13 @@
 
 
 					<div class="toolbar" id="browserPage-toolbar">
-						<label for="browserPage-toolbar-colosable"> Can be closed </label>
-						<input type="checkbox" id="browserPage-toolbar-closable"> -->
+						<label for="browserPage-toolbar-colosable"> გათიშვადი </label>
+						<input type="checkbox" id="browserPage-toolbar-closable">
 
-						<label for="browserPage-toolbar-title"> Tab name </label>
+						<label for="browserPage-toolbar-title"> გვერდის სახელი </label>
 						<input type="text" id="browserPage-toolbar-title">
 
-						<label for="browserPage-toolbar-url"> URL </label>
+						<label for="browserPage-toolbar-url"> გვერდის URL </label>
 						<input type="text" id="browserPage-toolbar-url">
 					</div>
 
@@ -130,17 +129,17 @@
 
 
 					<div class="toolbar" id="shortTextInput-toolbar">
-						<label for="shortTextInput-width"> Width </label>
-						<span><input type="number" id="shortTextInput-toolbar-width">characters</span>
+						<label for="shortTextInput-width"> წიგანე </label>
+						<span><input type="number" id="shortTextInput-toolbar-width">ასო</span>
 					</div>
 
 
 
 					<div class="toolbar" id="image-toolbar">
-						<label for="image-toolbar-url"> Image URL </label>
+						<label for="image-toolbar-url"> ფოტოს URL </label>
 						<input type="text" id="image-toolbar-url">
 
-						<label for="image-toolbar-width"> Width (%) </label>
+						<label for="image-toolbar-width"> სიგანე (%) </label>
 						<input type="number" min="0" max="100" step="1" id="image-toolbar-width">
 
 						<label for="image-toolbar-float"> Float </label>
@@ -153,11 +152,11 @@
 
 
 					<div class="toolbar" id="table-toolbar">
-						<label for="table-toolbar-style">Style</label>
+						<label for="table-toolbar-style">სტილი</label>
 						<select id="table-toolbar-style">
-							<option value="empty">empty</option>
-							<option value="basic">basic</option>
-							<option value="alternating">alternating</option>
+							<option value="empty">ცარიელი</option>
+							<option value="basic">უბრალო</option>
+							<option value="alternating">ზოლები</option>
 						</select>
 					</div>
 
@@ -170,19 +169,19 @@
 							%
 						</span>
 
-						<label for="paragraph-toolbar-first-line-indent"> First line indent </label>
+						<label for="paragraph-toolbar-first-line-indent"> აბზაცის ზომა </label>
 						<span>
 							<input type="number" min="0" step="1" id="paragraph-toolbar-first-line-indent">
 							%
 						</span>
 
-						<label for="paragraph-toolbar-spacing-above"> Spacing above </label>
+						<label for="paragraph-toolbar-spacing-above"> დაშორება ზემოთ </label>
 						<span>
 							<input type="number" min="0" step="1" id="paragraph-toolbar-spacing-above">
 							rem
 						</span>
 
-						<label for="paragraph-toolbar-spacing-below"> Spacing below </label>
+						<label for="paragraph-toolbar-spacing-below"> დაშორება ქვემოთ </label>
 						<span>
 							<input type="number" min="0" step="1" id="paragraph-toolbar-spacing-below">
 							rem
@@ -193,11 +192,11 @@
 
 
 					<div class="toolbar" id="container-toolbar">
-						<label for="container-toolbar-layout"> Layout </label>
+						<label for="container-toolbar-layout"> განლაგება </label>
 						<select id="container-toolbar-layout">
-							<option>vertical</option>
-							<option>horizontal</option>
-							<option>twoColumnAlternating</option>
+							<option value="vertical">ვერტიკალური</option>
+							<option value="horizontal">ჰორიზონტალური</option>
+							<option value="twoColumnAlternating">ორსვეტოვანი</option>
 						</select>
 
 						<label for="container-toolbar-padding"> Padding </label>
@@ -228,27 +227,27 @@
 
 
 		<div class="menu" id="left-pane-right-click-menu">
-			<button id="rcm-add-child">add child</button>
-			<button id="rcm-add-sibbling">add sibbling above</button>
-			<button id="rcm-copy">copy</button>
-			<button id="rcm-paste-child">paste as child</button>
-			<button id="rcm-paste-above">paste above</button>
-			<button id="rcm-delete">delete</button>
-			<button id="rcm-rename">rename</button>
+			<button id="rcm-add-child">ელემენტის დამატება</button>
+			<button id="rcm-add-sibbling">ელემენტის დამატება ზემოთ</button>
+			<button id="rcm-copy">დაკოპირება</button>
+			<button id="rcm-paste-child">ჩასმა</button>
+			<button id="rcm-paste-above">ჩასმა ზემოთ</button>
+			<button id="rcm-delete">წაშლა</button>
+			<button id="rcm-rename">სახელის შეცვლა</button>
 		</div>
 
 		<div class="menu" id="element-menu">
-			<button disabled id="container">Container</button>
-			<button disabled id="text">Text</button>
-			<button disabled id="formula">Formula</button>
-			<button disabled id="paragraph">Pargaraph</button>
-			<button disabled id="shortTextInput">Short text input</button>
-			<button disabled id="multipleChoiceInput">Multiple choice input</button>
-			<button disabled id="multipleChoiceItem">Item</button>
+			<button disabled id="container">კონტეინერი</button>
+			<button disabled id="text">ტექსტი</button>
+			<button disabled id="formula">ფორმულა</button>
+			<button disabled id="paragraph">პარაგრაფი</button>
+			<button disabled id="shortTextInput">მოკლე პასუხი</button>
+			<button disabled id="multipleChoiceInput">მრავალარჩევნიანი პასუხი</button>
+			<button disabled id="multipleChoiceItem">არჩევანი</button>
 
-			<button disabled id="browserSim">Browser Simulator</button>
-			<button disabled id="browserPage">Browser Page</button>
-			<button disabled id="browserLink">Browser link</button>
+			<button disabled id="browserSim">ბრაუზერის სიმულატორი</button>
+			<button disabled id="browserPage">გვერდი</button>
+			<button disabled id="browserLink">ბრაუზერის ლინკი</button>
 		</div>
 
 		<script src="bundle.js" type="module"></script>
