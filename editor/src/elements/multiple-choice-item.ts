@@ -15,7 +15,4 @@ export function realElement(): HTMLElement {
 	return res;
 }
 
-export const predecessors = [];
-export const successors = [];
-export const parents = [];
-export const children = ["multiple-choice-item"];
+export const parents = ["multipleChoiceInput"];

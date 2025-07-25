@@ -31,6 +31,7 @@ function openMenuWithOptions(menu, options, nextTo) {
       child.disabled = !options.includes(child.id);
     }
   } else {
+    console.error("requested to open a menu with 0 options.");
     for (const child of menus[menu].children) {
       child.disabled = false;
     }
@@ -506,30 +507,19 @@ function simpleRealElement(type, tag, id, name) {
 // editor/src/elements/container.ts
 var container_exports = {};
 __export(container_exports, {
-  children: () => children,
-  parents: () => parents,
-  predecessors: () => predecessors,
-  realElement: () => realElement,
-  successors: () => successors
+  realElement: () => realElement
 });
 function realElement() {
   const id = getNewID();
   return simpleRealElement("container", "div", id, `\u10D9\u10DD\u10DC\u10E2\u10D4\u10D8\u10DC\u10D4\u10E0\u10D8 (${id})`);
 }
-var predecessors = [];
-var successors = [];
-var parents = [];
-var children = [];
 
 // editor/src/elements/paragraph.ts
 var paragraph_exports = {};
 __export(paragraph_exports, {
-  children: () => children2,
+  children: () => children,
   mounted: () => mounted,
-  parents: () => parents2,
-  predecessors: () => predecessors2,
-  realElement: () => realElement2,
-  successors: () => successors2
+  realElement: () => realElement2
 });
 
 // editor/src/quill-manager.ts
@@ -553,10 +543,7 @@ function realElement2() {
 function mounted(elt) {
   registerEditor(elt);
 }
-var predecessors2 = [];
-var successors2 = [];
-var parents2 = [];
-var children2 = [
+var children = [
   "text",
   "formula"
 ];
@@ -564,30 +551,18 @@ var children2 = [
 // editor/src/elements/formula.ts
 var formula_exports = {};
 __export(formula_exports, {
-  children: () => children3,
-  parents: () => parents3,
-  predecessors: () => predecessors3,
-  realElement: () => realElement3,
-  successors: () => successors3
+  realElement: () => realElement3
 });
 function realElement3() {
   const id = getNewID();
   return simpleRealElement("formula", "span", id, `\u10E4\u10DD\u10E0\u10DB\u10E3\u10DA\u10D0 (${id})`);
 }
-var predecessors3 = [];
-var successors3 = [];
-var parents3 = [];
-var children3 = [];
 
 // editor/src/elements/text.ts
 var text_exports = {};
 __export(text_exports, {
-  children: () => children4,
   mounted: () => mounted2,
-  parents: () => parents4,
-  predecessors: () => predecessors4,
-  realElement: () => realElement4,
-  successors: () => successors4
+  realElement: () => realElement4
 });
 function realElement4() {
   const id = getNewID();
@@ -597,19 +572,11 @@ function realElement4() {
 function mounted2(elt) {
   registerEditor(elt);
 }
-var predecessors4 = [];
-var successors4 = [];
-var parents4 = [];
-var children4 = [];
 
 // editor/src/elements/short-text-input.ts
 var short_text_input_exports = {};
 __export(short_text_input_exports, {
-  children: () => children5,
-  parents: () => parents5,
-  predecessors: () => predecessors5,
-  realElement: () => realElement5,
-  successors: () => successors5
+  realElement: () => realElement5
 });
 function realElement5() {
   const res = document.createElement("input");
@@ -619,39 +586,26 @@ function realElement5() {
   res.dataset.type = "short-text-input";
   return res;
 }
-var predecessors5 = [];
-var successors5 = [];
-var parents5 = [];
-var children5 = [];
 
 // editor/src/elements/multiple-choice-input.ts
 var multiple_choice_input_exports = {};
 __export(multiple_choice_input_exports, {
-  children: () => children6,
-  parents: () => parents6,
-  predecessors: () => predecessors6,
-  realElement: () => realElement6,
-  successors: () => successors6
+  children: () => children2,
+  realElement: () => realElement6
 });
 function realElement6() {
   const id = getNewID();
   return simpleRealElement("multipleChoiceInput", "ol", id, `\u10DB\u10E0\u10D0\u10D5\u10D0\u10DA\u10D0\u10E0\u10E9\u10D4\u10D5\u10DC\u10D8\u10D0\u10DC\u10D8 \u10DE\u10D0\u10E1\u10E3\u10EE\u10D8 (${id})`);
 }
-var predecessors6 = [];
-var successors6 = [];
-var parents6 = [];
-var children6 = [
+var children2 = [
   "multipleChoiceItem"
 ];
 
 // editor/src/elements/multiple-choice-item.ts
 var multiple_choice_item_exports = {};
 __export(multiple_choice_item_exports, {
-  children: () => children7,
-  parents: () => parents7,
-  predecessors: () => predecessors7,
-  realElement: () => realElement7,
-  successors: () => successors7
+  parents: () => parents,
+  realElement: () => realElement7
 });
 function realElement7() {
   const res = document.createElement("li");
@@ -664,41 +618,29 @@ function realElement7() {
   res.appendChild(checkbox);
   return res;
 }
-var predecessors7 = [];
-var successors7 = [];
-var parents7 = [];
-var children7 = [
-  "multiple-choice-item"
+var parents = [
+  "multipleChoiceInput"
 ];
 
 // editor/src/elements/browser/sim.ts
 var sim_exports = {};
 __export(sim_exports, {
-  children: () => children8,
-  parents: () => parents8,
-  predecessors: () => predecessors8,
-  realElement: () => realElement8,
-  successors: () => successors8
+  children: () => children3,
+  realElement: () => realElement8
 });
 function realElement8() {
   const id = getNewID();
   return simpleRealElement("browserSim", "browser-sim", id, `\u10D1\u10E0\u10D0\u10E3\u10D6\u10D4\u10E0\u10D8\u10E1 \u10E1\u10D8\u10DB\u10E3\u10DA\u10D0\u10E2\u10DD\u10E0\u10D8 (${id})`);
 }
-var predecessors8 = [];
-var successors8 = [];
-var parents8 = [];
-var children8 = [
+var children3 = [
   "browserPage"
 ];
 
 // editor/src/elements/browser/page.ts
 var page_exports = {};
 __export(page_exports, {
-  children: () => children9,
-  parents: () => parents9,
-  predecessors: () => predecessors9,
-  realElement: () => realElement9,
-  successors: () => successors9
+  parents: () => parents2,
+  realElement: () => realElement9
 });
 function realElement9() {
   const id = getNewID();
@@ -706,28 +648,21 @@ function realElement9() {
   res.setAttribute("closable", "true");
   return res;
 }
-var predecessors9 = [];
-var successors9 = [];
-var parents9 = [];
-var children9 = [];
+var parents2 = [
+  "browserSim"
+];
 
 // editor/src/elements/browser/link.ts
 var link_exports = {};
 __export(link_exports, {
-  children: () => children10,
-  parents: () => parents10,
-  predecessors: () => predecessors10,
-  realElement: () => realElement10,
-  successors: () => successors10
+  children: () => children4,
+  realElement: () => realElement10
 });
 function realElement10() {
   const id = getNewID();
   return simpleRealElement("browserLink", "browser-link", id, `\u10D1\u10E0\u10D0\u10E3\u10D6\u10D4\u10E0\u10D8\u10E1 \u10DA\u10D8\u10DC\u10D9\u10D8 (${id})`);
 }
-var predecessors10 = [];
-var successors10 = [];
-var parents10 = [];
-var children10 = [
+var children4 = [
   "text",
   "image"
 ];
@@ -737,27 +672,27 @@ function realToInspector(elt) {
   const type = elt.dataset.type;
   const id = elt.id;
   const name = elt.dataset.name;
-  const children11 = [];
+  const children5 = [];
   for (const child of elt.children) {
     const childNode = realToInspector(child);
     if (childNode) {
       if (childNode instanceof HTMLElement) {
-        children11.push(childNode);
+        children5.push(childNode);
       } else {
-        children11.push(...childNode);
+        children5.push(...childNode);
       }
     }
   }
   if (type !== void 0) {
     const resDiv = document.createElement("div");
-    resDiv.innerHTML = children11.length === 0 ? `<div class="list" tabindex="0" data-id="${id}" data-type="${type}"><span data-type="${type}">${name}</span></div>` : `<details open class="list" tabindex="0" data-id="${id}" data-type="${type}"><summary data-type="${type}">${name}</summary></details>`;
+    resDiv.innerHTML = children5.length === 0 ? `<div class="list" tabindex="0" data-id="${id}" data-type="${type}"><span data-type="${type}">${name}</span></div>` : `<details open class="list" tabindex="0" data-id="${id}" data-type="${type}"><summary data-type="${type}">${name}</summary></details>`;
     const res = resDiv.firstChild;
-    for (const child of children11) {
+    for (const child of children5) {
       res.appendChild(child);
     }
     return res;
   } else {
-    return children11;
+    return children5;
   }
 }
 var types = {
@@ -823,6 +758,23 @@ var types = {
   }
 };
 console.log(types);
+function availableElements(parent) {
+  const res = [];
+  for (const type of Object.keys(types)) {
+    let valid = true;
+    if (types[parent.dataset.type].children !== void 0) {
+      valid &&= types[parent.dataset.type].children.includes(type);
+    }
+    if (types[type].parents !== void 0) {
+      valid &&= types[type].parents.includes(parent.dataset.type);
+    }
+    if (valid) {
+      res.push(type);
+    }
+  }
+  console.log(res);
+  return res;
+}
 
 // editor/src/grading.ts
 var extractors = {
@@ -963,13 +915,11 @@ function initialize2() {
   }, true);
   document.getElementById("rcm-add-child").addEventListener("click", (e) => {
     activeAction = addAChild;
-    const options = types[getCurrentElement().dataset.type].children;
-    openMenuWithOptions(Menu.element, options, e.target);
+    openMenuWithOptions(Menu.element, availableElements(getCurrentElement()), e.target);
   }, false);
   document.getElementById("rcm-add-sibbling").addEventListener("click", (e) => {
     activeAction = addASibbling;
-    const options = types[getCurrentElement().parentElement.dataset.type].children;
-    openMenuWithOptions(Menu.element, options, e.target);
+    openMenuWithOptions(Menu.element, availableElements(getCurrentElement().parentElement), e.target);
   }, false);
   document.getElementById("rcm-copy").addEventListener("click", (e) => {
     let dataId = getCurrentElement().dataset.id;

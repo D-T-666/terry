@@ -1,7 +1,7 @@
 import { hideMenus, Menu, openMenuWithOptions } from './src/menus.ts';
 import { mainContent, treeView } from './src/panels.ts';
 import { cloneUnique, deselectElement, getCurrentElement, getCurrentRealElement, getNewID, handleElementFocus, selectElement } from './src/element-manager.ts';
-import { realToInspector, types } from './src/elements.ts';
+import { availableElements, realToInspector, types } from './src/elements.ts';
 import { addPage } from './src/pages.ts';
 import './src/files.ts';
 
@@ -61,14 +61,12 @@ function initialize() {
 
 	document.getElementById("rcm-add-child")!.addEventListener("click", (e) => {
 		activeAction = addAChild;
-		const options = types[getCurrentElement()!.dataset.type! as string].children;
-		openMenuWithOptions(Menu.element, options, e.target as HTMLElement);
+		openMenuWithOptions(Menu.element, availableElements(getCurrentElement()!), e.target as HTMLElement);
 	}, false);
 
 	document.getElementById("rcm-add-sibbling")!.addEventListener("click", (e) => {
 		activeAction = addASibbling;
-		const options = types[getCurrentElement()!.parentElement!.dataset.type!].children;
-		openMenuWithOptions(Menu.element, options, e.target as HTMLElement);
+		openMenuWithOptions(Menu.element, availableElements(getCurrentElement()!.parentElement!), e.target as HTMLElement);
 	}, false);
 
 	document.getElementById("rcm-copy")!.addEventListener("click", (e) => {

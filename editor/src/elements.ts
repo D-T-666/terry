@@ -52,7 +52,7 @@ import * as browserLink from "./elements/browser/link.ts";
 interface TerryElement {
 	realElement: () => HTMLElement;
 	mounted?: (elt: HTMLElement) => void;
-	children: string[];
+	children?: string[];
 	successors?: string[];
 	parents?: string[];
 	predecessors?: string[];
@@ -101,5 +101,28 @@ export const types: {[name: string]: TerryElement} = {
 	},
 };
 console.log(types);
+
+export function availableElements(parent: HTMLElement): string[] {
+	const res = [];
+
+	for (const type of Object.keys(types)) {
+		let valid = true;
+
+		if (types[parent.dataset.type!].children !== undefined) {
+			valid &&= types[parent.dataset.type!].children!.includes(type);
+		}
+
+		if (types[type].parents !== undefined) {
+			valid &&= types[type].parents!.includes(parent.dataset.type!);
+		}
+
+		if (valid) {
+			res.push(type);
+		}
+	}
+
+	console.log(res);
+	return res;
+}
 
 // function addNewElement(type, parentElement, sibblingElement) {}

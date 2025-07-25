@@ -13,7 +13,4 @@ export function mounted(elt: HTMLElement) {
 	registerEditor(elt);
 }
 
-export const predecessors = [];
-export const successors = [];
-export const parents = [];
 export const children = ['text', 'formula'];

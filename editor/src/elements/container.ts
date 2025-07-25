@@ -5,8 +5,3 @@ export function realElement(): HTMLElement {
 	const id = getNewID();
 	return simpleRealElement("container", "div", id, `კონტეინერი (${id})`);
 }
-
-export const predecessors = [];
-export const successors = [];
-export const parents = [];
-export const children = [];

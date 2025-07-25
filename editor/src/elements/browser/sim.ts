@@ -6,7 +6,4 @@ export function realElement(): HTMLElement {
 	return simpleRealElement("browserSim", "browser-sim", id, `ბრაუზერის სიმულატორი (${id})`);
 }
 
-export const predecessors = [];
-export const successors = [];
-export const parents = [];
 export const children = ["browserPage"];

@@ -27,6 +27,7 @@ export function openMenuWithOptions(menu: Menu, options: string[], nextTo: HTMLE
 			(child as HTMLButtonElement).disabled = !options.includes(child.id);
 		}
 	} else {
+		console.error("requested to open a menu with 0 options.")
 		for (const child of menus[menu].children) {
 			(child as HTMLButtonElement).disabled = false;
 		}

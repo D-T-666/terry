@@ -6,7 +6,4 @@ export function realElement(): HTMLElement {
 	return simpleRealElement("browserLink", "browser-link", id, `ბრაუზერის ლინკი (${id})`);
 }
 
-export const predecessors = [];
-export const successors = [];
-export const parents = [];
 export const children = ["text", "image"];
