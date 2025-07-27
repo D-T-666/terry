@@ -1,12 +1,22 @@
+const menuCount = 3;
 export enum Menu {
 	rightClick,
-	element
+	element,
+	preset
 };
 
 const menus: HTMLElement[] = [
 	document.getElementById("left-pane-right-click-menu")!,
-	document.getElementById("element-menu")!
+	document.getElementById("element-menu")!,
+	document.getElementById("preset-menu")!,
 ];
+
+const heirarchy: {[child: number]: Menu} = {
+	[Menu.element]: Menu.rightClick,
+	[Menu.preset]: Menu.rightClick
+};
+
+let current: Menu | undefined = undefined;
 
 export function hideMenus() {
 	for (const menu of menus) {
@@ -17,8 +27,9 @@ export function hideMenus() {
 export function openMenu(menu: Menu, nextTo: HTMLElement) {
 	const rect = nextTo.getBoundingClientRect();
 	menus[menu].style.top = `${rect.top}px`;
-	menus[menu].style.left = `${rect.right + 2}px`;
+	menus[menu].style.left = `calc(${rect.right}px + 0.25rem)`;
 	menus[menu].style.visibility = "visible";
+	current = menu;
 }
 
 export function openMenuWithOptions(menu: Menu, options: string[], nextTo: HTMLElement) {
@@ -36,8 +47,30 @@ export function openMenuWithOptions(menu: Menu, options: string[], nextTo: HTMLE
 }
 
 document.addEventListener("click", function (e) {
-	if (!menus[Menu.rightClick].contains(e.target as Node | null)) {
-		menus[Menu.rightClick].style.visibility = "hidden";
-		menus[Menu.element].style.visibility = "hidden";
+	const keep = [];
+
+	let c = current;
+
+	while (c !== undefined) {
+		keep.push(c);
+		c = heirarchy[c];
+	}
+
+	let clickedMenu = undefined;
+	for (let menu = 0; menu < menuCount; menu++) {
+		if (menus[menu].contains(e.target as Node)) {
+			clickedMenu = menu;
+			break;
+		}
+	}
+
+	while (keep.length > 0 && keep[keep.length - 1] !== clickedMenu) {
+		keep.pop();
+	}
+
+	for (let menu = 0; menu < menuCount; menu++) {
+		if (!keep.includes(menu)) {
+			menus[menu].style.visibility = "hidden";
+		}
 	}
 });

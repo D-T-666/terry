@@ -53,9 +53,7 @@ interface TerryElement {
 	realElement: () => HTMLElement;
 	mounted?: (elt: HTMLElement) => void;
 	children?: string[];
-	successors?: string[];
 	parents?: string[];
-	predecessors?: string[];
 }
 
 export const types: {[name: string]: TerryElement} = {

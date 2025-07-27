@@ -4,6 +4,7 @@ import { cloneUnique, deselectElement, getCurrentElement, getCurrentRealElement,
 import { availableElements, realToInspector, types } from './src/elements.ts';
 import { addPage } from './src/pages.ts';
 import './src/files.ts';
+import { availablePresets, presets } from "./src/presets/index.ts";
 
 let activeAction: undefined | ((elt: HTMLElement, type: string) => void) = undefined;
 let copyBuffer: undefined | HTMLElement = undefined;
@@ -13,7 +14,7 @@ function initialize() {
 
 	const elt = types[type].realElement();
 	mainContent.appendChild(elt);
-	treeView.appendChild(realToInspector(elt));
+	treeView.appendChild(realToInspector(elt) as Node);
 
 	// To prevent single clicks from folding the elements
 	let shouldToggle = false;
@@ -34,14 +35,20 @@ function initialize() {
 		if (etarget.classList.contains("list"))
 			selectElement(etarget);
 		else if (etarget.parentElement!.classList.contains("list"))
-		selectElement(etarget.parentElement!);
+			selectElement(etarget.parentElement!);
 		else
 			return;
 		e.stopPropagation();
-		const options = ['rcm-add-child', 'rcm-add-sibbling', 'rcm-copy', 'rcm-delete', 'rcm-rename'];
+		const options = ['rcm-add-child', 'rcm-add-preset', 'rcm-copy', 'rcm-delete', 'rcm-rename'];
+		if (etarget.parentElement!.parentElement!.parentElement!.classList.contains("list") || etarget.parentElement!.parentElement!.classList.contains("list")) {
+			options.push('rcm-add-sibbling');
+		}
 		if (copyBuffer !== undefined) {
-			options.push('rcm-paste-child')
-			options.push('rcm-paste-above')
+			options.push('rcm-paste-child');
+
+			if (etarget.parentElement?.classList.contains("list")) {
+				options.push('rcm-paste-above');
+			}
 		}
 		openMenuWithOptions(Menu.rightClick, options, etarget);
 	}, true);
@@ -69,6 +76,11 @@ function initialize() {
 		openMenuWithOptions(Menu.element, availableElements(getCurrentElement()!.parentElement!), e.target as HTMLElement);
 	}, false);
 
+	document.getElementById("rcm-add-preset")!.addEventListener("click", (e) => {
+		activeAction = addAPreset;
+		openMenuWithOptions(Menu.preset, availablePresets(), e.target as HTMLElement);
+	}, false);
+
 	document.getElementById("rcm-copy")!.addEventListener("click", (e) => {
 		let dataId = getCurrentElement()!.dataset.id!;
 		copyBuffer = document.getElementById(dataId)!;
@@ -78,7 +90,7 @@ function initialize() {
 	document.getElementById("rcm-paste-child")!.addEventListener("click", (e) => {
 		const elt = cloneUnique(copyBuffer!);
 		getCurrentRealElement()!.appendChild(elt);
-		getCurrentElement()!.parentElement!.replaceChild(realToInspector(getCurrentRealElement()!), getCurrentElement()!);
+		getCurrentElement()!.parentElement!.replaceChild(realToInspector(getCurrentRealElement()!) as Node, getCurrentElement()!);
 		hideMenus();
 	}, false);
 
@@ -86,8 +98,8 @@ function initialize() {
 		const elt = cloneUnique(copyBuffer!);
 		getCurrentRealElement()!.parentElement!.insertBefore(elt, getCurrentRealElement()!);
 		const parentInspectorElement = realToInspector(getCurrentRealElement()!.parentElement!);
-		getCurrentElement()!.parentElement!.parentElement!.replaceChild(parentInspectorElement, getCurrentElement()!.parentElement!);
-		hideMenus()
+		getCurrentElement()!.parentElement!.parentElement!.replaceChild(parentInspectorElement as Node, getCurrentElement()!.parentElement!);
+		hideMenus();
 	}, false);
 
 	document.getElementById("rcm-delete")!.addEventListener("click", (e) => {
@@ -133,9 +145,21 @@ function initialize() {
 	for (const type of Object.keys(types)) {
 		const elt = document.getElementById(type);
 		if (elt) {
-			elt.addEventListener("click", (e) => {
-				activeAction!(getCurrentElement(), type);
+			elt.addEventListener("click", () => {
+				activeAction!(getCurrentElement()!, type);
 				deselectElement();
+				hideMenus();
+			});
+		}
+	}
+
+	for (const preset of Object.keys(presets)) {
+		const elt = document.getElementById(preset);
+		if (elt) {
+			elt.addEventListener("click", () => {
+				activeAction!(getCurrentElement()!, preset);
+				deselectElement();
+				hideMenus();
 			});
 		}
 	}
@@ -143,12 +167,6 @@ function initialize() {
 	addPage();
 }
 initialize();
-
-function createElementFromHTML(htmlString) {
-	const div = document.createElement('div');
-	div.innerHTML = htmlString.trim();
-	return div.firstChild;
-}
 
 function addAChild(target: HTMLElement, type: string) {
 	const parentId = target.dataset.id!;
@@ -161,7 +179,7 @@ function addAChild(target: HTMLElement, type: string) {
 	if (types[type].mounted)
 		types[type].mounted(elt_real);
 
-	target.parentElement!.replaceChild(realToInspector(parentElement_real), target);
+	target.parentElement!.replaceChild(realToInspector(parentElement_real) as Node, target);
 }
 
 function addASibbling(target: HTMLElement, type: string) {
@@ -176,5 +194,19 @@ function addASibbling(target: HTMLElement, type: string) {
 	if (types[type].mounted)
 		types[type].mounted(elt_real);
 
-	target.parentElement!.insertBefore(realToInspector(elt_real), target);
+	target.parentElement!.insertBefore(realToInspector(elt_real) as Node, target);
+}
+
+function addAPreset(target: HTMLElement, preset: string) {
+	const parentId = target.dataset.id!;
+	const parentElement_real = document.getElementById(parentId)!;
+
+	const elt_real = presets[preset].realElement();
+
+	parentElement_real.appendChild(elt_real);
+
+	if (presets[preset].mounted)
+		presets[preset].mounted(elt_real);
+
+	target.parentElement!.replaceChild(realToInspector(parentElement_real) as Node, target);
 }

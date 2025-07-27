@@ -4,8 +4,6 @@
 		<link rel="stylesheet" href="style.css">
 		<link rel="stylesheet" href="/player.css">
 		<meta charset="utf8">
-		<link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.bubble.css" rel="stylesheet" />
-
 	</head>
 	 <body>
 		<main class="debug">
@@ -229,6 +227,7 @@
 		<div class="menu" id="left-pane-right-click-menu">
 			<button id="rcm-add-child">ელემენტის დამატება</button>
 			<button id="rcm-add-sibbling">ელემენტის დამატება ზემოთ</button>
+			<button id="rcm-add-preset">კომპლექტის დამატება</button>
 			<button id="rcm-copy">დაკოპირება</button>
 			<button id="rcm-paste-child">ჩასმა</button>
 			<button id="rcm-paste-above">ჩასმა ზემოთ</button>
@@ -248,6 +247,11 @@
 			<button disabled id="browserSim">ბრაუზერის სიმულატორი</button>
 			<button disabled id="browserPage">გვერდი</button>
 			<button disabled id="browserLink">ბრაუზერის ლინკი</button>
+		</div>
+
+		<div class="menu" id="preset-menu">
+			<button disabled id="shortTextQuestion">მოკლე პასუხიანი კითხვა</button>
+			<button disabled id="multipleChoiceQuestion">multiple choice კითხვა</button>
 		</div>
 
 		<script src="bundle.js" type="module"></script>

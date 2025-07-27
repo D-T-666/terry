@@ -5,15 +5,23 @@ var __export = (target, all) => {
 };
 
 // editor/src/menus.ts
+var menuCount = 3;
 var Menu = /* @__PURE__ */ function(Menu2) {
   Menu2[Menu2["rightClick"] = 0] = "rightClick";
   Menu2[Menu2["element"] = 1] = "element";
+  Menu2[Menu2["preset"] = 2] = "preset";
   return Menu2;
 }({});
 var menus = [
   document.getElementById("left-pane-right-click-menu"),
-  document.getElementById("element-menu")
+  document.getElementById("element-menu"),
+  document.getElementById("preset-menu")
 ];
+var heirarchy = {
+  [Menu.element]: Menu.rightClick,
+  [Menu.preset]: Menu.rightClick
+};
+var current = void 0;
 function hideMenus() {
   for (const menu of menus) {
     menu.style.visibility = "hidden";
@@ -22,8 +30,9 @@ function hideMenus() {
 function openMenu(menu, nextTo) {
   const rect = nextTo.getBoundingClientRect();
   menus[menu].style.top = `${rect.top}px`;
-  menus[menu].style.left = `${rect.right + 2}px`;
+  menus[menu].style.left = `calc(${rect.right}px + 0.25rem)`;
   menus[menu].style.visibility = "visible";
+  current = menu;
 }
 function openMenuWithOptions(menu, options, nextTo) {
   if (options.length > 0) {
@@ -39,9 +48,26 @@ function openMenuWithOptions(menu, options, nextTo) {
   openMenu(menu, nextTo);
 }
 document.addEventListener("click", function(e) {
-  if (!menus[Menu.rightClick].contains(e.target)) {
-    menus[Menu.rightClick].style.visibility = "hidden";
-    menus[Menu.element].style.visibility = "hidden";
+  const keep = [];
+  let c = current;
+  while (c !== void 0) {
+    keep.push(c);
+    c = heirarchy[c];
+  }
+  let clickedMenu = void 0;
+  for (let menu = 0; menu < menuCount; menu++) {
+    if (menus[menu].contains(e.target)) {
+      clickedMenu = menu;
+      break;
+    }
+  }
+  while (keep.length > 0 && keep[keep.length - 1] !== clickedMenu) {
+    keep.pop();
+  }
+  for (let menu = 0; menu < menuCount; menu++) {
+    if (!keep.includes(menu)) {
+      menus[menu].style.visibility = "hidden";
+    }
   }
 });
 
@@ -53,7 +79,7 @@ var rightPane = document.getElementById("right-pane");
 // editor/src/pages.ts
 var pageButtonsDiv = document.getElementById("page-buttons");
 var addPageButton = document.getElementById("add-page");
-var current = 0;
+var current2 = 0;
 var total = 0;
 var pageElements = [];
 function addPage() {
@@ -74,7 +100,7 @@ function addPage() {
   mainContent.firstElementChild.dataset.pages = String(total);
 }
 function hidePage() {
-  for (const elt of pageElements[current]) {
+  for (const elt of pageElements[current2]) {
     elt.classList.remove("current");
   }
 }
@@ -83,8 +109,8 @@ function showPage(i) {
     return;
   }
   hidePage();
-  current = i;
-  for (const elt of pageElements[current]) {
+  current2 = i;
+  for (const elt of pageElements[current2]) {
     elt.classList.add("current");
   }
 }
@@ -133,7 +159,7 @@ function trackElementOnly(elt, i, untrackFirst = true) {
   if (!pageElements[i].includes(elt)) {
     pageElements[i].push(elt);
   }
-  if (i === current) {
+  if (i === current2) {
     showPage(i);
   }
 }
@@ -672,27 +698,27 @@ function realToInspector(elt) {
   const type = elt.dataset.type;
   const id = elt.id;
   const name = elt.dataset.name;
-  const children5 = [];
+  const children7 = [];
   for (const child of elt.children) {
     const childNode = realToInspector(child);
     if (childNode) {
       if (childNode instanceof HTMLElement) {
-        children5.push(childNode);
+        children7.push(childNode);
       } else {
-        children5.push(...childNode);
+        children7.push(...childNode);
       }
     }
   }
   if (type !== void 0) {
     const resDiv = document.createElement("div");
-    resDiv.innerHTML = children5.length === 0 ? `<div class="list" tabindex="0" data-id="${id}" data-type="${type}"><span data-type="${type}">${name}</span></div>` : `<details open class="list" tabindex="0" data-id="${id}" data-type="${type}"><summary data-type="${type}">${name}</summary></details>`;
+    resDiv.innerHTML = children7.length === 0 ? `<div class="list" tabindex="0" data-id="${id}" data-type="${type}"><span data-type="${type}">${name}</span></div>` : `<details open class="list" tabindex="0" data-id="${id}" data-type="${type}"><summary data-type="${type}">${name}</summary></details>`;
     const res = resDiv.firstChild;
-    for (const child of children5) {
+    for (const child of children7) {
       res.appendChild(child);
     }
     return res;
   } else {
-    return children5;
+    return children7;
   }
 }
 var types = {
@@ -867,6 +893,65 @@ document.getElementById("save-test").addEventListener("click", (e) => {
   testManager.export();
 });
 
+// editor/src/presets/short-text-question.ts
+var short_text_question_exports = {};
+__export(short_text_question_exports, {
+  children: () => children5,
+  mounted: () => mounted3,
+  realElement: () => realElement11
+});
+function realElement11() {
+  const res = realElement();
+  res.appendChild(realElement2());
+  res.appendChild(realElement5());
+  return res;
+}
+function mounted3(elt) {
+  registerEditor(elt);
+}
+var children5 = [
+  "text",
+  "formula"
+];
+
+// editor/src/presets/multiple-choice-question.ts
+var multiple_choice_question_exports = {};
+__export(multiple_choice_question_exports, {
+  children: () => children6,
+  mounted: () => mounted4,
+  realElement: () => realElement12
+});
+function realElement12() {
+  const res = realElement();
+  res.appendChild(realElement2());
+  const input = realElement6();
+  input.appendChild(realElement7());
+  input.appendChild(realElement7());
+  input.appendChild(realElement7());
+  res.appendChild(input);
+  return res;
+}
+function mounted4(elt) {
+  registerEditor(elt);
+}
+var children6 = [
+  "text",
+  "formula"
+];
+
+// editor/src/presets/index.ts
+var presets = {
+  shortTextQuestion: short_text_question_exports,
+  multipleChoiceQuestion: multiple_choice_question_exports
+};
+function availablePresets() {
+  const res = [];
+  for (const key of Object.keys(presets)) {
+    res.push(key);
+  }
+  return res;
+}
+
 // editor/script.ts
 var activeAction = void 0;
 var copyBuffer = void 0;
@@ -895,14 +980,19 @@ function initialize2() {
     e.stopPropagation();
     const options = [
       "rcm-add-child",
-      "rcm-add-sibbling",
+      "rcm-add-preset",
       "rcm-copy",
       "rcm-delete",
       "rcm-rename"
     ];
+    if (etarget.parentElement.parentElement.parentElement.classList.contains("list") || etarget.parentElement.parentElement.classList.contains("list")) {
+      options.push("rcm-add-sibbling");
+    }
     if (copyBuffer !== void 0) {
       options.push("rcm-paste-child");
-      options.push("rcm-paste-above");
+      if (etarget.parentElement?.classList.contains("list")) {
+        options.push("rcm-paste-above");
+      }
     }
     openMenuWithOptions(Menu.rightClick, options, etarget);
   }, true);
@@ -920,6 +1010,10 @@ function initialize2() {
   document.getElementById("rcm-add-sibbling").addEventListener("click", (e) => {
     activeAction = addASibbling;
     openMenuWithOptions(Menu.element, availableElements(getCurrentElement().parentElement), e.target);
+  }, false);
+  document.getElementById("rcm-add-preset").addEventListener("click", (e) => {
+    activeAction = addAPreset;
+    openMenuWithOptions(Menu.preset, availablePresets(), e.target);
   }, false);
   document.getElementById("rcm-copy").addEventListener("click", (e) => {
     let dataId = getCurrentElement().dataset.id;
@@ -977,9 +1071,20 @@ function initialize2() {
   for (const type2 of Object.keys(types)) {
     const elt2 = document.getElementById(type2);
     if (elt2) {
-      elt2.addEventListener("click", (e) => {
+      elt2.addEventListener("click", () => {
         activeAction(getCurrentElement(), type2);
         deselectElement();
+        hideMenus();
+      });
+    }
+  }
+  for (const preset of Object.keys(presets)) {
+    const elt2 = document.getElementById(preset);
+    if (elt2) {
+      elt2.addEventListener("click", () => {
+        activeAction(getCurrentElement(), preset);
+        deselectElement();
+        hideMenus();
       });
     }
   }
@@ -1002,4 +1107,12 @@ function addASibbling(target, type) {
   parentElement.insertBefore(elt_real, siblingElement);
   if (types[type].mounted) types[type].mounted(elt_real);
   target.parentElement.insertBefore(realToInspector(elt_real), target);
+}
+function addAPreset(target, preset) {
+  const parentId = target.dataset.id;
+  const parentElement_real = document.getElementById(parentId);
+  const elt_real = presets[preset].realElement();
+  parentElement_real.appendChild(elt_real);
+  if (presets[preset].mounted) presets[preset].mounted(elt_real);
+  target.parentElement.replaceChild(realToInspector(parentElement_real), target);
 }
