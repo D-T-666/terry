@@ -45,12 +45,14 @@ import * as text from "./elements/text.ts";
 import * as shortTextInput from "./elements/short-text-input.ts";
 import * as multipleChoiceInput from "./elements/multiple-choice-input.ts";
 import * as multipleChoiceItem from "./elements/multiple-choice-item.ts";
+import * as singleChoiceInput from "./elements/single-choice-input.ts";
+import * as singleChoiceItem from "./elements/single-choice-item.ts";
 import * as browserSim from "./elements/browser/sim.ts";
 import * as browserPage from "./elements/browser/page.ts";
 import * as browserLink from "./elements/browser/link.ts";
 
 interface TerryElement {
-	realElement: () => HTMLElement;
+	realElement: (parentID?: string) => HTMLElement;
 	mounted?: (elt: HTMLElement) => void;
 	children?: string[];
 	parents?: string[];
@@ -58,7 +60,7 @@ interface TerryElement {
 
 export const types: {[name: string]: TerryElement} = {
 	container, paragraph, formula, text, shortTextInput, multipleChoiceInput, multipleChoiceItem,
-	browserSim, browserPage, browserLink,
+	singleChoiceInput, singleChoiceItem, browserSim, browserPage, browserLink,
 	table: {
 		children: ["table-body", "table-head", "table-foot"],
 		realElement() {

@@ -7,9 +7,12 @@ type TerryPresset = {
 
 import * as shortTextQuestion from "./short-text-question.ts";
 import * as multipleChoiceQuestion from "./multiple-choice-question.ts";
+import * as singleChoiceQuestion from "./single-choice-question.ts";
 
 export const presets: {[name: string]: TerryPresset} = {
-	shortTextQuestion, multipleChoiceQuestion
+	shortTextQuestion,
+	multipleChoiceQuestion,
+	singleChoiceQuestion
 };
 
 export function availablePresets() {

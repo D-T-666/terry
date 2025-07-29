@@ -1,4 +1,3 @@
-import { registerEditor } from "../quill-manager.ts";
 import * as container from "../elements/container.ts";
 import * as multipleChoiceInput from "../elements/multiple-choice-input.ts";
 import * as multipleChoiceItem from "../elements/multiple-choice-item.ts";
@@ -16,9 +15,3 @@ export function realElement(): HTMLElement {
 
 	return res;
 }
-
-export function mounted(elt: HTMLElement) {
-	registerEditor(elt);
-}
-
-export const children = ['text', 'formula'];

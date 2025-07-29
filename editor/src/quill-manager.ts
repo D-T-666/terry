@@ -11,4 +11,5 @@ export function registerEditor(elt: HTMLElement) {
 	editors.push(elt.id);
 
 	elt.contentEditable = 'true';
+	console.log(`making ${elt} contenteditable;`)
 }

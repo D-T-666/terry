@@ -25,7 +25,7 @@ const testManager = {
 		const elt = mainContent.cloneNode(true) as HTMLElement;
 		removeDynamicAttributes(elt)
 
-		const html = elt.innerHTML!.trim().replaceAll(/[\s\t][\s\t]+/g, '');//.replaceAll(' contenteditable="true"', '');
+		const html = elt.innerHTML!.trim().replaceAll(/[\s\t][\s\t]+/g, '').replaceAll(' contenteditable="true"', '');
 
 		const gradingScheme = getCurrentScheme();
 
@@ -40,13 +40,13 @@ const testManager = {
 
 		mainContent.innerHTML = content!;
 
-		// // Make spans and paragraphs contenteditable
-		// for (const paragraph of mainContent.getElementsByTagName('p')) {
-		// 	paragraph.contentEditable = 'true';
-		// }
-		// for (const span of mainContent.getElementsByTagName('span')) {
-		// 	span.contentEditable = 'true';
-		// }
+		// Make spans and paragraphs contenteditable
+		for (const paragraph of mainContent.getElementsByTagName('p')) {
+			paragraph.contentEditable = 'true';
+		}
+		for (const span of mainContent.getElementsByTagName('span')) {
+			span.contentEditable = 'true';
+		}
 
 		registerID(mainContent.firstChild as HTMLElement);
 

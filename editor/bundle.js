@@ -558,6 +558,7 @@ function registerEditor(elt) {
   }
   editors.push(elt.id);
   elt.contentEditable = "true";
+  console.log(`making ${elt} contenteditable;`);
 }
 
 // editor/src/elements/paragraph.ts
@@ -635,7 +636,7 @@ __export(multiple_choice_item_exports, {
 });
 function realElement7() {
   const res = document.createElement("li");
-  res.dataset.type = "multiple-choice-item";
+  res.dataset.type = "multipleChoiceItem";
   res.id = getNewID();
   res.dataset.name = `\u10D0\u10E0\u10E9\u10D4\u10D5\u10D0\u10DC\u10D8 (${res.id})`;
   const checkbox = document.createElement("input");
@@ -648,47 +649,83 @@ var parents = [
   "multipleChoiceInput"
 ];
 
-// editor/src/elements/browser/sim.ts
-var sim_exports = {};
-__export(sim_exports, {
+// editor/src/elements/single-choice-input.ts
+var single_choice_input_exports = {};
+__export(single_choice_input_exports, {
   children: () => children3,
   realElement: () => realElement8
 });
 function realElement8() {
   const id = getNewID();
-  return simpleRealElement("browserSim", "browser-sim", id, `\u10D1\u10E0\u10D0\u10E3\u10D6\u10D4\u10E0\u10D8\u10E1 \u10E1\u10D8\u10DB\u10E3\u10DA\u10D0\u10E2\u10DD\u10E0\u10D8 (${id})`);
+  return simpleRealElement("singleChoiceInput", "ol", id, `\u10D4\u10E0\u10D7\u10D0\u10E0\u10E9\u10D4\u10D5\u10DC\u10D8\u10D0\u10DC\u10D8 \u10DE\u10D0\u10E1\u10E3\u10EE\u10D8 (${id})`);
 }
 var children3 = [
+  "singleChoiceItem"
+];
+
+// editor/src/elements/single-choice-item.ts
+var single_choice_item_exports = {};
+__export(single_choice_item_exports, {
+  parents: () => parents2,
+  realElement: () => realElement9
+});
+function realElement9(parentID) {
+  const res = document.createElement("li");
+  res.dataset.type = "singleChoiceItem";
+  res.id = getNewID();
+  res.dataset.name = `\u10D0\u10E0\u10E9\u10D4\u10D5\u10D0\u10DC\u10D8 (${res.id})`;
+  const radio = document.createElement("input");
+  radio.type = "radio";
+  radio.id = getNewID();
+  radio.name = parentID;
+  res.appendChild(radio);
+  return res;
+}
+var parents2 = [
+  "singleChoiceInput"
+];
+
+// editor/src/elements/browser/sim.ts
+var sim_exports = {};
+__export(sim_exports, {
+  children: () => children4,
+  realElement: () => realElement10
+});
+function realElement10() {
+  const id = getNewID();
+  return simpleRealElement("browserSim", "browser-sim", id, `\u10D1\u10E0\u10D0\u10E3\u10D6\u10D4\u10E0\u10D8\u10E1 \u10E1\u10D8\u10DB\u10E3\u10DA\u10D0\u10E2\u10DD\u10E0\u10D8 (${id})`);
+}
+var children4 = [
   "browserPage"
 ];
 
 // editor/src/elements/browser/page.ts
 var page_exports = {};
 __export(page_exports, {
-  parents: () => parents2,
-  realElement: () => realElement9
+  parents: () => parents3,
+  realElement: () => realElement11
 });
-function realElement9() {
+function realElement11() {
   const id = getNewID();
   const res = simpleRealElement("browserPage", "browser-page", id, `\u10D2\u10D5\u10D4\u10E0\u10D3\u10D8 (${id})`);
   res.setAttribute("closable", "true");
   return res;
 }
-var parents2 = [
+var parents3 = [
   "browserSim"
 ];
 
 // editor/src/elements/browser/link.ts
 var link_exports = {};
 __export(link_exports, {
-  children: () => children4,
-  realElement: () => realElement10
+  children: () => children5,
+  realElement: () => realElement12
 });
-function realElement10() {
+function realElement12() {
   const id = getNewID();
   return simpleRealElement("browserLink", "browser-link", id, `\u10D1\u10E0\u10D0\u10E3\u10D6\u10D4\u10E0\u10D8\u10E1 \u10DA\u10D8\u10DC\u10D9\u10D8 (${id})`);
 }
-var children4 = [
+var children5 = [
   "text",
   "image"
 ];
@@ -698,27 +735,27 @@ function realToInspector(elt) {
   const type = elt.dataset.type;
   const id = elt.id;
   const name = elt.dataset.name;
-  const children7 = [];
+  const children6 = [];
   for (const child of elt.children) {
     const childNode = realToInspector(child);
     if (childNode) {
       if (childNode instanceof HTMLElement) {
-        children7.push(childNode);
+        children6.push(childNode);
       } else {
-        children7.push(...childNode);
+        children6.push(...childNode);
       }
     }
   }
   if (type !== void 0) {
     const resDiv = document.createElement("div");
-    resDiv.innerHTML = children7.length === 0 ? `<div class="list" tabindex="0" data-id="${id}" data-type="${type}"><span data-type="${type}">${name}</span></div>` : `<details open class="list" tabindex="0" data-id="${id}" data-type="${type}"><summary data-type="${type}">${name}</summary></details>`;
+    resDiv.innerHTML = children6.length === 0 ? `<div class="list" tabindex="0" data-id="${id}" data-type="${type}"><span data-type="${type}">${name}</span></div>` : `<details open class="list" tabindex="0" data-id="${id}" data-type="${type}"><summary data-type="${type}">${name}</summary></details>`;
     const res = resDiv.firstChild;
-    for (const child of children7) {
+    for (const child of children6) {
       res.appendChild(child);
     }
     return res;
   } else {
-    return children7;
+    return children6;
   }
 }
 var types = {
@@ -729,6 +766,8 @@ var types = {
   shortTextInput: short_text_input_exports,
   multipleChoiceInput: multiple_choice_input_exports,
   multipleChoiceItem: multiple_choice_item_exports,
+  singleChoiceInput: single_choice_input_exports,
+  singleChoiceItem: single_choice_item_exports,
   browserSim: sim_exports,
   browserPage: page_exports,
   browserLink: link_exports,
@@ -859,7 +898,7 @@ var testManager = {
     };
     const elt = mainContent.cloneNode(true);
     removeDynamicAttributes(elt);
-    const html = elt.innerHTML.trim().replaceAll(/[\s\t][\s\t]+/g, "");
+    const html = elt.innerHTML.trim().replaceAll(/[\s\t][\s\t]+/g, "").replaceAll(' contenteditable="true"', "");
     const gradingScheme = getCurrentScheme();
     localStorage.setItem("test", JSON.stringify({
       html,
@@ -875,6 +914,12 @@ var testManager = {
     content = obj.html;
     gradingScheme = obj.gradingScheme;
     mainContent.innerHTML = content;
+    for (const paragraph of mainContent.getElementsByTagName("p")) {
+      paragraph.contentEditable = "true";
+    }
+    for (const span of mainContent.getElementsByTagName("span")) {
+      span.contentEditable = "true";
+    }
     registerID(mainContent.firstChild);
     for (const id of Object.keys(gradingScheme)) {
       document.getElementById(id).value = gradingScheme[id].correct;
@@ -896,32 +941,21 @@ document.getElementById("save-test").addEventListener("click", (e) => {
 // editor/src/presets/short-text-question.ts
 var short_text_question_exports = {};
 __export(short_text_question_exports, {
-  children: () => children5,
-  mounted: () => mounted3,
-  realElement: () => realElement11
+  realElement: () => realElement13
 });
-function realElement11() {
+function realElement13() {
   const res = realElement();
   res.appendChild(realElement2());
   res.appendChild(realElement5());
   return res;
 }
-function mounted3(elt) {
-  registerEditor(elt);
-}
-var children5 = [
-  "text",
-  "formula"
-];
 
 // editor/src/presets/multiple-choice-question.ts
 var multiple_choice_question_exports = {};
 __export(multiple_choice_question_exports, {
-  children: () => children6,
-  mounted: () => mounted4,
-  realElement: () => realElement12
+  realElement: () => realElement14
 });
-function realElement12() {
+function realElement14() {
   const res = realElement();
   res.appendChild(realElement2());
   const input = realElement6();
@@ -931,18 +965,35 @@ function realElement12() {
   res.appendChild(input);
   return res;
 }
-function mounted4(elt) {
-  registerEditor(elt);
+
+// editor/src/presets/single-choice-question.ts
+var single_choice_question_exports = {};
+__export(single_choice_question_exports, {
+  realElement: () => realElement15
+});
+function item(parentId) {
+  const res = realElement9(parentId);
+  const t = realElement4();
+  res.append(t);
+  t.innerText = " abc ";
+  return res;
 }
-var children6 = [
-  "text",
-  "formula"
-];
+function realElement15() {
+  const res = realElement();
+  res.appendChild(realElement2());
+  const input = realElement8();
+  input.appendChild(item(input.id));
+  input.appendChild(item(input.id));
+  input.appendChild(item(input.id));
+  res.appendChild(input);
+  return res;
+}
 
 // editor/src/presets/index.ts
 var presets = {
   shortTextQuestion: short_text_question_exports,
-  multipleChoiceQuestion: multiple_choice_question_exports
+  multipleChoiceQuestion: multiple_choice_question_exports,
+  singleChoiceQuestion: single_choice_question_exports
 };
 function availablePresets() {
   const res = [];
@@ -1094,18 +1145,19 @@ initialize2();
 function addAChild(target, type) {
   const parentId = target.dataset.id;
   const parentElement_real = document.getElementById(parentId);
-  const elt_real = types[type].realElement();
+  const elt_real = types[type].realElement(parentId);
   parentElement_real.appendChild(elt_real);
-  if (types[type].mounted) types[type].mounted(elt_real);
+  if (types[type].mounted !== void 0) types[type].mounted(elt_real);
   target.parentElement.replaceChild(realToInspector(parentElement_real), target);
 }
 function addASibbling(target, type) {
   const siblingId = target.dataset.id;
   const siblingElement = document.getElementById(siblingId);
   const parentElement = siblingElement.parentElement;
-  const elt_real = types[type].realElement();
+  const parentId = target.parentElement.id;
+  const elt_real = types[type].realElement(parentId);
   parentElement.insertBefore(elt_real, siblingElement);
-  if (types[type].mounted) types[type].mounted(elt_real);
+  if (types[type].mounted !== void 0) types[type].mounted(elt_real);
   target.parentElement.insertBefore(realToInspector(elt_real), target);
 }
 function addAPreset(target, preset) {
@@ -1113,6 +1165,6 @@ function addAPreset(target, preset) {
   const parentElement_real = document.getElementById(parentId);
   const elt_real = presets[preset].realElement();
   parentElement_real.appendChild(elt_real);
-  if (presets[preset].mounted) presets[preset].mounted(elt_real);
+  if (presets[preset].mounted !== void 0) presets[preset].mounted(elt_real);
   target.parentElement.replaceChild(realToInspector(parentElement_real), target);
 }

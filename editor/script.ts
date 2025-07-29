@@ -172,11 +172,11 @@ function addAChild(target: HTMLElement, type: string) {
 	const parentId = target.dataset.id!;
 	const parentElement_real = document.getElementById(parentId)!;
 
-	const elt_real = types[type].realElement();
+	const elt_real = types[type].realElement(parentId);
 
 	parentElement_real.appendChild(elt_real);
 
-	if (types[type].mounted)
+	if (types[type].mounted !== undefined)
 		types[type].mounted(elt_real);
 
 	target.parentElement!.replaceChild(realToInspector(parentElement_real) as Node, target);
@@ -186,12 +186,13 @@ function addASibbling(target: HTMLElement, type: string) {
 	const siblingId = target.dataset.id!;
 	const siblingElement = document.getElementById(siblingId)!;
 	const parentElement = siblingElement.parentElement!;
+	const parentId = target.parentElement!.id;
 
-	const elt_real = types[type].realElement();
+	const elt_real = types[type].realElement(parentId);
 
 	parentElement.insertBefore(elt_real, siblingElement);
 
-	if (types[type].mounted)
+	if (types[type].mounted !== undefined)
 		types[type].mounted(elt_real);
 
 	target.parentElement!.insertBefore(realToInspector(elt_real) as Node, target);
@@ -205,7 +206,7 @@ function addAPreset(target: HTMLElement, preset: string) {
 
 	parentElement_real.appendChild(elt_real);
 
-	if (presets[preset].mounted)
+	if (presets[preset].mounted !== undefined)
 		presets[preset].mounted(elt_real);
 
 	target.parentElement!.replaceChild(realToInspector(parentElement_real) as Node, target);
