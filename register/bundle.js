@@ -1,2 +1,1 @@
 var s="https://eko.dimitri.ge/api";function t(e){return fetch(`${s}/auth/register`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(e)})}var r=document.getElementById("register"),a=document.getElementById("username"),i=document.getElementById("password"),c=document.getElementById("role");r.addEventListener("click",async e=>{e.preventDefault();let n={username:a.value,password:i.value,role:c.value},o=await t(n);console.log(o)});
-//# sourceMappingURL=bundle.js.map
