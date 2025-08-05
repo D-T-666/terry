@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-		<link rel="stylesheet" href="styles.css" />
+		<link rel="stylesheet" href="bundle.css" />
 	</head>
 	<body>
 		<header>
@@ -16,61 +16,21 @@
 		</main>
 
 		<dialog id="test-details" closedby="any">
-			<div class="actions">
-				<button id="close-test-details">დაბრუნება</button>
-			</div>
-			<div class="filters">
-				<label for="სახელი">სახელი</label>
-				<input id="სახელი" type="text" placeholder="ტესტის სახელი">
+			<h4>სახელი</h4>
+			<input id="სახელი" type="text" placeholder="ტესტის სახელი">
 
-				<label for="საფეხური">საფეხური</label>
-				<select id="საფეხური">
-					<option selected="selected" disabled hidden></option>
-					<option>დაწყებითი</option>
-					<option>საბაზისო</option>
-					<option>საშუალო</option>
-				</select>
+			<h4>ფილტრები</h4>
+			<attribute-selector id="attributes"></attribute-selector>
 
-				<label for="კვლევა">კვლევა</label>
-				<select id="კვლევა">
-					<option selected="selected" disabled hidden></option>
-					<option>PISA</option>
-					<option>TIMSS</option>
-					<option>PIRLS</option>
-				</select>
-
-				<label for="საგანი">საგანი</label>
-				<select id="საგანი">
-					<option selected="selected" disabled hidden></option>
-					<option>მათემატიკა</option>
-				</select>
-
-				<label for="კლასი">კლასი</label>
-				<select id="კლასი">
-					<option selected="selected" disabled hidden></option>
-				</select>
-
-				<label for="ენა">ენა</label>
-				<select id="ენა">
-					<option selected="selected" disabled hidden></option>
-					<option>ქართული</option>
-				</select>
-
-				<label for="ხილვადობა">ხილვადობა</label>
-				<select id="ხილვადობა">
-					<option selected="selected" disabled hidden></option>
-					<option>საჯარო</option>
-					<option>შეზღუდული</option>
-					<option>დამალული</option>
-				</select>
-			</div>
-			<div contenteditable="true" id="აღწერა"></div>
+			<h4>აღწერა</h4>
+			<textarea id="აღწერა"></textarea>
 			<div class="actions">
 				<button id="open-test-editor">შიგთავსის რედაქტირება</button>
 				<button id="save-test-details">შენახვა</button>
+				<button id="close-test-details">დაბრუნება</button>
 			</div>
 		</dialog>
 
-		<script src="script.js" type="module"></script>
+		<script src="bundle.js" type="module"></script>
 	</body>
 </html>

@@ -1,0 +1,3 @@
+[submodule "attribute-selector"]
+	path = util/attribute-selector
+	url = git@github.com:D-T-666/attribute-selector.git

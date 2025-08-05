@@ -3,22 +3,25 @@ import * as page from "./pages.ts"
 import { getCurrentScheme } from "./grading.ts";
 import { realToInspector } from "./elements.ts";
 import { registerID } from "./element-manager.ts";
+import { loadFIle, storeFile } from "../../scripts/file-manager.ts";
+
+const nameElement = document.getElementById("test-name") as HTMLInputElement;
 
 const testManager = {
 	testName: undefined,
 	// Returns an object containing the HTML as a string,
 	// and the grading scheme (correct answers) as a string
-	addInteraction(id) {
-	},
+	// addInteraction(id) {
+	// },
 	export() {
-		const removeDynamicAttributes = (e) => {
+		const removeDynamicAttributes = (e: HTMLElement) => {
 			e.classList.remove("current");
 			if (e.className === "") {
 				e.removeAttribute("class")
 			}
 
 			for (const c of e.children) {
-				removeDynamicAttributes(c);
+				removeDynamicAttributes(c as HTMLElement);
 			}
 		};
 
@@ -31,12 +34,14 @@ const testManager = {
 
 		localStorage.setItem("test", JSON.stringify({html, gradingScheme}));
 
-		return {html, gradingScheme};
+		const name = nameElement.value;
+
+		return {content: html, name, description: "", tags: {}, gradingScheme};
 	},
-	load({ content, gradingScheme }: { content?: string, gradingScheme?: any }) {
-		const obj = JSON.parse(window.localStorage.getItem("test")!);
-		content = obj.html;
-		gradingScheme = obj.gradingScheme;
+	load({ content, gradingScheme }: { content: string, gradingScheme: any }) {
+		if (gradingScheme === undefined || gradingScheme === null) {
+			gradingScheme = {};
+		}
 
 		mainContent.innerHTML = content!;
 
@@ -55,17 +60,17 @@ const testManager = {
 			(document.getElementById(id)! as HTMLInputElement).value = gradingScheme[id].correct;
 		}
 		treeView.innerHTML = "";
-		treeView.appendChild(realToInspector(mainContent.firstElementChild as HTMLElement));
+		treeView.appendChild(realToInspector(mainContent.firstElementChild as HTMLElement) as HTMLElement);
 		page.importElement(mainContent.firstElementChild as HTMLElement);
-	},
-	changeName(newName) {
 	},
 };
 
 document.getElementById("load-test")!.addEventListener("click", (e) => {
-	testManager.load({})
+	testManager.load(loadFIle())
 })
 
 document.getElementById("save-test")!.addEventListener("click", (e) => {
-	testManager.export()
+	storeFile(testManager.export())
 })
+
+testManager.load(loadFIle())

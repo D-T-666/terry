@@ -1,5 +1,6 @@
 import pages from "./modules/pages.js";
 import api from "./modules/api.js";
+import "./browser-sim.ts";
 
 const mainContent = document.getElementById("main-content");
 const pageControls = document.getElementById("page-controls");
@@ -9,7 +10,7 @@ const id = 4;
 
 const test = api.getTest(id);
 
-mainContent.innerHTML = test.html;
+mainContent.innerHTML = test.content;
 
 pages.init({
 	total: mainContent.firstChild.dataset.pages,

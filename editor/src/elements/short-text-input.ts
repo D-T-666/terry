@@ -5,7 +5,7 @@ export function realElement(): HTMLElement {
 	res.type = 'text';
 	res.id = getNewID();
 	res.dataset.name = `მოკლე პასუხი (${res.id})`;
-	res.dataset.type = 'short-text-input';
+	res.dataset.type = 'shortTextInput';
 
 	return res;
 }

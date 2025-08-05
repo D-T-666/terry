@@ -1,2 +1,12 @@
 {
+	"tasks": {
+		"dev-editor": "deno bundle editor/script.ts -o editor/bundle.js --platform browser --minify --watch --sourcemap",
+		"dev-browse": "deno bundle editor/script.ts -o editor/bundle.js --platform browser --minify --watch --sourcemap",
+		"dev-login": "deno bundle editor/script.ts -o editor/bundle.js --platform browser --minify --watch --sourcemap",
+		"dev-register": "deno bundle editor/script.ts -o editor/bundle.js --platform browser --minify --watch --sourcemap",
+		"prod-editor": "deno bundle editor/script.ts -o editor/bundle.js --platform browser --minify",
+		"prod-browse": "deno bundle editor/script.ts -o editor/bundle.js --platform browser --minify",
+		"prod-login": "deno bundle editor/script.ts -o editor/bundle.js --platform browser --minify",
+		"prod-register": "deno bundle editor/script.ts -o editor/bundle.js --platform browser --minify"
+	}
 }

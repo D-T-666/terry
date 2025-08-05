@@ -10,12 +10,6 @@ let activeAction: undefined | ((elt: HTMLElement, type: string) => void) = undef
 let copyBuffer: undefined | HTMLElement = undefined;
 
 function initialize() {
-	const type = "container";
-
-	const elt = types[type].realElement();
-	mainContent.appendChild(elt);
-	treeView.appendChild(realToInspector(elt) as Node);
-
 	// To prevent single clicks from folding the elements
 	let shouldToggle = false;
 	treeView.addEventListener("click", (e) => {
