@@ -1,6 +1,8 @@
 import pages from "./modules/pages.js";
 import api from "./modules/api.js";
-import "./browser-sim.ts";
+import "../util/browser-sim/browser-sim.js";
+import "./styles.css";
+import "../player.css";
 
 const mainContent = document.getElementById("main-content");
 const pageControls = document.getElementById("page-controls");

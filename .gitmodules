@@ -1,3 +1,6 @@
 [submodule "attribute-selector"]
 	path = util/attribute-selector
 	url = git@github.com:D-T-666/attribute-selector.git
+[submodule "browser-sim"]
+	path = util/browser-sim
+	url = git@github.com:D-T-666/tiny-browser-simulator.git
