@@ -2,18 +2,62 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<link rel="stylesheet" href="styles.css">
+		<link rel="stylesheet" href="/styles.css">
+		<link rel="stylesheet" href="./styles.css">
 	</head>
 	<body>
 		<main>
-			<form class="login-form">
-				<label for="username">მომხმარებლის სახელი:</label>
-				<input type="text" id="username" name="username" required>
-				<label for="password">პაროლი:</label>
-				<input type="password" id="password" name="password" required>
-				<button type="submit" id="login">შესვლა</button>
-			</form>
+			<section id="part-1" class="overlay">
+				<div id="logo">
+					<img src="/assets/logo.svg" id="windmill">
+					<img src="/assets/sio-logo.webp" id="logo-img">
+				</div>
+
+				<form id="login-form">
+					<input type="email" id="email" name="email" placeholder="ელ. ფოსტა" required>
+
+					<input type="password" id="password" name="password" placeholder="პაროლი" required>
+
+					<a href="#">პაროლი დამავიწყდა</a>
+
+					<label><input type="checkbox" id="remember-me">დამიმახსოვრე</label>
+
+					<button type="submit" id="login">შესვლა</button>
+
+					<div class="alt">
+						არ ხართ დარეგისტრირებული? <a href="#">რეგისტრაცია</a>
+					</div>
+				</form>
+
+				<div id="about">
+					<div>
+						<h1>სწავლების ინოვაციური ოთახი</h1>
+						<p>
+							2025 წელს საგანმანათლებლო კვლევების ეროვნულმა ცენტრმა სკოლების
+							მხარდამჭერი პროექტის ფარგლებში შექმნილი ონლაინ პლატფორმა
+							შესთავაზა საქართველოს ყველა სკოლას.
+						</p>
+						<button>
+							დაწვრილებით
+						</button>
+					</div>
+				</div>
+			</section>
+
+			<section id="newsletter-section">
+				<form id="newsletter-form">
+					<h2>სიახლეების გამოწერა</h2>
+					<p>იყავით ინფორმირებული ჩვენს ახალ ...</p>
+					<input type="email" placeholder="ელ. ფოსტა">
+					<input type="submit" value="დადასტურება">
+				</form>
+			</section>
 		</main>
+
+		<footer>
+			©2025 საგანმანათლებლო კვლევების ეროვნული ცენტრი
+		</footer>
+
 
 		<script src="bundle.js" type="module"></script>
 	</body>

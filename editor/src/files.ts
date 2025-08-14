@@ -3,9 +3,13 @@ import * as page from "./pages.ts"
 import { getCurrentScheme } from "./grading.ts";
 import { realToInspector } from "./elements.ts";
 import { registerID } from "./element-manager.ts";
-import { loadFIle, storeFile } from "../../scripts/file-manager.ts";
+import { loadFile, storeFile } from "../../scripts/file-manager.ts";
 
 const nameElement = document.getElementById("test-name") as HTMLInputElement;
+
+const paramsString = window.location.search;
+const searchParams = new URLSearchParams(paramsString);
+const currentTestId = searchParams.get("id");
 
 const testManager = {
 	testName: undefined,
@@ -38,8 +42,9 @@ const testManager = {
 
 		return {content: html, name, description: "", tags: {}, gradingScheme};
 	},
-	load({ content, gradingScheme }: { content: string, gradingScheme: any }) {
-		if (gradingScheme === undefined || gradingScheme === null) {
+	load({ content, gradingScheme }: { content: string, gradingScheme?: any }) {
+		console.log(content)
+		if (!gradingScheme) {
 			gradingScheme = {};
 		}
 
@@ -65,12 +70,12 @@ const testManager = {
 	},
 };
 
-document.getElementById("load-test")!.addEventListener("click", (e) => {
-	testManager.load(loadFIle())
-})
-
 document.getElementById("save-test")!.addEventListener("click", (e) => {
 	storeFile(testManager.export())
 })
 
-testManager.load(loadFIle())
+
+async function initialize() {
+	testManager.load(await loadFile(currentTestId as string | undefined));
+}
+initialize();

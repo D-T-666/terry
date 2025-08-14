@@ -1,39 +1,46 @@
+import { getTestContent, updateTest } from "./api.ts";
+
 type TestFile = {
-	id?: string;
-	name: string;
-	description: string;
-	tags: {[category: string]: string[]};
-	content: string;
-	gradingScheme: any;
+  content: string;
+  gradingScheme?: {[key: string]: any};
 };
 
 let currentFile: TestFile | undefined = undefined;
 
-export function storeFile(file: TestFile) {
-	currentFile = file;
+export async function storeFile(file: TestFile, id?: string) {
+  currentFile = file;
 
-	// TODO: hook this up to the API
-	localStorage.setItem(
-		"currentFile",
-		JSON.stringify(file)
-	);
+  localStorage.setItem(
+	    "currentFile",
+	    JSON.stringify(file),
+	  );
+
+  if (id !== undefined) {
+		await updateTest(id, file);
+  }
 }
 
-export function loadFIle(id?: string): TestFile {
-	// TODO: hook this up to the API
+export async function loadFile(id?: string): Promise<TestFile> {
+  // TODO: hook this up to the API
+  if (id !== undefined) {
+  	try {
+	 		currentFile = await getTestContent(id)
+			return currentFile;
+   	} catch (e) {
+    	//
+     	console.log(e);
+    }
+  }
 
-	const lsi = localStorage.getItem("currentFile");
-	if (lsi !== undefined && lsi !== null) {
-		currentFile = JSON.parse(lsi!) as TestFile;
-	} else {
-		currentFile = {
-			name: "ახალი ტესტი",
-			description: "აღწერა",
-			tags: {},
-			content: '<div data-type="container" data-name="მთავარი კონტეინერი" id="0"></div>',
-			gradingScheme: {}
-		};
-	}
+  const lsi = localStorage.getItem("currentFile"); // local storage item / locally stored item
+  if (lsi !== undefined && lsi !== null) {
+    currentFile = JSON.parse(lsi!) as TestFile;
+  } else {
+    currentFile = {
+      content:
+        '<div data-type="container" data-name="მთავარი კონტეინერი" id="0" data-pages="1"></div>'
+    };
+  }
 
-	return currentFile!;
+  return currentFile!;
 }

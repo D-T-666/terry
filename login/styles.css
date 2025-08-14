@@ -1,21 +1,160 @@
-body {
-	& main {
-		& form {
-			margin: auto;
-			width: 30rem;
-			margin-top: 40%;
-			display: flex;
-			flex-direction: column;
-			gap: 0.25rem;
-			padding: 1rem;
-			border: 1px solid gray;
-			border-radius: 0.5rem;
+html, body {
+	margin: 0;
+}
 
-			& label {
-				input + & {
-					margin-top: 0.5rem;
-				}
-			}
+#login-form {
+	margin: auto;
+	width: 16rem;
+	/*position: absolute;*/
+	/*top: 5rem;*/
+	/*left: calc(40% - 20rem / 2);*/
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	padding: 6rem 1rem;
+	border: 1px solid gray;
+	border-radius: 0.5rem;
+	height: 30rem;
+
+	& label {
+		input + & {
+			margin-top: 0.5rem;
 		}
 	}
+
+	background-color: #444c;
+	color: white;
+	box-sizing: border-box;
+
+	& input {
+		color: black;
+		padding: 0.25rem 0.5rem;
+	}
+
+	& button {
+		padding: 0.5rem;
+		background-color: white;
+		border: none;
+		border-radius: 0.25rem;
+	}
+
+	& a {
+		color: var(--accent);
+	}
+
+	& > a {
+		align-self: flex-end;
+	}
+
+	& .alt {
+		margin-top: 4rem;
+	}
+}
+
+#part-1 {
+	display: grid;
+	width: 100%;
+	grid-template-columns: 2fr auto 3fr;
+	position: relative;
+
+	&::before {
+		content: "";
+		position: absolute;
+		background-color: #eeeeee;
+		display: block;
+		height: 100%;
+		width: 40%;
+		z-index: -10;
+	}
+
+	&::after {
+		content: "";
+		position: absolute;
+		background: white;
+	  background-image: radial-gradient(black 1px, transparent 0);
+	  background-size: 1.5rem 1.5rem;
+	  background-position: -19px -19px;
+		opacity: 0.33;
+		right: 0;
+		display: block;
+		height: 100%;
+		width: 60%;
+		z-index: -10;
+	}
+}
+
+#overlay {
+	position: absolute;
+	top: 0;
+}
+
+#logo {
+	position: relative;
+	justify-self: center;
+	max-width: 20rem;
+	width: 80%;
+}
+
+#logo-img {
+	width: 100%;
+	position: absolute;
+	top: 5%;
+	left: 5%;
+}
+
+#windmill {
+	position: absolute;
+	width: 100%;
+  animation: spinner 30s linear infinite;
+}
+@keyframes spinner {
+  to { transform: rotate(360deg); }
+}
+
+#about {
+	padding: 10rem 2rem 10rem 5rem;
+
+	& > div {
+		max-width: 30rem;
+	}
+
+	& button {
+		float: right;
+		background-color: white;
+		border: 1px solid black;
+		border-radius: 0.25rem;
+		padding: 0.5rem;
+	}
+}
+
+#newsletter-section {
+	background-color: var(--accent);
+	padding-top: 2rem;
+	padding-bottom: 4rem;
+}
+
+#newsletter-form {
+	max-width: 60rem;
+	margin: auto;
+	& input {
+		padding: 0.5rem 1rem;
+		font-size: 1rem;
+		background-color: white;
+		border: 1px solid #0002;
+		border-radius: 0.25rem;
+	}
+}
+
+footer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+	height: 3rem;
+	background-color: gray;
+	background-image: radial-gradient(#0003 1px, transparent 0);
+	background-size: 1rem 1rem;
+	background-position: -0.25rem -0.25rem;
+	color: white;
+	font-size: 11pt;
 }

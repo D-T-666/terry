@@ -1,6 +1,7 @@
 import { renderTestListing } from "./modules/elements.ts";
 import { openTestDetails } from "./modules/test-details.ts";
 import { loadTests } from "./modules/data.ts";
+import { createNewTest } from "../scripts/api.ts";
 import { AttributeSelectorElement } from "../util/attribute-selector/main.ts";
 import "../util/attribute-selector/main.ts";
 
@@ -20,6 +21,14 @@ list.addEventListener("click", (event) => {
     console.log(id);
     openTestDetails(id);
   }
+});
+
+const newTestButton = document.getElementById("new-test") as HTMLButtonElement;
+newTestButton.addEventListener("click", async () => {
+	const res = await createNewTest();
+	if (!res.ok) {
+		console.error("Unauthorized request to create a test");
+	}
 });
 
 async function initialize() {

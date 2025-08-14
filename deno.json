@@ -5,10 +5,7 @@
 		"dev-login": "deno bundle login/script.ts -o login/bundle.js --platform browser --minify --watch --sourcemap",
 		"dev-register": "deno bundle register/script.ts -o register/bundle.js --platform browser --minify --watch --sourcemap",
 		"dev-player": "deno bundle player/script.ts -o player/bundle.js --platform browser --minify --watch --sourcemap",
-		"prod-editor": "deno bundle editor/script.ts -o editor/bundle.js --platform browser --minify",
-		"prod-browse": "deno bundle browse/script.ts -o browse/bundle.js --platform browser --minify",
-		"prod-login": "deno bundle login/script.ts -o login/bundle.js --platform browser --minify",
-		"prod-register": "deno bundle register/script.ts -o register/bundle.js --platform browser --minify",
-		"prod-player": "deno bundle player/script.ts -o player/bundle.js --platform browser --minify"
+		"prod": "deno bundle editor/script.ts -o editor/bundle.js --platform browser --minify ; deno bundle browse/script.ts -o browse/bundle.js --platform browser --minify ; deno bundle login/script.ts -o login/bundle.js --platform browser --minify ; deno bundle register/script.ts -o register/bundle.js --platform browser --minify ; deno bundle player/script.ts -o player/bundle.js --platform browser --minify",
+		"serve": "deno run -A npm:serve"
 	}
 }

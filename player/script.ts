@@ -1,22 +1,25 @@
-import pages from "./modules/pages.js";
-import api from "./modules/api.js";
+import pages from "./modules/pages.ts";
+import { getTestContent } from "../scripts/api.ts";
 import "../util/browser-sim/browser-sim.js";
 import "./styles.css";
 import "../player.css";
 
-const mainContent = document.getElementById("main-content");
-const pageControls = document.getElementById("page-controls");
+const mainContent = document.getElementById("main-content")!;
+const pageControls = document.getElementById("page-controls")!;
 
-// TODO:
-const id = 4;
+const paramsString = window.location.search;
+const searchParams = new URLSearchParams(paramsString);
+const currentTestId = searchParams.get("id");
 
-const test = api.getTest(id);
+if (currentTestId !== undefined) {
+	const test = await getTestContent(currentTestId!);
 
-mainContent.innerHTML = test.content;
+	mainContent.innerHTML = test.content;
 
-pages.init({
-	total: mainContent.firstChild.dataset.pages,
-	container: pageControls
-});
-pages.registerElement(mainContent.firstElementChild);
-pages.showPage(0);
+	pages.init({
+		total: (mainContent.firstChild as HTMLElement).dataset.pages,
+		container: pageControls
+	});
+	pages.registerElement(mainContent.firstElementChild);
+	pages.showPage(0);
+}

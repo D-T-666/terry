@@ -1,5 +1,5 @@
-import { loadTests } from '../../scripts/mock-api.js';
-export { loadTests } from '../../scripts/mock-api.js';
+import { loadTests } from '../../scripts/api.ts';
+export { loadTests } from '../../scripts/api.ts';
 
 let tests: any = null;
 export async function getTestWithId(id: string) {

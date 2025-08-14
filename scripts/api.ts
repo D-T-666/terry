@@ -1,37 +1,67 @@
-const api = "https://eko.dimitri.ge/api";
+import { getAuthHeaders } from "./auth.ts";
 
-const authHeaders = {
-	"Authorization": ""
+export const apiURL = "https://eko.dimitri.ge/api";
+
+type TestData = {
+	name?: string,
+	description?: string,
+	gradingScheme?: any,
+	content?: string,
+	tags?: {[category: string]: string[]}
 };
 
-export async function loadTests() {
-	const response = await fetch(`${api}/test/list`, {
-		headers: authHeaders,
+export async function loadTests(): Promise<TestData[]> {
+  const response = await fetch(`${apiURL}/test/list`, {
+    headers: getAuthHeaders(),
+  });
+
+  if (!response.ok) {
+  	console.log(response.statusText);
+	  return [];
+  }
+
+  const json = await response.json();
+
+  return json["tests"];
+}
+
+export function createNewTest(): Promise<Response> {
+  return fetch(`${apiURL}/test`, {
+	  method: "POST",
+    headers: getAuthHeaders(),
+  });
+}
+
+export async function getTestContent(id: string): Promise<{content: string, gradingScheme?: any}> {
+	const response = await fetch(`${apiURL}/test/${id}`, {
+		headers: getAuthHeaders()
+	});
+
+	if (!response.ok) {
+		throw new Error(response.statusText);
+	}
+
+	const json = await response.json();
+
+	return json;
+}
+
+export async function getTestGradingScheme(id: string) {
+	const response = await fetch(`${apiURL}/test/${id}`, {
+		headers: getAuthHeaders()
 	});
 
 	const json = await response.json();
 
-	return json['tests'];
+	return json;
 }
 
-export type Role = "admin" | "teacher" | "student";
-
-export function register(data: {username: string, password: string, role: Role}): Promise<Response> {
-	return fetch(`${api}/auth/register`, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json"
-		},
-		body: JSON.stringify(data)
-	});
-}
-
-
-export function login(data: {username: string, password: string}): Promise<Response> {
-	return fetch(`${api}/auth/login`, {
-		method: "POST",
+export function updateTest(id: string, data: TestData) {
+	return fetch(`${apiURL}/test/${id}`, {
+		method: "PUT",
 		headers: {
 			"Content-Type": "application/json",
+			...getAuthHeaders()
 		},
 		body: JSON.stringify(data)
 	});

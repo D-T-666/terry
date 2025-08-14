@@ -13,17 +13,21 @@
 
 		<main>
 			<div id="list"></div>
+
+			<center>
+				<button id="new-test">+</button>
+			</center>
 		</main>
 
 		<dialog id="test-details" closedby="any">
 			<h4>სახელი</h4>
-			<input id="სახელი" type="text" placeholder="ტესტის სახელი">
+			<input id="title" type="text" placeholder="ტესტის სახელი">
 
 			<h4>ფილტრები</h4>
 			<attribute-selector id="attributes"></attribute-selector>
 
 			<h4>აღწერა</h4>
-			<textarea id="აღწერა"></textarea>
+			<textarea id="description"></textarea>
 			<div class="actions">
 				<button id="open-test-editor">შიგთავსის რედაქტირება</button>
 				<button id="save-test-details">შენახვა</button>

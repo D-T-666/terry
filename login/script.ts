@@ -1,8 +1,8 @@
-import { login } from "../scripts/api.ts";
+import { login } from "../scripts/auth.ts";
 
 const loginButton = document.getElementById("login") as HTMLButtonElement;
 
-const usernameInput = document.getElementById("username") as HTMLInputElement;
+const usernameInput = document.getElementById("email") as HTMLInputElement;
 const passwordInput = document.getElementById("password") as HTMLInputElement;
 
 loginButton.addEventListener("click", async (e) => {

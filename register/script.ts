@@ -1,4 +1,4 @@
-import { register, type Role } from "../scripts/api.ts";
+import { register, type Role } from "../scripts/auth.ts";
 
 const registerButton = document.getElementById("register") as HTMLButtonElement;
 

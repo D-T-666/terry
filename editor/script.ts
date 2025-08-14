@@ -157,8 +157,6 @@ function initialize() {
 			});
 		}
 	}
-
-	addPage();
 }
 initialize();
 

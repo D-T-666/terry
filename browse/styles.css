@@ -129,6 +129,21 @@ ul.tags > li {
 	}
 }
 
+button#new-test {
+	border: 1px solid lightgray;
+	border-radius: 0.25rem;
+	font-family: monospace;
+	user-select: none;
+	background-color: white;
+	padding: 0.25rem;
+	width: 100%;
+	margin-top: 0.5rem;
+
+	&:hover {
+		background-color: lightgray;
+	}
+}
+
 details summary::-webkit-details-marker {
   display:none;
 }
