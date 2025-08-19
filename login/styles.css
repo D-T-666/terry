@@ -2,12 +2,13 @@ html, body {
 	margin: 0;
 }
 
+:root {
+	font-family: Calibri, sans-serif;
+}
+
 #login-form {
 	margin: auto;
 	width: 16rem;
-	/*position: absolute;*/
-	/*top: 5rem;*/
-	/*left: calc(40% - 20rem / 2);*/
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
@@ -71,10 +72,10 @@ html, body {
 		content: "";
 		position: absolute;
 		background: white;
-	  background-image: radial-gradient(black 1px, transparent 0);
-	  background-size: 1.5rem 1.5rem;
-	  background-position: -19px -19px;
-		opacity: 0.33;
+		background-image: radial-gradient(black 1px, transparent 0);
+		background-size: 1.5rem 1.5rem;
+		background-position: -19px -19px;
+		opacity: 0.2;
 		right: 0;
 		display: block;
 		height: 100%;
@@ -93,22 +94,24 @@ html, body {
 	justify-self: center;
 	max-width: 20rem;
 	width: 80%;
+	aspect-ratio: 1;
+	margin-top: 5rem;
 }
 
 #logo-img {
 	width: 100%;
 	position: absolute;
-	top: 5%;
-	left: 5%;
+	top: 24%;
+	left: 7%;
 }
 
 #windmill {
 	position: absolute;
 	width: 100%;
-  animation: spinner 30s linear infinite;
+	animation: spinner 30s linear infinite;
 }
 @keyframes spinner {
-  to { transform: rotate(360deg); }
+	to { transform: rotate(360deg); }
 }
 
 #about {
