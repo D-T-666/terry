@@ -50,6 +50,7 @@ import * as singleChoiceItem from "./elements/single-choice-item.ts";
 import * as browserSim from "./elements/browser/sim.ts";
 import * as browserPage from "./elements/browser/page.ts";
 import * as browserLink from "./elements/browser/link.ts";
+import * as table from "./elements/table/table.ts";
 
 interface TerryElement {
 	realElement: (parentID?: string) => HTMLElement;
@@ -60,13 +61,7 @@ interface TerryElement {
 
 export const types: {[name: string]: TerryElement} = {
 	container, paragraph, formula, text, shortTextInput, multipleChoiceInput, multipleChoiceItem,
-	singleChoiceInput, singleChoiceItem, browserSim, browserPage, browserLink,
-	table: {
-		children: ["table-body", "table-head", "table-foot"],
-		realElement() {
-			return simpleRealElement("table", "table", getNewID());
-		},
-	},
+	singleChoiceInput, singleChoiceItem, browserSim, browserPage, browserLink, table,
 	"table-head": {
 		children: ["table-row"],
 		realElement() {

@@ -7,5 +7,8 @@
 		"dev-player": "deno bundle player/script.ts -o player/bundle.js --platform browser --minify --watch --sourcemap",
 		"prod": "deno bundle editor/script.ts -o editor/bundle.js --platform browser --minify ; deno bundle browse/script.ts -o browse/bundle.js --platform browser --minify ; deno bundle login/script.ts -o login/bundle.js --platform browser --minify ; deno bundle register/script.ts -o register/bundle.js --platform browser --minify ; deno bundle player/script.ts -o player/bundle.js --platform browser --minify",
 		"serve": "deno run -A npm:serve"
+	},
+	"compilerOptions": {
+		"lib": ["dom", "deno.window", "dom.iterable"]
 	}
 }
