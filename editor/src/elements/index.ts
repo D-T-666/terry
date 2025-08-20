@@ -53,6 +53,7 @@ import * as browserLink from "./browser/link.ts";
 import * as table from "./table/table.ts";
 import * as tableRow from "./table/table-row.ts";
 import * as tableElement from "./table/table-element.ts";
+import * as image from "./image.ts";
 
 export type ElementAttributes = {[name: string]: string};
 
@@ -70,7 +71,7 @@ export const types: {[name: string]: TerryElement} = {
 	container, paragraph, formula, text, shortTextInput,
 	multipleChoiceInput, multipleChoiceItem, singleChoiceInput,
 	singleChoiceItem, browserSim, browserPage, browserLink, table,
-	tableRow, tableElement
+	tableRow, tableElement, image
 };
 
 console.log(types);

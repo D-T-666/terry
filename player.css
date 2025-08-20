@@ -19,6 +19,12 @@
 		& td {
 			border: 1px solid gray;
 		}
+
+		&[data-style="stripes"] {
+			& tr:nth-child(even) {
+				background-color: #0002;
+			}
+		}
 	}
 
 	& [data-type="text"] { }

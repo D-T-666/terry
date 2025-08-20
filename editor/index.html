@@ -133,8 +133,8 @@
 
 
 					<div class="toolbar" id="image-toolbar">
-						<label for="image-toolbar-url"> ფოტოს URL </label>
-						<input type="text" id="image-toolbar-url">
+						<label for="image-toolbar-image"> სურათი </label>
+						<input type="file" id="image-toolbar-image">
 
 						<label for="image-toolbar-width"> სიგანე (%) </label>
 						<input type="number" min="0" max="100" step="1" id="image-toolbar-width">
@@ -153,7 +153,7 @@
 						<select id="table-toolbar-style">
 							<option value="empty">ცარიელი</option>
 							<option value="basic">უბრალო</option>
-							<option value="alternating">ზოლები</option>
+							<option value="stripes">ზოლები</option>
 						</select>
 
 						<label for="table-toolbar-cols"> სვეტები </label>
@@ -248,6 +248,8 @@
 			<button disabled id="shortTextInput">მოკლე პასუხი</button>
 
 			<button disabled id="table">ცხრილი</button>
+
+			<button disabled id="image">სურათი</button>
 
 			<button disabled id="multipleChoiceInput">მრავალარჩევნიანი პასუხი</button>
 			<button disabled id="multipleChoiceItem">არჩევანი</button>
