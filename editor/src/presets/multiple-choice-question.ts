@@ -1,6 +1,6 @@
 import * as container from "../elements/container.ts";
-import * as multipleChoiceInput from "../elements/multiple-choice-input.ts";
-import * as multipleChoiceItem from "../elements/multiple-choice-item.ts";
+import * as multipleChoiceInput from "../elements/multiple-choice/input.ts";
+import * as multipleChoiceItem from "../elements/multiple-choice/item.ts";
 import * as paragraph from "../elements/paragraph.ts";
 
 export function realElement(): HTMLElement {

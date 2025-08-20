@@ -1,8 +1,7 @@
 import { hideMenus, Menu, openMenuWithOptions } from './src/menus.ts';
-import { mainContent, treeView } from './src/panels.ts';
+import { treeView } from './src/panels.ts';
 import { cloneUnique, deselectElement, getCurrentElement, getCurrentRealElement, getNewID, handleElementFocus, selectElement } from './src/element-manager.ts';
-import { availableElements, realToInspector, types } from './src/elements.ts';
-import { addPage } from './src/pages.ts';
+import { initializeToolbars, availableElements, realToInspector, types } from './src/elements/index.ts';
 import './src/files.ts';
 import { availablePresets, presets } from "./src/presets/index.ts";
 
@@ -157,6 +156,9 @@ function initialize() {
 			});
 		}
 	}
+
+	console.log("hello?");
+	initializeToolbars();
 }
 initialize();
 

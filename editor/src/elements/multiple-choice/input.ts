@@ -6,12 +6,14 @@ export function realElement(): HTMLElement {
 	const id = getNewID();
 
 	return simpleRealElement(
-		"tableElement",
-		"td",
+		"multipleChoiceInput",
+		"ol",
 		id,
-		`ელემენტი (${id})`,
+		`მრავალარჩევნიანი პასუხი (${id})`,
 	);
 }
+
+export const children = ["multipleChoiceItem"];
 
 export function initializeToolbar() { }
 export function showToolbar(_elt: HTMLElement) { }

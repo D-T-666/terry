@@ -1,7 +1,7 @@
 import { mainContent, treeView } from "./panels.ts";
 import * as page from "./pages.ts"
 import { getCurrentScheme } from "./grading.ts";
-import { realToInspector } from "./elements.ts";
+import { realToInspector } from "./elements/index.ts";
 import { registerID } from "./element-manager.ts";
 import { loadFile, storeFile } from "../../scripts/file-manager.ts";
 

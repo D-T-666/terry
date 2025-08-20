@@ -1,4 +1,4 @@
-import { getNewID } from "../element-manager.ts";
+import { getNewID } from "../../element-manager.ts";
 
 export function realElement(parentID?: string): HTMLElement {
 	const res = document.createElement('li');
@@ -17,3 +17,9 @@ export function realElement(parentID?: string): HTMLElement {
 }
 
 export const parents = ["singleChoiceInput"];
+
+export function initializeToolbar() { }
+export function showToolbar(_elt: HTMLElement) { }
+export function attributes(_elt: HTMLElement): ElementAttributes {
+	return { };
+};

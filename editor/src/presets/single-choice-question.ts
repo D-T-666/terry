@@ -1,6 +1,6 @@
 import * as container from "../elements/container.ts";
-import * as singleChoiceInput from "../elements/single-choice-input.ts";
-import * as singleChoiceItem from "../elements/single-choice-item.ts";
+import * as singleChoiceInput from "../elements/single-choice/input.ts";
+import * as singleChoiceItem from "../elements/single-choice/item.ts";
 import * as paragraph from "../elements/paragraph.ts";
 import * as text from "../elements/text.ts";
 

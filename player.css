@@ -5,13 +5,19 @@
 		}
 	}
 
+	& td {
+		padding: 0.25rem;
+	}
+
 	& [data-type="shortTextInput"] {
 		display: inline-block;
 	}
 
 	& [data-type="table"] {
 		&[data-style="basic"] {
-			&, & tr, & td {
+			border-collapse: collapse;
+
+			& td {
 				border: 1px solid gray;
 			}
 

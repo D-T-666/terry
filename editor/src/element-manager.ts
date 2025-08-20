@@ -1,4 +1,5 @@
-import { realElement } from "./elements/browser/link.ts";
+import { realToInspector } from "./elements/index.ts";
+import { treeView } from "./panels.ts";
 import { toolbars } from "./toolbars.ts";
 
 let idCounter: number = 0;
@@ -63,7 +64,14 @@ export function selectElement(elt: HTMLElement) {
 
 export function handleElementFocus(inspectorElement: HTMLElement) {
 	selectElement(inspectorElement);
+}
 
+export function updateInspector(realElt: HTMLElement) {
+	const id = realElt.id;
+
+	const elt = treeView.querySelector(`[data-id="${id}"]`) as HTMLElement;
+
+	elt.parentElement!.replaceChild(realToInspector(realElt) as Node, elt);
 }
 
 // REAL ELEMENT
