@@ -32,7 +32,7 @@ export function createNewTest(): Promise<Response> {
   });
 }
 
-export async function getTestContent(id: string): Promise<{content: string, gradingScheme?: any}> {
+export async function getTestContent(id: string): Promise<{content: string, gradingScheme?: any, id: string}> {
 	const response = await fetch(`${apiURL}/test/${id}`, {
 		headers: getAuthHeaders()
 	});
@@ -43,7 +43,10 @@ export async function getTestContent(id: string): Promise<{content: string, grad
 
 	const json = await response.json();
 
-	return json;
+	return {
+		id,
+		...json
+	};
 }
 
 export async function getTestGradingScheme(id: string) {
@@ -65,4 +68,16 @@ export function updateTest(id: string, data: TestData) {
 		},
 		body: JSON.stringify(data)
 	});
+}
+
+export async function uploadImage(testId: string, imageName: string, file: File) {
+	const response = await fetch(`${apiURL}/image/${testId}/${imageName}`, {
+		method: "POST",
+		headers: {
+			"Content-Type": file.type,
+			...getAuthHeaders(),
+		},
+		body: file
+	});
+	return response.ok
 }

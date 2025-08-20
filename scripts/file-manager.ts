@@ -1,11 +1,12 @@
 import { getTestContent, updateTest } from "./api.ts";
 
 type TestFile = {
+	id: string | null;
 	content: string;
 	gradingScheme?: {[key: string]: any};
 };
 
-let currentFile: TestFile | undefined = undefined;
+export let currentFile: TestFile | undefined = undefined;
 
 export async function storeFile(file: TestFile, id?: string) {
 	currentFile = file;
@@ -37,7 +38,8 @@ export async function loadFile(id?: string): Promise<TestFile> {
 		currentFile = JSON.parse(lsi!) as TestFile;
 	} else {
 		currentFile = {
-			content: '<div data-type="container" data-name="მთავარი კონტეინერი" id="0" data-pages="1"></div>'
+			id: null,
+			content: '<div data-type="container" data-name="მთავარი კონტეინერი" id="0" data-pages="1"></div>',
 		};
 	}
 
