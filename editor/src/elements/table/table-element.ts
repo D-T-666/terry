@@ -9,7 +9,7 @@ export function realElement(): HTMLElement {
 		"tableElement",
 		"td",
 		id,
-		`ელემენტი (${id})`,
+		"ელემენტი",
 	);
 }
 

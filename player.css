@@ -14,16 +14,10 @@
 	}
 
 	& [data-type="table"] {
-		&[data-style="basic"] {
-			border-collapse: collapse;
+		border-collapse: collapse;
 
-			& td {
-				border: 1px solid gray;
-			}
-
-			& thead {
-				background-color: #7774;
-			}
+		& td {
+			border: 1px solid gray;
 		}
 	}
 

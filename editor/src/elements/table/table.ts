@@ -93,7 +93,7 @@ export function showToolbar(elt: HTMLElement) {
 
 export function attributes(elt: HTMLElement): ElementAttributes {
 	return {
-		"style": elt.dataset.style || "basic",
+		"style": elt.dataset.style || "empty",
 		"rows": elt.dataset.rows || "1",
 		"cols": elt.dataset.cols || "1",
 	};
