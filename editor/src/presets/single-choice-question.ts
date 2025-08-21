@@ -20,6 +20,7 @@ export function realElement(): HTMLElement {
 	input.appendChild(item(input.id));
 	input.appendChild(item(input.id));
 	input.appendChild(item(input.id));
+	input.appendChild(item(input.id));
 
 	res.appendChild(input);
 

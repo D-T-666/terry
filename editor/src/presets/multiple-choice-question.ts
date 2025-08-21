@@ -10,6 +10,7 @@ export function realElement(): HTMLElement {
 	input.appendChild(multipleChoiceItem.realElement());
 	input.appendChild(multipleChoiceItem.realElement());
 	input.appendChild(multipleChoiceItem.realElement());
+	input.appendChild(multipleChoiceItem.realElement());
 
 	res.appendChild(input);
 

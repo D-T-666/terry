@@ -144,6 +144,18 @@
 		}
 	}
 
+	& [data-type="multipleChoiceInput"] {
+		&[data-numbering="letters"] {
+			list-style-type: georgian;
+		}
+		&[data-numbering="numbers"] {
+			list-style-type: decimal;
+		}
+		&[data-numbering="empty"] {
+			list-style-type: none;
+		}
+	}
+
 	& [data-type="browser"] {
 		& {
 			background-color: #999;
