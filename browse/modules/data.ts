@@ -1,11 +1,8 @@
 import { loadTests } from '../../scripts/api.ts';
 export { loadTests } from '../../scripts/api.ts';
 
-let tests: any = null;
 export async function getTestWithId(id: string) {
-	if (tests === null) {
-		tests = await loadTests();
-	}
+	const tests = await loadTests();
 
 	console.log(tests)
 	for (const test of tests) {
@@ -13,5 +10,5 @@ export async function getTestWithId(id: string) {
 			return test;
 		}
 	}
-	return undefined;
+	throw new Error("No test with id " + id + " found");
 }

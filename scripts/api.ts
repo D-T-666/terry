@@ -2,7 +2,8 @@ import { getAuthHeaders } from "./auth.ts";
 
 export const apiURL = "https://eko.dimitri.ge/api";
 
-type TestData = {
+export type TestData = {
+	id?: string,
 	name?: string,
 	description?: string,
 	gradingScheme?: any,
@@ -60,13 +61,17 @@ export async function getTestGradingScheme(id: string) {
 }
 
 export function updateTest(id: string, data: TestData) {
+	console.log("trying to upload", data, "for test", id)
 	return fetch(`${apiURL}/test/${id}`, {
 		method: "PUT",
 		headers: {
 			"Content-Type": "application/json",
 			...getAuthHeaders()
 		},
-		body: JSON.stringify(data)
+		body: JSON.stringify({
+			...data,
+			gradingScheme: JSON.stringify(data.gradingScheme),
+		})
 	});
 }
 

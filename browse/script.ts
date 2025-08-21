@@ -28,8 +28,17 @@ newTestButton.addEventListener("click", async () => {
 	const res = await createNewTest();
 	if (!res.ok) {
 		console.error("Unauthorized request to create a test");
+		return;
 	}
+	const id = await res.json();
+	await openTestDetails(id);
 });
+
+export function addTest(id, testData) {
+	console.log(id, testData)
+	const listing = renderTestListing({id, ...testData});
+	list.insertBefore(listing, list.firstChild);
+}
 
 async function initialize() {
   const tests = await loadTests();

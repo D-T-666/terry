@@ -11,11 +11,14 @@ export let currentFile: TestFile | undefined = undefined;
 export async function storeFile(file: TestFile, id?: string) {
 	currentFile = file;
 
+	console.log("hello");
+
 	localStorage.setItem(
 		"currentFile",
 		JSON.stringify(file),
 	);
 
+	console.log(id);
 	if (id !== undefined) {
 		await updateTest(id, file);
 	}

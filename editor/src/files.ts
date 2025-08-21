@@ -40,7 +40,7 @@ const testManager = {
 
 		const name = nameElement.value;
 
-		return {content: html, name, description: "", tags: {}, gradingScheme};
+		return {id: currentTestId, content: html, name, description: "", tags: {}, gradingScheme};
 	},
 	load({ content, gradingScheme }: { content: string, gradingScheme?: any }) {
 		console.log(content)
@@ -70,10 +70,9 @@ const testManager = {
 	},
 };
 
-document.getElementById("save-test")!.addEventListener("click", (e) => {
-	storeFile(testManager.export())
-})
-
+document.getElementById("save-test")!.addEventListener("click", async () => {
+	await storeFile(testManager.export(), currentTestId ?? undefined);
+});
 
 async function initialize() {
 	testManager.load(await loadFile(currentTestId as string | undefined));
