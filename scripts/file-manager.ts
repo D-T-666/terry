@@ -2,6 +2,7 @@ import { getTestContent, updateTest } from "./api.ts";
 
 type TestFile = {
 	id: string | null;
+	name: string;
 	content: string;
 	gradingScheme?: {[key: string]: any};
 };

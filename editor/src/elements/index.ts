@@ -43,6 +43,7 @@ import * as paragraph from "./paragraph.ts";
 import * as formula from "./formula.ts";
 import * as text from "./text.ts";
 import * as shortTextInput from "./short-text-input.ts";
+import * as longTextInput from "./long-text-input.ts";
 import * as multipleChoiceInput from "./multiple-choice/input.ts";
 import * as multipleChoiceItem from "./multiple-choice/item.ts";
 import * as singleChoiceInput from "./single-choice/input.ts";
@@ -71,7 +72,7 @@ export const types: {[name: string]: TerryElement} = {
 	container, paragraph, formula, text, shortTextInput,
 	multipleChoiceInput, multipleChoiceItem, singleChoiceInput,
 	singleChoiceItem, browserSim, browserPage, browserLink, table,
-	tableRow, tableElement, image
+	tableRow, tableElement, image, longTextInput
 };
 
 console.log(types);

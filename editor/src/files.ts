@@ -42,7 +42,7 @@ const testManager = {
 
 		return {id: currentTestId, content: html, name, description: "", tags: {}, gradingScheme};
 	},
-	load({ content, gradingScheme }: { content: string, gradingScheme?: any }) {
+	load({ name, content, gradingScheme }: { name: string, content: string, gradingScheme?: any }) {
 		console.log(content)
 		if (!gradingScheme) {
 			gradingScheme = {};
@@ -67,6 +67,7 @@ const testManager = {
 		treeView.innerHTML = "";
 		treeView.appendChild(realToInspector(mainContent.firstElementChild as HTMLElement) as HTMLElement);
 		page.importElement(mainContent.firstElementChild as HTMLElement);
+		nameElement.value = name
 	},
 };
 

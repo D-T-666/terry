@@ -126,9 +126,18 @@
 
 
 					<div class="toolbar" id="shortTextInput-toolbar">
-						<label for="shortTextInput-width"> წიგანე </label>
+						<label for="shortTextInput-width"> სიგანე </label>
 						<span><input type="number" id="shortTextInput-toolbar-width">ასო</span>
 					</div>
+
+
+
+
+					<div class="toolbar" id="longTextInput-toolbar">
+						<label for="longTextInput-width"> სიგანე </label>
+						<span><input type="number" id="longTextInput-toolbar-width">ასო</span>
+					</div>
+
 
 
 
@@ -212,6 +221,17 @@
 
 
 
+					<div class="toolbar" id="singleChoiceInput-toolbar">
+						<label for="singleChoiceInput-toolbar-numbering">დანომრვა</label>
+						<select id="singleChoiceInput-toolbar-numbering">
+							<option value="empty">ცარიელი</option>
+							<option value="numbers">რიცხვები</option>
+							<option value="letters">ასოები</option>
+						</select>
+					</div>
+
+
+
 					<div class="toolbar" id="container-toolbar">
 						<label for="container-toolbar-layout"> განლაგება </label>
 						<select id="container-toolbar-layout">
@@ -272,6 +292,7 @@
 			<button disabled id="formula">ფორმულა</button>
 			<button disabled id="paragraph">პარაგრაფი</button>
 			<button disabled id="shortTextInput">მოკლე პასუხი</button>
+			<button disabled id="longTextInput">გრძელი პასუხი</button>
 
 			<button disabled id="table">ცხრილი</button>
 
