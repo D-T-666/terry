@@ -1,5 +1,5 @@
 import { TestData, updateTest, deleteTest } from "../../scripts/api.ts";
-import { AttributeSelectorElement, type AttributeSelectorOptions } from "../../util/attribute-selector/main.ts";
+import { AttributeSelectorElement } from "../../util/attribute-selector/main.ts";
 import { addTest } from "../script.ts";
 import { getTestWithId } from "./data.ts";
 

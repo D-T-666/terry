@@ -1,6 +1,6 @@
 import { getAuthHeaders } from "./auth.ts";
 
-export const apiURL = "https://eko.dimitri.ge/api";
+export const apiURL = "https://terryapi.dimitri.ge/api";
 
 export type TestData = {
 	id?: string,
@@ -87,13 +87,18 @@ export function getImageURL(testId: string, imageName: string) {
 }
 
 export async function uploadImage(testId: string, imageName: string, file: File) {
-	const response = await fetch(`${apiURL}/image/${testId}/${imageName}`, {
+	const formData = new FormData();
+
+	formData.append("image", file);
+
+	const response = await fetch(getImageURL(testId, imageName), {
 		method: "POST",
 		headers: {
-			"Content-Type": file.type,
+			"Content-Type": "multipart/form-data",
 			...getAuthHeaders(),
 		},
-		body: file
+		body: formData
 	});
+
 	return response.ok
 }

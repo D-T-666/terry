@@ -1,4 +1,4 @@
-import { apiURL, uploadImage } from "../../../scripts/api.ts";
+import { getImageURL, uploadImage } from "../../../scripts/api.ts";
 import { currentFile } from "../../../scripts/file-manager.ts";
 import { getCurrentRealElement, getNewID } from "../element-manager.ts";
 import { ElementAttributes } from "./index.ts";
@@ -28,8 +28,7 @@ export function initializeToolbar() {
 			}
 			fileReader.readAsDataURL((e.target as HTMLInputElement).files![0]);
 		} else {
-			(getCurrentRealElement() as HTMLImageElement).src =
-				`${apiURL}/image/${currentFile!.id!}/${file.name}`;
+			(getCurrentRealElement() as HTMLImageElement).src = getImageURL(currentFile!.id!, file.name);
 		}
 		console.log(files);
 	});
