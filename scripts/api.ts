@@ -94,7 +94,6 @@ export async function uploadImage(testId: string, imageName: string, file: File)
 	const response = await fetch(getImageURL(testId, imageName), {
 		method: "POST",
 		headers: {
-			"Content-Type": "multipart/form-data",
 			...getAuthHeaders(),
 		},
 		body: formData
