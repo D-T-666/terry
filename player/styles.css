@@ -1,3 +1,6 @@
+:root {
+	--width: 1024px;
+}
 html, body {
 	margin: 0;
 }
@@ -9,7 +12,7 @@ body {
 
 header {
 	display: block;
-	width: 49rem;
+	width: calc(var(--width) + 1rem);
 	margin: auto;
 	background-color: white;
 	padding: 0.5rem;
@@ -19,7 +22,7 @@ header {
 
 main {
 	box-sizing: border-box;
-	width: 49rem;
+	width: calc(var(--width) + 1rem);
 	padding: 0.5rem;
 	margin: auto;
 	margin-top: 0.5rem;
@@ -27,7 +30,7 @@ main {
 	border-radius: 0.25rem;
 
 	#main-content {
-		width: 48rem;
+		width: var(--width);
 		margin: auto;
 	}
 }
