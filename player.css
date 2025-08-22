@@ -27,6 +27,10 @@
 		}
 	}
 
+	& [data-type="image"] {
+		width: 100%;
+	}
+
 	& [data-type="text"] { }
 
 	& [data-type="paragraph"] {
@@ -144,15 +148,15 @@
 		}
 	}
 
-	& [data-type="multipleChoiceInput"] {
+	& [data-type="multipleChoiceInput"], & [data-type="singleChoiceInput"] {
+		list-style-type: none;
+
 		&[data-numbering="letters"] {
 			list-style-type: georgian;
 		}
+
 		&[data-numbering="numbers"] {
 			list-style-type: decimal;
-		}
-		&[data-numbering="empty"] {
-			list-style-type: none;
 		}
 	}
 
