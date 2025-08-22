@@ -6,6 +6,7 @@ const addPageButton = document.getElementById("add-page")!;
 let current = 0;
 let total = 0;
 let pageElements: HTMLElement[][] = [];
+let pageButtonElements: HTMLElement[] = [];
 
 export function addPage() {
 	const innerElt = document.createElement('input');
@@ -22,6 +23,7 @@ export function addPage() {
 
 	label.appendChild(innerElt);
 	pageButtonsDiv.insertBefore(label, addPageButton);
+	pageButtonElements.push(label);
 	pageElements.push([]);
 	total += 1;
 	(mainContent.firstElementChild! as HTMLElement).dataset.pages = String(total);
@@ -46,19 +48,20 @@ export function showPage(i: number) {
 }
 
 export function importElement(elt: HTMLElement) {
-	const visibilityType = elt.dataset.visibilityType || "always";
+	const visibilityType = elt.dataset.visibilityType ?? "always";
 
 	switch (visibilityType ) {
-		case "only":
-			const ind = Number(elt.dataset.visibleOnlyOn || "1")
+		case "only": {
+			const ind = Number(elt.dataset.visibleOnlyOn ?? "1")
 			while (ind > total) {
 				addPage();
 			}
 			trackElementOnly(elt, ind);
 			break;
-		case "range":
-			const l = Number(elt.dataset.visibleFrom || "1");
-			const r = Number(elt.dataset.visibleTo || "1");
+		}
+		case "range": {
+			const l = Number(elt.dataset.visibleFrom ?? "1");
+			const r = Number(elt.dataset.visibleTo ?? "1");
 			while (l > total) {
 				addPage();
 			}
@@ -67,35 +70,53 @@ export function importElement(elt: HTMLElement) {
 			}
 			trackElementRange(elt, l, r);
 			break;
+		}
 	}
 
 	for (const child of elt.children) {
 		importElement(child as HTMLElement);
 	}
+
+	cleanUpUnusedPages();
 }
 
-export function untrackElement(elt: HTMLElement) {
-	for (const elts of pageElements) {
-		const ind = elts.indexOf(elt);
-		if (ind >= 0) {
-			elts.splice(ind, 1);
+export function untrackElementOutside(elt: HTMLElement, l: number, r: number) {
+	for (let i = 0; i < total; i++) {
+		if (i < l || i > r) {
+			const ind = pageElements[i].indexOf(elt);
+			if (ind >= 0) {
+				pageElements[i].splice(ind, 1);
+			}
 		}
 	}
 }
 
-export function trackElementOnly(elt: HTMLElement, i: number, untrackFirst: boolean = true) {
+function cleanUpUnusedPages() {
+	console.log(pageElements);
+
+	for (let i = total - 1; i > 0; i--) {
+		if (pageElements[i].length > 0) {
+			break;
+		}
+
+		pageElements.pop();
+		pageButtonElements.pop()!.remove();
+		total--;
+	}
+}
+
+export function trackElementOnly(elt: HTMLElement, i: number) {
 	i -= 1;
 	if (!(i < total && i >= 0)) {
 		return;
 	}
 
-	if (untrackFirst) {
-		untrackElement(elt);
-	}
-
+	console.log("will this happen?", !pageElements[i].includes(elt));
 	if (!pageElements[i].includes(elt)) {
 		pageElements[i].push(elt);
 	}
+
+	untrackElementOutside(elt, i, i);
 
 	if (i === current) {
 		showPage(i);
@@ -103,11 +124,11 @@ export function trackElementOnly(elt: HTMLElement, i: number, untrackFirst: bool
 }
 
 export function trackElementRange(elt: HTMLElement, l: number, r: number) {
-	untrackElement(elt);
-
 	for (let i = l; i <= r; i++) {
-		trackElementOnly(elt, i, false);
+		trackElementOnly(elt, i);
 	}
+
+	untrackElementOutside(elt, l - 1, r - 1);
 }
 
 
