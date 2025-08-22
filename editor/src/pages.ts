@@ -40,6 +40,7 @@ export function showPage(i: number) {
 		return;
 	}
 
+	console.log(pageElements[i])
 	hidePage();
 	current = i;
 	for (const elt of pageElements[current]) {
@@ -92,8 +93,6 @@ export function untrackElementOutside(elt: HTMLElement, l: number, r: number) {
 }
 
 function cleanUpUnusedPages() {
-	console.log(pageElements);
-
 	for (let i = total - 1; i > 0; i--) {
 		if (pageElements[i].length > 0) {
 			break;
@@ -105,18 +104,19 @@ function cleanUpUnusedPages() {
 	}
 }
 
-export function trackElementOnly(elt: HTMLElement, i: number) {
+export function trackElementOnly(elt: HTMLElement, i: number, untrack: boolean = true) {
 	i -= 1;
 	if (!(i < total && i >= 0)) {
 		return;
 	}
 
-	console.log("will this happen?", !pageElements[i].includes(elt));
 	if (!pageElements[i].includes(elt)) {
 		pageElements[i].push(elt);
 	}
 
-	untrackElementOutside(elt, i, i);
+	if (untrack) {
+		untrackElementOutside(elt, i, i);
+	}
 
 	if (i === current) {
 		showPage(i);
@@ -125,7 +125,7 @@ export function trackElementOnly(elt: HTMLElement, i: number) {
 
 export function trackElementRange(elt: HTMLElement, l: number, r: number) {
 	for (let i = l; i <= r; i++) {
-		trackElementOnly(elt, i);
+		trackElementOnly(elt, i, false);
 	}
 
 	untrackElementOutside(elt, l - 1, r - 1);
