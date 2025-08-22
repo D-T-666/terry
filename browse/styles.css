@@ -41,7 +41,6 @@ ul.tags > li {
 		& summary {
 			display: grid;
 			grid-template-columns: 1fr auto auto;
-			gap: 0.5rem;
 			align-items: baseline;
 
 			& .title {
@@ -76,6 +75,7 @@ ul.tags > li {
 				border: 1px solid lightgray;
 				border-radius: 0.2rem;
 				padding: 0.25rem;
+				margin-left: 0.5rem;
 			}
 
 			&:hover button {

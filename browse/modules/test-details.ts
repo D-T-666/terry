@@ -1,4 +1,4 @@
-import { TestData, updateTest } from "../../scripts/api.ts";
+import { TestData, updateTest, deleteTest } from "../../scripts/api.ts";
 import { AttributeSelectorElement, type AttributeSelectorOptions } from "../../util/attribute-selector/main.ts";
 import { addTest } from "../script.ts";
 import { getTestWithId } from "./data.ts";
@@ -7,6 +7,8 @@ const testModal = document.getElementById("test-details") as HTMLDialogElement;
 const saveTestDetailsButton = document.getElementById("save-test-details") as HTMLButtonElement;
 const editTestContentButton = document.getElementById("open-test-editor") as HTMLButtonElement;
 const closeTestModalButton = document.getElementById("close-test-details") as HTMLButtonElement;
+const deleteTestButton = document.getElementById("delete-test") as HTMLButtonElement;
+const openPlayerButton = document.getElementById("open-test-player") as HTMLButtonElement;
 
 const testNameInput = document.getElementById("title") as HTMLInputElement;
 const testDescriptionInput = document.getElementById("description") as HTMLTextAreaElement;
@@ -52,4 +54,14 @@ saveTestDetailsButton.addEventListener("click", async () => {
 
 editTestContentButton.addEventListener("click", () => {
 	window.location.href = `/editor/?id=${currentTestId}`;
+})
+
+deleteTestButton.addEventListener("click", async () => {
+	if (currentTestId !== undefined) {
+		await deleteTest(currentTestId);
+	}
+})
+
+openPlayerButton.addEventListener("click", () => {
+	window.location.href = `/player/?id=${currentTestId}`;
 })

@@ -75,6 +75,17 @@ export function updateTest(id: string, data: TestData) {
 	});
 }
 
+export function deleteTest(id: string) {
+	return fetch(`${apiURL}/test/${id}`, {
+		headers: getAuthHeaders(),
+		method: "DELETE"
+	});
+}
+
+export function getImageURL(testId: string, imageName: string) {
+	return `${apiURL}/image/${testId}/${imageName}`;
+}
+
 export async function uploadImage(testId: string, imageName: string, file: File) {
 	const response = await fetch(`${apiURL}/image/${testId}/${imageName}`, {
 		method: "POST",
