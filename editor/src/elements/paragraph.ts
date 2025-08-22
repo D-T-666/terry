@@ -24,6 +24,7 @@ export function initializeToolbar() {
 	toolbarElements["first-line-indent"] = i("paragraph-toolbar-first-line-indent");
 	toolbarElements["spacing-above"] = i("paragraph-toolbar-spacing-above");
 	toolbarElements["spacing-below"] = i("paragraph-toolbar-spacing-below");
+	toolbarElements["align"] = i("paragraph-toolbar-align");
 
 	toolbarElements["line-height"].addEventListener("change", () => {
 		getCurrentRealElement()!.style.lineHeight = toolbarElements["line-height"].value + "%";
@@ -36,6 +37,9 @@ export function initializeToolbar() {
 	});
 	toolbarElements["spacing-below"].addEventListener("change", () => {
 		getCurrentRealElement()!.style.marginBottom = toolbarElements["spacing-below"].value + "rem";
+	});
+	toolbarElements["align"].addEventListener("change", () => {
+		getCurrentRealElement()!.style.textAlign = toolbarElements["align"].value;
 	});
 }
 
@@ -51,6 +55,7 @@ export function attributes(elt: HTMLElement): ElementAttributes {
 		"line-height": (elt.style.lineHeight ?? "%").slice(0, -1),
 		"first-line-indent": (elt.style.lineHeight ?? "%").slice(0, -1),
 		"spacing-above": (elt.style.marginTop ?? "rem").slice(0, -2),
-		"spacing-below": (elt.style.marginBottom ?? "rem").slice(0, -2)
+		"spacing-below": (elt.style.marginBottom ?? "rem").slice(0, -2),
+		"align": elt.style.textAlign ?? "left"
 	};
 };
