@@ -30,7 +30,7 @@ export function initializeToolbar() {
 	toolbarElements["content"].addEventListener("keyup", () => {
 		getCurrentRealElement()!.innerText = toolbarElements["content"].value;
 
-		let newName = "T: " + toolbarElements["content"].value.slice(0, 20);
+		let newName = "(T) " + toolbarElements["content"].value.slice(0, 20);
 		if (toolbarElements["content"].value.length > 20) {
 			newName += "...";
 		}

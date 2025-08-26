@@ -115,7 +115,6 @@ function initialize() {
 		}
 	}
 
-	console.log("hello?");
 	initializeToolbars();
 }
 initialize();

@@ -57,6 +57,7 @@
 						</span>
 					</div>
 
+
 					<div class="toolbar" id="text-toolbar">
 						<label for="text-toolbar-content"> შიგთავსი </label>
 						<textarea id="text-toolbar-content"></textarea>
@@ -91,6 +92,23 @@
 							<input type="number" id="text-toolbar-size">
 							pt
 						</span>
+					</div>
+
+
+
+
+					<div class="toolbar" id="heading-toolbar">
+						<label for="heading-toolbar-content"> შიგთავსი </label>
+						<textarea id="heading-toolbar-content"></textarea>
+
+						<label for="heading-toolbar-level"> დონე </label>
+						<input id="heading-toolbar-level" type="number" min="1" max="6" step="1" value="1">
+
+						<select id="heading-toolbar-align">
+							<option value="center">ცენტრში</option>
+							<option value="left">მარცხნივ</option>
+							<option value="right">მარჯვნივ</option>
+						</select>
 					</div>
 
 
@@ -293,8 +311,10 @@
 		<div class="menu" id="element-menu">
 			<button disabled id="container">კონტეინერი</button>
 			<button disabled id="text">ტექსტი</button>
+			<button disabled id="heading">სათაური</button>
 			<button disabled id="formula">ფორმულა</button>
 			<button disabled id="paragraph">პარაგრაფი</button>
+
 			<button disabled id="shortTextInput">მოკლე პასუხი</button>
 			<button disabled id="longTextInput">გრძელი პასუხი</button>
 
