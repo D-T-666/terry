@@ -173,7 +173,7 @@ function addAChild(target: HTMLElement, type: string) {
 	if (types[type].mounted !== undefined)
 		types[type].mounted(elt_real);
 
-	target.parentElement!.replaceChild(realToInspector(parentElement_real) as Node, target);
+	target.appendChild(realToInspector(elt_real) as Node);
 }
 
 function addASibbling(target: HTMLElement, type: string) {
