@@ -43,6 +43,7 @@ function initialize() {
 		getCurrentRealElement()!.appendChild(elt);
 		getCurrentElement()!.parentElement!.replaceChild(realToInspector(getCurrentRealElement()!) as Node, getCurrentElement()!);
 		hideMenus();
+		updateTest();
 	}, false);
 
 	document.getElementById("rcm-paste-above")!.addEventListener("click", (e) => {
@@ -51,6 +52,7 @@ function initialize() {
 		const parentInspectorElement = realToInspector(getCurrentRealElement()!.parentElement!);
 		getCurrentElement()!.parentElement!.parentElement!.replaceChild(parentInspectorElement as Node, getCurrentElement()!.parentElement!);
 		hideMenus();
+		updateTest();
 	}, false);
 
 	document.getElementById("rcm-delete")!.addEventListener("click", (e) => {
@@ -59,6 +61,7 @@ function initialize() {
 		deselectElement();
 		document.getElementById(dataId)!.remove();
 		hideMenus();
+		updateTest();
 	}, false);
 
 	document.getElementById("rcm-rename")!.addEventListener("click", (e) => {
@@ -91,6 +94,7 @@ function initialize() {
 			}
 		});
 		oldSpan.remove();
+		updateTest();
 	}, false);
 
 	for (const type of Object.keys(types)) {
