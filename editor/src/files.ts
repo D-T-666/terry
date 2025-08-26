@@ -13,7 +13,7 @@ const searchParams = new URLSearchParams(paramsString);
 const currentTestId = searchParams.get("id");
 
 const removeDynamicAttributes = (elt: HTMLElement) => {
-	elt.classList.remove("current");
+	elt.classList.remove("selected");
 	if (elt.className === "") {
 		elt.removeAttribute("class")
 	}
@@ -108,6 +108,8 @@ export const testManager = new TestManager();
 document.getElementById("save-test")!.addEventListener("click", async () => {
 	await storeFile(testManager.export(), currentTestId ?? undefined);
 });
+
+addEventListener("beforeunload", ev => ev.preventDefault());
 
 async function initialize() {
 	const initialFile = await loadFile(currentTestId as string | undefined);
