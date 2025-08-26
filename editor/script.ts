@@ -1,5 +1,5 @@
 import { hideMenus, Menu, openMenuWithOptions } from './src/menus.ts';
-import { treeView } from './src/panels.ts';
+import './src/panels.ts';
 import { cloneUnique, deselectElement, getCurrentElement, getCurrentRealElement, getNewID, handleElementFocus, selectElement } from './src/element-manager.ts';
 import { initializeToolbars, availableElements, realToInspector, types } from './src/elements/index.ts';
 import './src/files.ts';
@@ -8,61 +8,15 @@ import { availablePresets, presets } from "./src/presets/index.ts";
 import "../styles.css";
 import "../player.css";
 import "./style.css";
+import { CopyBuffer } from "./src/copy-buffer.ts";
+import { testManager, updateTest } from "./src/files.ts";
 
 let activeAction: undefined | ((elt: HTMLElement, type: string) => void) = undefined;
-let copyBuffer: undefined | HTMLElement = undefined;
+
+export const copyBuffer = new CopyBuffer<HTMLElement>();
 
 function initialize() {
 	// To prevent single clicks from folding the elements
-	let shouldToggle = false;
-	treeView.addEventListener("click", (e) => {
-		if (getCurrentElement() === undefined) return;
-		if (!getCurrentElement()!.contains(e.target as Node)) {
-			deselectElement();
-		}
-		if (!shouldToggle) {
-			e.preventDefault();
-		}
-		shouldToggle = true;
-	}, true);
-
-	treeView.addEventListener("contextmenu", (e) => {
-		const etarget = e.target as HTMLElement;
-		e.preventDefault();
-		if (etarget.classList.contains("list"))
-			selectElement(etarget);
-		else if (etarget.parentElement!.classList.contains("list"))
-			selectElement(etarget.parentElement!);
-		else
-			return;
-		e.stopPropagation();
-		const options = ['rcm-add-child', 'rcm-add-preset', 'rcm-copy', 'rcm-delete', 'rcm-rename'];
-		if (etarget.parentElement!.parentElement!.parentElement!.classList.contains("list") || etarget.parentElement!.parentElement!.classList.contains("list")) {
-			options.push('rcm-add-sibbling');
-		}
-		if (copyBuffer !== undefined) {
-			options.push('rcm-paste-child');
-
-			if (etarget.parentElement?.classList.contains("list")) {
-				options.push('rcm-paste-above');
-			}
-		}
-		openMenuWithOptions(Menu.rightClick, options, etarget);
-	}, true);
-
-	treeView.addEventListener("focus", (e: Event) => {
-		let elt = e.target as HTMLElement;
-
-		if (!elt.classList.contains("list"))
-			elt = elt.parentElement!;
-
-		if (!elt.classList.contains("list"))
-			return;
-
-		handleElementFocus(elt);
-		shouldToggle = false;
-	}, true)
-
 	document.getElementById("rcm-add-child")!.addEventListener("click", (e) => {
 		activeAction = addAChild;
 		openMenuWithOptions(Menu.element, availableElements(getCurrentElement()!), e.target as HTMLElement);
@@ -80,19 +34,19 @@ function initialize() {
 
 	document.getElementById("rcm-copy")!.addEventListener("click", (e) => {
 		let dataId = getCurrentElement()!.dataset.id!;
-		copyBuffer = document.getElementById(dataId)!;
+		copyBuffer.data = document.getElementById(dataId)!;
 		hideMenus();
 	}, false);
 
 	document.getElementById("rcm-paste-child")!.addEventListener("click", (e) => {
-		const elt = cloneUnique(copyBuffer!);
+		const elt = cloneUnique(copyBuffer.data!);
 		getCurrentRealElement()!.appendChild(elt);
 		getCurrentElement()!.parentElement!.replaceChild(realToInspector(getCurrentRealElement()!) as Node, getCurrentElement()!);
 		hideMenus();
 	}, false);
 
 	document.getElementById("rcm-paste-above")!.addEventListener("click", (e) => {
-		const elt = cloneUnique(copyBuffer!);
+		const elt = cloneUnique(copyBuffer.data!);
 		getCurrentRealElement()!.parentElement!.insertBefore(elt, getCurrentRealElement()!);
 		const parentInspectorElement = realToInspector(getCurrentRealElement()!.parentElement!);
 		getCurrentElement()!.parentElement!.parentElement!.replaceChild(parentInspectorElement as Node, getCurrentElement()!.parentElement!);
@@ -178,6 +132,29 @@ function addAChild(target: HTMLElement, type: string) {
 		types[type].mounted(elt_real);
 
 	target.appendChild(realToInspector(elt_real) as Node);
+
+	if (target.tagName === "DIV") {
+		const newTarget = document.createElement("details");
+		newTarget.classList.add("list");
+		newTarget.tabIndex = 0;
+		newTarget.dataset.id = parentId;
+		newTarget.dataset.type = target.dataset.type;
+		newTarget.open = true;
+
+		const summary = document.createElement("summary");
+		summary.dataset.type = target.dataset.type;
+		summary.innerText = (target.firstChild as HTMLElement).innerText;
+
+		newTarget.appendChild(summary);
+
+		const children = [...target.children].slice(1);
+		console.log(children);
+		newTarget.append(...children);
+
+		target.replaceWith(newTarget);
+	}
+
+	updateTest();
 }
 
 function addASibbling(target: HTMLElement, type: string) {
@@ -194,6 +171,7 @@ function addASibbling(target: HTMLElement, type: string) {
 		types[type].mounted(elt_real);
 
 	target.parentElement!.insertBefore(realToInspector(elt_real) as Node, target);
+	updateTest();
 }
 
 function addAPreset(target: HTMLElement, preset: string) {
@@ -208,4 +186,5 @@ function addAPreset(target: HTMLElement, preset: string) {
 		presets[preset].mounted(elt_real);
 
 	target.parentElement!.replaceChild(realToInspector(parentElement_real) as Node, target);
+	updateTest();
 }

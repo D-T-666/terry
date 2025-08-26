@@ -13,9 +13,9 @@ const searchParams = new URLSearchParams(paramsString);
 const currentTestId = searchParams.get("id");
 
 if (currentTestId !== undefined) {
-	const test = await loadFile(currentTestId!);
+	const { content } = await loadFile(currentTestId!);
 
-	mainContent.innerHTML = test.content;
+	mainContent.innerHTML = content;
 
 	pages.init({
 		total: (mainContent.firstChild as HTMLElement).dataset.pages,

@@ -1,10 +1,10 @@
 import { getTestContent, updateTest } from "./api.ts";
 
-type TestFile = {
-	id: string | null;
-	name: string;
+export type TestFile = {
+	id?: string;
+	name?: string;
 	content: string;
-	gradingScheme?: {[key: string]: any};
+	gradingScheme?: string;
 };
 
 export let currentFile: TestFile | undefined = undefined;
@@ -39,7 +39,6 @@ export async function loadFile(id?: string): Promise<TestFile> {
 		currentFile = JSON.parse(lsi!) as TestFile;
 	} else {
 		currentFile = {
-			id: null,
 			content: '<div data-type="container" data-name="მთავარი კონტეინერი" id="0" data-pages="1"></div>',
 		};
 	}
