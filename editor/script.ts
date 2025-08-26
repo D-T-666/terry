@@ -9,7 +9,7 @@ import "../styles.css";
 import "../player.css";
 import "./style.css";
 import { CopyBuffer } from "./src/copy-buffer.ts";
-import { testManager, updateTest } from "./src/files.ts";
+import { updateTest } from "./src/files.ts";
 
 let activeAction: undefined | ((elt: HTMLElement, type: string) => void) = undefined;
 
