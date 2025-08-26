@@ -5,6 +5,10 @@ import { initializeToolbars, availableElements, realToInspector, types } from '.
 import './src/files.ts';
 import { availablePresets, presets } from "./src/presets/index.ts";
 
+import "../styles.css";
+import "../player.css";
+import "./style.css";
+
 let activeAction: undefined | ((elt: HTMLElement, type: string) => void) = undefined;
 let copyBuffer: undefined | HTMLElement = undefined;
 

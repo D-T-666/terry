@@ -26,11 +26,20 @@ main {
 
 * {
 	box-sizing: border-box;
-	font-family: Arial;
+	font-family: inherit;
 }
 
 .pane {
 	overflow: scroll;
+
+	/* Scrolling */
+	overflow-y: scroll;
+	&::-webkit-scrollbar { /* Chrome, Safari, Opera */
+		display: none;
+	}
+	-ms-overflow-style: none;  /* IE and Edge */
+	scrollbar-width: none;  /* Firefox */
+
 	&:not(:has(&)) {
 		padding: 0.25rem;
 		background-color: white;
@@ -40,14 +49,6 @@ main {
 		&:last-child {
 			flex-grow: 1;
 		}
-
-		/* Scrolling */
-		overflow-y: scroll;
-		&::-webkit-scrollbar { /* Chrome, Safari, Opera */
-			display: none;
-		}
-		-ms-overflow-style: none;  /* IE and Edge */
-		scrollbar-width: none;  /* Firefox */
 	}
 
 	&:has(&) {
