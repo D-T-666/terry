@@ -1,4 +1,4 @@
-import { getCurrentRealElement, getNewID } from "../element-manager.ts";
+import { getCurrentElement, getCurrentRealElement, getNewID } from "../element-manager.ts";
 import { registerEditor } from "../quill-manager.ts";
 import { ElementAttributes } from "./index.ts";
 import simpleRealElement from "./simple-real-element.ts";
@@ -29,6 +29,14 @@ export function initializeToolbar() {
 
 	toolbarElements["content"].addEventListener("keyup", () => {
 		getCurrentRealElement()!.innerText = toolbarElements["content"].value;
+
+		let newName = "T: " + toolbarElements["content"].value.slice(0, 20);
+		if (toolbarElements["content"].value.length > 20) {
+			newName += "...";
+		}
+
+		getCurrentRealElement()!.dataset.name = newName;
+		(getCurrentElement()!.firstChild as HTMLElement).innerText = newName;
 	}, false);
 	toolbarElements["color"].addEventListener("change", () => {
 		getCurrentRealElement()!.style.color = toolbarElements["color"].value;
