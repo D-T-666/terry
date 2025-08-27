@@ -5,6 +5,7 @@ import { realToInspector } from "./elements/index.ts";
 import { registerID } from "./element-manager.ts";
 import { loadFile, storeFile, TestFile } from "../../scripts/file-manager.ts";
 import { UndoBuffer } from "./undo-buffer.ts";
+import { current as currentPage } from "./pages.ts";
 
 const nameElement = document.getElementById("test-name") as HTMLInputElement;
 
@@ -107,9 +108,22 @@ export const testManager = new TestManager();
 
 document.getElementById("save-test")!.addEventListener("click", async () => {
 	await storeFile(testManager.export(), currentTestId ?? undefined);
+	// TODO: alert
 });
 
-addEventListener("beforeunload", ev => ev.preventDefault());
+function beforeunloadHandler(ev: Event) {
+	ev.preventDefault();
+}
+
+document.getElementById("preview")!.addEventListener("click", async () => {
+	if (await storeFile(testManager.export(), currentTestId ?? undefined)) {
+		removeEventListener("beforeunload", beforeunloadHandler);
+		window.location.href = `/player/?id=${currentTestId}&page=${currentPage+1}`;
+	}
+	// TODO: alert
+})
+
+addEventListener("beforeunload", beforeunloadHandler);
 
 async function initialize() {
 	const initialFile = await loadFile(currentTestId as string | undefined);

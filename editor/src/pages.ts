@@ -3,7 +3,7 @@ import { mainContent } from './panels.ts';
 const pageButtonsDiv = document.getElementById("page-buttons")!;
 const addPageButton = document.getElementById("add-page")!;
 
-let current = 0;
+export let current = 0;
 let total = 0;
 let pageElements: HTMLElement[][] = [];
 let pageButtonElements: HTMLElement[] = [];

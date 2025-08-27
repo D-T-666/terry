@@ -18,8 +18,10 @@ export async function storeFile(file: TestFile, id?: string) {
 	);
 
 	if (id !== undefined) {
-		await updateTest(id, file);
+		const res = await updateTest(id, file);
+		return res.ok;
 	}
+	return false;
 }
 
 export async function loadFile(id?: string): Promise<TestFile> {
