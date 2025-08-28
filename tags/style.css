@@ -1,0 +1,31 @@
+#categories {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	width: 30rem;
+	border: 1px solid gray;
+	border-radius: 0.25rem;
+	padding: 0.25rem;
+	margin: auto;
+	
+	& details {
+		position: relative;
+		& button[class^="remove"] {
+			width: 10rem;
+			position: absolute;
+			right: 0;
+		}
+	}
+
+	& ul {
+		margin: 0.25rem;
+
+		& li + li {
+			margin-top: 0.25rem;
+		}
+	}
+}
+
+button {
+	user-select: none;
+}
