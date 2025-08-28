@@ -1,8 +1,10 @@
+import { TestData } from "../../scripts/api.ts";
+
 function min(a, b) {
 	return a < b ? a : b;
 }
 
-export function renderTestListing({ id, name, description, tags }) {
+export function renderTestListing({ id, name, description, tags }: TestData) {
 	// Create the main details element
 	const details = document.createElement("details");
 	details.setAttribute("name", "test");

@@ -1,61 +1,69 @@
 import { renderTestListing } from "./modules/elements.ts";
 import { openTestDetails } from "./modules/test-details.ts";
 import { loadTests } from "./modules/data.ts";
-import { createNewTest } from "../scripts/api.ts";
+import { createNewTest, getAvailableTags, TestData } from "../scripts/api.ts";
 import { AttributeSelectorElement } from "../util/attribute-selector/main.ts";
 import "../util/attribute-selector/main.ts";
 
 import "./styles.css";
-// import "https://necolas.github.io/normalize.css/8.0.1/normalize.css";
 import "./css/tag-colors.css";
+import { UnautorizedError } from "../scripts/errors.ts";
 
 const list = document.getElementById("list")!;
 const attributeSelector = document.getElementById(
-  "attributes",
+	"attributes",
 ) as AttributeSelectorElement;
 
 list.addEventListener("click", (event) => {
-  if ((event.target as HTMLElement).classList.contains("open")) {
-    const id = (event.target as HTMLElement).parentElement!.parentElement!
-      .dataset.id!;
-    console.log(id);
-    openTestDetails(id);
-  }
+	if ((event.target as HTMLElement).classList.contains("open")) {
+		const id = (event.target as HTMLElement).parentElement!.parentElement!
+		.dataset.id!;
+		console.log(id);
+		openTestDetails(id);
+	}
 });
 
 const newTestButton = document.getElementById("new-test") as HTMLButtonElement;
 newTestButton.addEventListener("click", async () => {
-	const res = await createNewTest();
-	if (!res.ok) {
-		console.error("Unauthorized request to create a test");
-		return;
+	try {
+		const id = await createNewTest();
+		await openTestDetails(id);
+	} catch (e) {
+		console.log(e)
+		if (e instanceof UnautorizedError) {
+			alert("ახალი ტესტის შესაქმნელად საჭიროა ავთენტიკაცია");
+		} else {
+			alert((e as Error).message);
+		}
 	}
-	const id = await res.json();
-	await openTestDetails(id);
 });
 
-export function addTest(id, testData) {
+export function addTest(id: string, testData: TestData) {
 	console.log(id, testData)
 	const listing = renderTestListing({id, ...testData});
 	list.insertBefore(listing, list.firstChild);
 }
 
 async function initialize() {
-  const tests = await loadTests();
+	const tests = await loadTests();
 
-  for (const test of tests) {
-    const t = renderTestListing(test);
-    list.appendChild(t.cloneNode(true));
-  }
+	for (const test of tests) {
+		const t = renderTestListing(test);
+		list.appendChild(t.cloneNode(true));
+	}
 
-  attributeSelector.options = {
-    "საფეხური": ["დაწყებითი", "საბაზისო", "საშუალო"],
-    "კვლევა": ["PISA", "TIMSS", "PIRLS"],
-    "საგანი": ["მათემატიკა", "ფიზიკა", "კითხვა", "ბუნებისმეტყველება"],
-    "კლასი": ["1", "2"],
-    "ენა": ["ქართული"],
-    "ხილვადობა": ["საჯარო", "შეზღუდული", "დამალული"],
-  };
+	try {
+		attributeSelector.options = await getAvailableTags();
+	} catch (e) {
+		attributeSelector.options = {
+			"საფეხური": ["დაწყებითი", "საბაზისო", "საშუალო"],
+			"კვლევა": ["PISA", "TIMSS", "PIRLS"],
+			"საგანი": ["მათემატიკა", "ფიზიკა", "კითხვა", "ბუნებისმეტყველება"],
+			"კლასი": ["1", "2"],
+			"ენა": ["ქართული"],
+			"ხილვადობა": ["საჯარო", "შეზღუდული", "დამალული"],
+		};
+	}
 }
 
 initialize();

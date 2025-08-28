@@ -1,6 +1,5 @@
 import { getAuthHeaders } from "./auth.ts";
-
-export const apiURL = "https://terryapi.dimitri.ge/api";
+import { UnautorizedError } from "./errors.ts";
 
 export type TestData = {
 	id?: string,
@@ -11,35 +10,62 @@ export type TestData = {
 	tags?: {[category: string]: string[]}
 };
 
+// TODO: put this in the environment variables
+export const apiURL: string = "https://terryapi.dimitri.ge/api";
+
 export async function loadTests(): Promise<TestData[]> {
-  const response = await fetch(`${apiURL}/test/list`, {
-    headers: getAuthHeaders(),
-  });
+	const response = await fetch(`${apiURL}/test/list`, {
+		headers: getAuthHeaders(),
+	});
 
-  if (!response.ok) {
-  	console.log(response.statusText);
-	  return [];
-  }
+	if (!response.ok) {
+		if (response.status === 401) {
+			throw new UnautorizedError();
+		} else {
+			const message = JSON.stringify(await response.json());
+			throw new Error(message);
+		}
+	}
 
-  const json = await response.json();
+	const json = await response.json();
 
-  return json["tests"];
+	return json["tests"];
 }
 
-export function createNewTest(): Promise<Response> {
-  return fetch(`${apiURL}/test`, {
-	  method: "POST",
-    headers: getAuthHeaders(),
-  });
+export async function createNewTest(): Promise<string> {
+	const response = await fetch(`${apiURL}/test`, {
+		method: "POST",
+		headers: getAuthHeaders(),
+	});
+	
+	if (!response.ok) {
+		if (response.status === 401) {
+			throw new UnautorizedError();
+		} else {
+			const message = JSON.stringify(await response.json());
+			throw new Error(message);
+		}
+	}
+
+	const json = await response.json();
+
+	console.log(json);
+
+	return json;
 }
 
-export async function getTestContent(id: string): Promise<{content: string, gradingScheme?: any, id: string}> {
+export async function getTestContent(id: string): Promise<TestData> {
 	const response = await fetch(`${apiURL}/test/${id}`, {
 		headers: getAuthHeaders()
 	});
 
 	if (!response.ok) {
-		throw new Error(response.statusText);
+		if (response.status === 401) {
+			throw new UnautorizedError();
+		} else {
+			const message = JSON.stringify(await response.json());
+			throw new Error(message);
+		}
 	}
 
 	const json = await response.json();
@@ -50,7 +76,7 @@ export async function getTestContent(id: string): Promise<{content: string, grad
 	};
 }
 
-export async function getTestGradingScheme(id: string) {
+export async function getTestGradingScheme(id: string): Promise<string> {
 	const response = await fetch(`${apiURL}/test/${id}`, {
 		headers: getAuthHeaders()
 	});
@@ -62,17 +88,17 @@ export async function getTestGradingScheme(id: string) {
 
 export function updateTest(id: string, data: TestData) {
 	console.log("trying to upload", data, "for test", id)
-	return fetch(`${apiURL}/test/${id}`, {
-		method: "PUT",
-		headers: {
-			"Content-Type": "application/json",
-			...getAuthHeaders()
-		},
-		body: JSON.stringify({
-			...data,
-			gradingScheme: JSON.stringify(data.gradingScheme),
-		})
-	});
+		return fetch(`${apiURL}/test/${id}`, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+				...getAuthHeaders()
+			},
+			body: JSON.stringify({
+				...data,
+				gradingScheme: JSON.stringify(data.gradingScheme),
+			})
+		});
 }
 
 export function deleteTest(id: string) {

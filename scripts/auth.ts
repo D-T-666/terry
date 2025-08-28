@@ -2,44 +2,46 @@ import { apiURL } from "./api.ts";
 
 export type Role = "Admin" | "Teacher" | "Student";
 
-const authHeaders = {
-  "Authorization": "Bearer " + (localStorage.getItem("authToken") ?? ""),
-};
-
-export function getAuthHeaders() {
-  return authHeaders;
+export function getAuthHeaders(): { Authorization?: string } {
+	const token = localStorage.getItem("authToken");
+	if (token) {
+		return { Authorization: `Bearer ${token}` };
+	} else {
+		return {};
+	}
 }
 
-export function register(
-  data: { username: string; password: string; role: Role },
-): Promise<Response> {
-  return fetch(`${apiURL}/auth/register`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...getAuthHeaders()
-    },
-    body: JSON.stringify(data),
-  });
+export async function register(
+	data: { username: string; password: string; role: Role },
+): Promise<boolean> {
+	return (await fetch(`${apiURL}/auth/register`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			...getAuthHeaders()
+		},
+		body: JSON.stringify(data),
+	})).ok;
 }
 
 export async function login(
-  data: { username: string; password: string },
-) {
-  const response = await fetch(`${apiURL}/auth/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...getAuthHeaders()
-    },
-    body: JSON.stringify(data),
-  });
+	data: { username: string; password: string, remember: boolean },
+): Promise<void> {
+	console.log(data)
+	const response = await fetch(`${apiURL}/auth/login`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			...getAuthHeaders()
+		},
+		body: JSON.stringify(data),
+	});
 
-  if (!response.ok) {
-  	return
-  }
-  const { token } = await response.json();
+	if (!response.ok) {
+		throw new Error("Can't log in");
+	}
 
-  localStorage.setItem("authToken", token);
-  authHeaders.Authorization = token;
+	const { token } = await response.json();
+
+	localStorage.setItem("authToken", token);
 }
