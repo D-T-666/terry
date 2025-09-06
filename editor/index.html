@@ -222,7 +222,7 @@
 							rem
 						</span>
 
-						<label for="paragraph-toolbar-align"> align </label> 
+						<label for="paragraph-toolbar-align"> align </label>
 						<select id="paragraph-toolbar-align">
 							<option value="left">მარცხნივ</option>
 							<option value="right">მარჯვნივ</option>
@@ -276,21 +276,34 @@
 							<option>pink</option>
 						</select>
 
+						<!-- 	<label for="container-toolbar-scroll"> სქროლვა </label> -->
+						<!-- 	<select id="container-toolbar-scroll"> -->
+						<!-- 		<option value="none">არცერთი</option> -->
+						<!-- 		<option value="vertical">ვერტიკალური</option> -->
+						<!-- 		<option value="horizontal">ჰორიზონტალური</option> -->
+						<!-- 		<option value="both">ორივე</option> -->
+						<!-- 	</select> -->
+						<!-- </div> -->
+
 						<label for="container-toolbar-align"> Align </label>
 						<select id="container-toolbar-align">
 							<option>left</option>
 							<option>center</option>
 							<option>right</option>
 						</select>
+					</div>
 
-					<!-- 	<label for="container-toolbar-scroll"> სქროლვა </label> -->
-					<!-- 	<select id="container-toolbar-scroll"> -->
-					<!-- 		<option value="none">არცერთი</option> -->
-					<!-- 		<option value="vertical">ვერტიკალური</option> -->
-					<!-- 		<option value="horizontal">ჰორიზონტალური</option> -->
-					<!-- 		<option value="both">ორივე</option> -->
-					<!-- 	</select> -->
-					<!-- </div> -->
+
+
+
+
+					<div class="toolbar" id="multCcolumn-toolbar">
+						<label for="multCcolumn-toolbar-height"> სიმაღლე </label>
+						<span>
+							<input type="number" min="0" max="100" step="1" id="multCcolumn-toolbar-height">
+							%
+						</span>
+					</div>
 				</div>
 			</div>
 		</main>
@@ -311,6 +324,7 @@
 
 		<div class="menu" id="element-menu">
 			<button disabled id="container">კონტეინერი</button>
+			<button disabled id="multiColumn">მრავალსვეტიანი კონტეინერი</button>
 			<button disabled id="text">ტექსტი</button>
 			<button disabled id="heading">სათაური</button>
 			<button disabled id="formula">ფორმულა</button>

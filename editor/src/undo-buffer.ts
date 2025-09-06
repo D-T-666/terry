@@ -9,8 +9,6 @@ export class UndoBuffer<T> {
 			this.#history.splice(this.#historyLenght);
 		}
 		this.#head = -1;
-
-		console.log(this.#history);
 	}
 
 	canGoBack(): boolean {
@@ -19,7 +17,6 @@ export class UndoBuffer<T> {
 
 	goBack(): T {
 		this.#head += 1;
-		console.log("returning version", this.#head);
 		return this.#history[this.#head];
 	}
 
@@ -28,8 +25,7 @@ export class UndoBuffer<T> {
 	}
 
 	goForward(): T {
-		this.#head -= 1;	
-		console.log("returning version", this.#head);
+		this.#head -= 1;
 		return this.#history[this.#head];
 	}
 }

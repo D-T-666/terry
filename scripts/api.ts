@@ -37,7 +37,7 @@ export async function createNewTest(): Promise<string> {
 		method: "POST",
 		headers: getAuthHeaders(),
 	});
-	
+
 	if (!response.ok) {
 		if (response.status === 401) {
 			throw new UnautorizedError();
@@ -48,8 +48,6 @@ export async function createNewTest(): Promise<string> {
 	}
 
 	const json = await response.json();
-
-	console.log(json);
 
 	return json;
 }
@@ -81,13 +79,21 @@ export async function getTestGradingScheme(id: string): Promise<string> {
 		headers: getAuthHeaders()
 	});
 
+	if (!response.ok) {
+		if (response.status === 401) {
+			throw new UnautorizedError();
+		} else {
+			const message = JSON.stringify(await response.json());
+			throw new Error(message);
+		}
+	}
+
 	const json = await response.json();
 
 	return json;
 }
 
 export function updateTest(id: string, data: TestData) {
-	console.log("trying to upload", data, "for test", id)
 		return fetch(`${apiURL}/test/${id}`, {
 			method: "PUT",
 			headers: {

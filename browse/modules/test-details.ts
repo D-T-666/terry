@@ -23,9 +23,7 @@ function displayTestData(testData: TestData) {
 let currentTestId: string | undefined = undefined;
 
 export async function openTestDetails(testId: string) {
-	console.log(testId)
 	const testData = await getTestWithId(testId);
-	console.log(testData);
 	displayTestData(testData);
 
 	currentTestId = testId;

@@ -62,7 +62,6 @@ export default {
 		for (const child of elt.children) {
 			this.registerElement(child);
 		}
-		console.log(this.elementsOfPage)
 	},
 
 	untrackElement(elt) {
@@ -82,7 +81,7 @@ export default {
 
 	trackElementRange(elt, l, r) {
 		this.untrackElement(elt);
-		
+
 		for (let i = l; i <= r; i++) {
 			this.elementsOfPage[i - 1].push(elt);
 		}

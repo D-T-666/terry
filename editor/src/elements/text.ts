@@ -25,8 +25,6 @@ export function initializeToolbar() {
 	toolbarElements["underline"] = i("text-toolbar-underline");
 	toolbarElements["size"] = i("text-toolbar-size");
 
-	console.log("but whyyyy")
-
 	toolbarElements["content"].addEventListener("keyup", () => {
 		getCurrentRealElement()!.innerText = toolbarElements["content"].value;
 
@@ -57,7 +55,6 @@ export function initializeToolbar() {
 
 export function showToolbar(elt: HTMLElement) {
 	const attrs = attributes(elt);
-	console.log(attrs, toolbarElements);
 	for (const [key, value] of Object.entries(attrs)) {
 		toolbarElements[key].value = value;
 	}

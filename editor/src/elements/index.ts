@@ -56,6 +56,7 @@ import * as table from "./table/table.ts";
 import * as tableRow from "./table/table-row.ts";
 import * as tableElement from "./table/table-element.ts";
 import * as image from "./image.ts";
+import * as multiColumn from "./multi-column.ts";
 
 export type ElementAttributes = {[name: string]: string};
 
@@ -73,13 +74,10 @@ export const types: {[name: string]: TerryElement} = {
 	container, paragraph, formula, text, shortTextInput,
 	multipleChoiceInput, multipleChoiceItem, singleChoiceInput,
 	singleChoiceItem, browserSim, browserPage, browserLink, table,
-	tableRow, tableElement, image, longTextInput, heading
+	tableRow, tableElement, image, longTextInput, heading, multiColumn
 };
 
-console.log(types);
-
 export function initializeToolbars() {
-	console.log("hello");
 	for (const {initializeToolbar} of Object.values(types)) {
 		if (initializeToolbar)
 			initializeToolbar();
@@ -88,9 +86,6 @@ export function initializeToolbars() {
 
 export function availableElements(parent: HTMLElement): string[] {
 	const res = [];
-
-	console.log(parent.dataset.type!);
-	console.log(types);
 
 	for (const type of Object.keys(types)) {
 		let valid = true;
@@ -108,7 +103,6 @@ export function availableElements(parent: HTMLElement): string[] {
 		}
 	}
 
-	console.log(res);
 	return res;
 }
 

@@ -27,7 +27,6 @@ export async function register(
 export async function login(
 	data: { username: string; password: string, remember: boolean },
 ): Promise<void> {
-	console.log(data)
 	const response = await fetch(`${apiURL}/auth/login`, {
 		method: "POST",
 		headers: {

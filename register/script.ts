@@ -16,5 +16,4 @@ registerButton.addEventListener("click", async (e) => {
 	};
 
 	const res = await register(data);
-	console.log(res);
 })

@@ -30,7 +30,6 @@ export function initializeToolbar() {
 		} else {
 			(getCurrentRealElement() as HTMLImageElement).src = getImageURL(currentFile!.id!, file.name);
 		}
-		console.log(files);
 	});
 	toolbarElements["width"].addEventListener("change", () => {
 		getCurrentRealElement()!.style.width = `${toolbarElements["width"].value}px`;

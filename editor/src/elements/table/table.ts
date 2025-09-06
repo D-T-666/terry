@@ -85,7 +85,6 @@ export function initializeToolbar() {
 
 export function showToolbar(elt: HTMLElement) {
 	const attrs = attributes(elt);
-	console.log(toolbarElements, attrs);
 	for (const [key, value] of Object.entries(attrs)) {
 		toolbarElements[key].value = value;
 	}

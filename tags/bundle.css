@@ -1,2 +1,1 @@
 #categories{display:flex;flex-direction:column;gap:.25rem;width:30rem;border:1px solid gray;border-radius:.25rem;padding:.25rem;margin:auto;& details{position:relative;& button[class^=remove]{width:10rem;position:absolute;right:0}}& ul{margin:.25rem;& li+li{margin-top:.25rem}}}button{user-select:none}
-/*# sourceMappingURL=bundle.css.map */

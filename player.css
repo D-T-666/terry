@@ -57,6 +57,7 @@
 	& [data-type="paragraph"],
 	& [data-type="browserSim"],
 	& [data-type="browserPage"],
+	& [data-type="multiColumn"],
 	& [data-type="container"] {
 		.debug & {
 			display: block;
@@ -111,6 +112,25 @@
 			&::before {
 				content: "https://" attr(url);
 			}
+		}
+	}
+
+	& [data-type="multiColumn"] {
+		display: flex;
+		width: 100%;
+		justify-content: space-between;
+		height: 80vh;
+
+		.debug & {
+			display: flex;
+			gap: 0.25rem;
+		}
+
+		& > [data-type="container"] {
+			overflow-y: scroll;
+			flex-basis: auto;
+			flex: 1;
+			margin-bottom: 0 !important;
 		}
 	}
 

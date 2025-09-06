@@ -40,7 +40,6 @@ export function showPage(i: number) {
 		return;
 	}
 
-	console.log(pageElements[i])
 	hidePage();
 	current = i;
 	for (const elt of pageElements[current]) {

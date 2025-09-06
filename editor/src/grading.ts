@@ -65,7 +65,6 @@ export function getCurrentScheme() {
 
 	for (const type of Object.keys(extractors)) {
 		for (const e of mainContent.querySelectorAll(`[data-type=${type}]`)) {
-			console.log("extracted", extractors[type](e as HTMLInputElement));
 			currentScheme[e.id] = extractors[type](e as HTMLInputElement);
 		}
 	}

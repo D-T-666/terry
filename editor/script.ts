@@ -151,7 +151,6 @@ function addAChild(target: HTMLElement, type: string) {
 		newTarget.appendChild(summary);
 
 		const children = [...target.children].slice(1);
-		console.log(children);
 		newTarget.append(...children);
 
 		target.replaceWith(newTarget);

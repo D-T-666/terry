@@ -18,7 +18,6 @@ list.addEventListener("click", (event) => {
 	if ((event.target as HTMLElement).classList.contains("open")) {
 		const id = (event.target as HTMLElement).parentElement!.parentElement!
 		.dataset.id!;
-		console.log(id);
 		openTestDetails(id);
 	}
 });
@@ -29,7 +28,6 @@ newTestButton.addEventListener("click", async () => {
 		const id = await createNewTest();
 		await openTestDetails(id);
 	} catch (e) {
-		console.log(e)
 		if (e instanceof UnautorizedError) {
 			alert("ახალი ტესტის შესაქმნელად საჭიროა ავთენტიკაცია");
 		} else {
@@ -39,7 +37,6 @@ newTestButton.addEventListener("click", async () => {
 });
 
 export function addTest(id: string, testData: TestData) {
-	console.log(id, testData)
 	const listing = renderTestListing({id, ...testData});
 	list.insertBefore(listing, list.firstChild);
 }

@@ -31,7 +31,6 @@ for (const t of Object.keys(typeAttributes)) {
 	const obj = {};
 	for (const c of typeAttributes[t]) {
 		const elt = document.getElementById(`${t}-toolbar-${c}`)!;
-		console.log(t, c);
 		obj[c] = {
 			element: elt,
 			addEventListener: elt.addEventListener,
@@ -70,41 +69,6 @@ export const toolbars = {
 			this._elements[type] = document.getElementById(`${type}-toolbar`);
 		}
 		this._current = this._elements[type];
-
-		if (type === "browserLink") {
-			const urls: string[] = [];
-			const browsers = {};
-
-			function traverse(elt) {
-				if (elt.tagName === "BROWSER-SIM") {
-					browsers[elt.dataset.name] = elt.id;
-				}
-				if (elt.tagName === "BROWSER-PAGE") {
-					urls.push(elt.getAttribute("url"));
-				}
-				for (const c of elt.children) {
-					traverse(c);
-				}
-			}
-			traverse(mainContent);
-
-			toolbarOf["browserLink"]["url"].element.innerHTML = "";
-			toolbarOf["browserLink"]["browser"].element.innerHTML = "";
-
-			for (const url of urls) {
-				const elt = document.createElement("option");
-				elt.value = url;
-				elt.innerText = url;
-				toolbarOf["browserLink"]["url"].element.appendChild(elt);
-			}
-
-			for (const key of Object.keys(browsers)) {
-				const elt = document.createElement("option");
-				elt.value = browsers[key];
-				elt.innerText = key;
-				toolbarOf["browserLink"]["browser"].element.appendChild(elt);
-			}
-		}
 
 		if (this._current) {
 			this._current.classList.add("current");
