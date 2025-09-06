@@ -15,7 +15,7 @@ body {
 }
 header {
 	display: block;
-	width: calc(var(--width) + 4rem);
+	width: calc(var(--width) + 2rem);
 	margin: auto;
 	box-sizing: border-box;
 	border-radius: 0.25rem;
@@ -23,8 +23,8 @@ header {
 
 main {
 	box-sizing: border-box;
-	width: calc(var(--width) + 4rem);
-	padding: 2rem;
+	width: calc(var(--width) + 2rem);
+	padding: 1rem;
 	margin: auto;
 	margin-top: 0.5rem;
 	background-color: white;
@@ -57,7 +57,7 @@ main {
 		border: none;
 		border-radius: 0.25rem;
 		padding: 0 1rem;
-	
+
 		&:hover {
 			background-color: lightgray;
 		}
